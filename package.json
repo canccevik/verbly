@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {},
   "devDependencies": {
+    "@verbly/prettier-config": "workspace:^",
     "lerna": "^7.1.5"
   }
 }
