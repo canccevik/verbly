@@ -3,6 +3,7 @@ import compression from 'compression'
 import mongoSanitize from 'express-mongo-sanitize'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { Config, ENV } from '@config/index'
+import { HttpExceptionFilter } from '@core/filters'
 
 export function setupApp(app: NestExpressApplication): void {
   const config = app.get<Config>(ENV)
@@ -12,4 +13,6 @@ export function setupApp(app: NestExpressApplication): void {
   app.use(helmet())
   app.use(compression())
   app.use(mongoSanitize())
+
+  app.useGlobalFilters(new HttpExceptionFilter())
 }
