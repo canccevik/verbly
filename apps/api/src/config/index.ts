@@ -3,7 +3,8 @@ import { makeValidators, Static } from 'nestjs-envalid'
 
 const config = {
   PORT: port({ default: 3001 }),
-  GLOBAL_PREFIX: str({ default: 'api' })
+  GLOBAL_PREFIX: str({ default: 'api' }),
+  DATABASE_URI: str()
 }
 
 export const validators = makeValidators(config)
