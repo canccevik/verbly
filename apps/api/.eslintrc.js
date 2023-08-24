@@ -10,5 +10,8 @@ module.exports = {
     '@verbly/eslint-config',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended'
-  ]
+  ],
+  rules: {
+    '@typescript-eslint/ban-types': 'off'
+  }
 }
