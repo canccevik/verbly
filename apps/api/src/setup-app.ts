@@ -5,6 +5,8 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { Config, ENV } from '@config/index'
 import { HttpExceptionFilter } from '@core/filters'
 import { ValidationPipe } from '@nestjs/common'
+import { TransformInterceptor } from '@core/interceptors'
+import { Reflector } from '@nestjs/core'
 
 export function setupApp(app: NestExpressApplication): void {
   const config = app.get<Config>(ENV)
@@ -17,4 +19,5 @@ export function setupApp(app: NestExpressApplication): void {
 
   app.useGlobalPipes(new ValidationPipe())
   app.useGlobalFilters(new HttpExceptionFilter())
+  app.useGlobalInterceptors(new TransformInterceptor(new Reflector()))
 }
