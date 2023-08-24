@@ -4,6 +4,7 @@ import { validators } from '@config/index'
 import { DatabaseModule } from './database/database.module'
 import { LoggerModule } from './logger/logger.module'
 import { MailModule } from './mail/mail.module'
+import { FeaturesModule } from '@features/features.module'
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { MailModule } from './mail/mail.module'
       useDotenv: true,
       validators
     }),
+    FeaturesModule,
     DatabaseModule,
     LoggerModule,
     MailModule
