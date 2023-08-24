@@ -1,4 +1,4 @@
-import { email, port, str } from 'envalid'
+import { email, port, str, url } from 'envalid'
 import { makeValidators, Static } from 'nestjs-envalid'
 
 const config = {
@@ -7,7 +7,8 @@ const config = {
   DATABASE_URI: str(),
   LOGTAIL_SOURCE_TOKEN: str(),
   GOOGLE_EMAIL: email(),
-  GOOGLE_PASSWORD: str()
+  GOOGLE_PASSWORD: str(),
+  DEFAULT_PROFILE_PHOTO: url()
 }
 
 export const validators = makeValidators(config)
