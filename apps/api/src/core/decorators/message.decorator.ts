@@ -1,10 +1,3 @@
-import { SetMetadata } from '@nestjs/common'
+import { Reflector } from '@nestjs/core'
 
-export const MESSAGE_TOKEN = 'response-message'
-
-export function Message(message: string): MethodDecorator {
-  return (_, __, descriptor: PropertyDescriptor): PropertyDescriptor => {
-    SetMetadata(MESSAGE_TOKEN, message)(descriptor.value)
-    return descriptor
-  }
-}
+export const Message = Reflector.createDecorator<string>()
