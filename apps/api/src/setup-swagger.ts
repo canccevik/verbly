@@ -8,7 +8,7 @@ export function setupSwagger(app: NestExpressApplication): void {
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Verbly')
-    .setDescription("Verbly's official API documentation.")
+    .setDescription('Official documentation of Verbly API.')
     .setVersion(version)
     .build()
 

@@ -23,7 +23,6 @@ import { Config, ENV } from '@config/index'
             }
           })
         }
-
         return {
           pinoHttp: {
             autoLogging: false,

@@ -8,8 +8,12 @@ import { ValidationPipe } from '@nestjs/common'
 import { LoggingInterceptor, TransformInterceptor } from '@core/interceptors'
 import { Reflector } from '@nestjs/core'
 import { Logger } from 'nestjs-pino'
+import { useContainer } from 'class-validator'
+import { AppModule } from '@modules/app.module'
 
 export function setupApp(app: NestExpressApplication): void {
+  useContainer(app.select(AppModule), { fallbackOnErrors: true })
+
   const config = app.get<Config>(ENV)
 
   app.setGlobalPrefix(config.GLOBAL_PREFIX)

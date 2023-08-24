@@ -6,8 +6,7 @@ import { setupSwagger } from './setup-swagger'
 import { setupApp } from './setup-app'
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule)
-
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: true })
   const config = app.get<Config>(ENV)
 
   setupApp(app)
