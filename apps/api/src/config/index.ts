@@ -4,7 +4,8 @@ import { makeValidators, Static } from 'nestjs-envalid'
 const config = {
   PORT: port({ default: 3001 }),
   GLOBAL_PREFIX: str({ default: 'api' }),
-  DATABASE_URI: str()
+  DATABASE_URI: str(),
+  LOGTAIL_SOURCE_TOKEN: str()
 }
 
 export const validators = makeValidators(config)
