@@ -12,7 +12,7 @@ export class IsISOValidator implements ValidatorConstraintInterface {
   }
 
   public defaultMessage(): string {
-    return 'language code is not valid'
+    return 'ISO-639-1 code is not valid'
   }
 }
 
