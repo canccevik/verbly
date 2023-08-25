@@ -5,6 +5,7 @@ import { DatabaseModule } from './database/database.module'
 import { LoggerModule } from './logger/logger.module'
 import { MailModule } from './mail/mail.module'
 import { FeaturesModule } from '@features/features.module'
+import { BullModule } from './bull/bull.module'
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { FeaturesModule } from '@features/features.module'
     FeaturesModule,
     DatabaseModule,
     LoggerModule,
-    MailModule
+    MailModule,
+    BullModule
   ]
 })
 export class AppModule {}

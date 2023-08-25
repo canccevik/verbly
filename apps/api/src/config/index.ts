@@ -8,7 +8,9 @@ const config = {
   LOGTAIL_SOURCE_TOKEN: str(),
   GOOGLE_EMAIL: email(),
   GOOGLE_PASSWORD: str(),
-  DEFAULT_PROFILE_PHOTO: url()
+  DEFAULT_PROFILE_PHOTO: url(),
+  REDIS_HOST: str(),
+  REDIS_PORT: port()
 }
 
 export const validators = makeValidators(config)
