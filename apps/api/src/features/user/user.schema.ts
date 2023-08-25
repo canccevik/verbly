@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { HydratedDocument } from 'mongoose'
 import dotenv from 'dotenv'
 import iso from 'iso-639-1'
+import bcrypt from 'bcrypt'
 
 dotenv.config()
 
@@ -98,3 +99,11 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
+
+UserSchema.pre('save', function (next) {
+  if (!this.isModified('password')) {
+    return next()
+  }
+  this.password = bcrypt.hashSync(this.password, 10)
+  next()
+})
