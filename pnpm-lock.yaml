@@ -77,6 +77,9 @@ importers:
       nodemailer:
         specifier: ^6.9.4
         version: 6.9.4
+      otp-generator:
+        specifier: ^4.0.1
+        version: 4.0.1
       pino-http:
         specifier: ^8.4.0
         version: 8.4.0
@@ -114,6 +117,9 @@ importers:
       '@types/node':
         specifier: ^20.5.4
         version: 20.5.4
+      '@types/otp-generator':
+        specifier: ^4.0.0
+        version: 4.0.0
       '@types/supertest':
         specifier: ^2.0.12
         version: 2.0.12
@@ -2058,6 +2064,10 @@ packages:
 
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
+    dev: true
+
+  /@types/otp-generator@4.0.0:
+    resolution: {integrity: sha512-QsMc+jgx2WX5ciAwc4Wj37eaGYGnoQcUishOWUgpZ+8nypK6hr5jgUE3xumQ7hvX4AC+gxZktpg/dUHWa4FZRA==}
     dev: true
 
   /@types/parse-json@4.0.0:
@@ -7813,6 +7823,11 @@ packages:
     resolution: {integrity: sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /otp-generator@4.0.1:
+    resolution: {integrity: sha512-2TJ52vUftA0+J3eque4wwVtpaL4/NdIXDL0gFWFJFVUAZwAN7+9tltMhL7GCNYaHJtuONoier8Hayyj4HLbSag==}
+    engines: {node: '>=14.10.0'}
+    dev: false
 
   /p-event@4.2.0:
     resolution: {integrity: sha512-KXatOjCRXXkSePPb1Nbi0p0m+gQAwdlbhi4wQKJPI1HsMQS9g+Sqp2o+QHziPr7eYJyOZet836KoHEVM1mwOrQ==}

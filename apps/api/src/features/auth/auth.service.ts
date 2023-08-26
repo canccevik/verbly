@@ -5,8 +5,8 @@ import { Injectable } from '@nestjs/common'
 import { RegisterDto } from './dto'
 import { InjectQueue } from '@nestjs/bull'
 import { Queue } from 'bull'
-import crypto from 'crypto'
 import { OTPRepository } from './otp'
+import otpGenerator from 'otp-generator'
 
 @Injectable()
 export class AuthService {
@@ -17,7 +17,12 @@ export class AuthService {
   ) {}
 
   public async register(dto: RegisterDto): Promise<UserDocument> {
-    const otpCode = crypto.randomBytes(3).toString('hex').toUpperCase()
+    const otpCode = otpGenerator.generate(6, {
+      digits: true,
+      lowerCaseAlphabets: false,
+      upperCaseAlphabets: false,
+      specialChars: false
+    })
     await this.otpRepository.create({ email: dto.email, otpCode })
 
     const user = await this.userRepository.create(dto)
