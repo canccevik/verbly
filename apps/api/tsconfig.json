@@ -5,8 +5,7 @@
       "@config/*": ["src/config/*"],
       "@core/*": ["src/core/*"],
       "@modules/*": ["src/modules/*"],
-      "@features/*": ["src/features/*"],
-      "@common/*": ["src/common/*"]
+      "@features/*": ["src/features/*"]
     },
     "outDir": "./dist",
     "baseUrl": "./"
