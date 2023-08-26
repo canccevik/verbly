@@ -1,5 +1,5 @@
-import { UserRepository } from '@features/user/user.repository'
-import { User } from '@features/user/user.schema'
+import { UserRepository } from '@features/user/repositories/user.repository'
+import { User } from '@features/user/schemas/user.schema'
 import {
   ValidationArguments,
   ValidatorConstraint,

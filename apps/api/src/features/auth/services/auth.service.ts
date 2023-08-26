@@ -1,11 +1,11 @@
-import { UserRepository } from '@features/user/user.repository'
-import { UserDocument } from '@features/user/user.schema'
+import { UserRepository } from '@features/user/repositories/user.repository'
+import { UserDocument } from '@features/user/schemas/user.schema'
 import { MAIL_QUEUE, VERIFICATION } from '@modules/mail/mail.constant'
 import { Injectable } from '@nestjs/common'
-import { RegisterDto } from './dto'
+import { RegisterDto } from '../dto'
 import { InjectQueue } from '@nestjs/bull'
 import { Queue } from 'bull'
-import { OTPRepository } from './otp'
+import { OTPRepository } from '../repositories'
 import otpGenerator from 'otp-generator'
 
 @Injectable()

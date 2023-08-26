@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsISO } from '@core/validators/is-iso.validator'
 import { IsFieldTakenOfUser } from '@core/validators/is-field-taken-of-user.validator'
-import { Gender } from '@features/user/user.schema'
+import { Gender } from '@features/user/schemas/user.schema'
 import {
   IsEmail,
   IsEnum,
