@@ -1,10 +1,13 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common'
 import { AuthService } from '../services/auth.service'
 import { ApiTags } from '@nestjs/swagger'
 import { Message } from '@core/decorators'
 import { RegisterDto, VerifyAccountDto } from '../dto'
 import { UserDocument } from '@features/user/schemas/user.schema'
 import { LocalAuthGuard } from '../guards'
+import { AuthenticatedGuard } from '@core/guards'
+import { Request, Response } from 'express'
+import { Payload } from '@core/interceptors'
 
 @Controller('auth')
 @ApiTags('auth')
@@ -27,4 +30,18 @@ export class AuthController {
   @Message('Logged in successfully.')
   @UseGuards(LocalAuthGuard)
   public login(): void {}
+
+  @Post('logout')
+  @UseGuards(AuthenticatedGuard)
+  public logout(@Req() req: Request, @Res() res: Response): void {
+    return req.logout((err) => {
+      if (err) {
+        throw err
+      }
+      res.json({
+        message: 'Logged out successfully.',
+        statusCode: HttpStatus.CREATED
+      } as Payload)
+    })
+  }
 }

@@ -4,6 +4,8 @@ import { AuthService } from '../services'
 import { AuthController } from './auth.controller'
 import { RegisterDto, VerifyAccountDto } from '../dto'
 import { UserDocument } from '@features/user/schemas'
+import { ExecutionContext } from '@nestjs/common'
+import { Request, Response } from 'express'
 
 describe('AuthController', () => {
   let authController: AuthController
@@ -56,6 +58,21 @@ describe('AuthController', () => {
       // ASSERT
       expect(result).toEqual(undefined)
       expect(authService.verifyAccount).toBeCalledWith(verifyAccountDto)
+    })
+  })
+
+  describe('logout', () => {
+    it('should logout successfully', async () => {
+      // ARRANGE
+      const context = createMock<ExecutionContext>()
+      const req = context.switchToHttp().getRequest<Request>()
+      const res = context.switchToHttp().getResponse<Response>()
+
+      // ACT
+      await authController.logout(req, res)
+
+      // ASSERT
+      expect(req.logout).toHaveBeenCalled()
     })
   })
 })
