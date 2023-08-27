@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing'
 import { createMock } from '@golevelup/ts-jest'
 import { AuthService } from '../services'
 import { AuthController } from './auth.controller'
-import { RegisterDto } from '../dto'
+import { RegisterDto, VerifyAccountDto } from '../dto'
 import { UserDocument } from '@features/user/schemas'
 
 describe('AuthController', () => {
@@ -42,6 +42,20 @@ describe('AuthController', () => {
       // ASSERT
       expect(result).toEqual(registerDto)
       expect(authService.register).toBeCalledWith(registerDto)
+    })
+  })
+
+  describe('verifyAccount', () => {
+    it('should call verify account method from auth service', async () => {
+      // ARRANGE
+      const verifyAccountDto: VerifyAccountDto = { email: 'johndoe@gmail.com', otpCode: '123456' }
+
+      // ACT
+      const result = await authController.verifyAccount(verifyAccountDto)
+
+      // ASSERT
+      expect(result).toEqual(undefined)
+      expect(authService.verifyAccount).toBeCalledWith(verifyAccountDto)
     })
   })
 })
