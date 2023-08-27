@@ -120,4 +120,52 @@ describe('AuthService', () => {
       )
     })
   })
+
+  describe('validateUser', () => {
+    it('should validate and return user when credentials are correct', async () => {
+      // ARRANGE
+      const userMock = {
+        username: 'johndoe',
+        email: 'johndoe@gmail.com',
+        password: 'johndoe123'
+      } as UserDocument
+
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(userMock)
+      jest.spyOn(userRepository, 'comparePasswords').mockResolvedValue(true)
+
+      // ACT
+      const result = await authService.validateUser(userMock.username, userMock.password)
+
+      // ASSERT
+      expect(result).toEqual(userMock)
+      expect(userRepository.findOne).toHaveBeenCalledWith({ username: userMock.username })
+      expect(userRepository.comparePasswords).toHaveBeenCalledWith(
+        userMock.username,
+        userMock.password
+      )
+    })
+
+    it('should return null when credentials are not correct', async () => {
+      // ARRANGE
+      const userMock = {
+        username: 'johndoe',
+        email: 'johndoe@gmail.com',
+        password: 'johndoe123'
+      } as UserDocument
+
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(null)
+      jest.spyOn(userRepository, 'comparePasswords').mockResolvedValue(false)
+
+      // ACT
+      const result = await authService.validateUser(userMock.username, userMock.password)
+
+      // ASSERT
+      expect(result).toBe(null)
+      expect(userRepository.findOne).toHaveBeenCalledWith({ username: userMock.username })
+      expect(userRepository.comparePasswords).toHaveBeenCalledWith(
+        userMock.username,
+        userMock.password
+      )
+    })
+  })
 })
