@@ -45,4 +45,14 @@ export class AuthService {
     await this.otpRepository.findByIdAndDelete(otp.id)
     await this.userRepository.updateOne({ email: dto.email }, { $set: { isEmailConfirmed: true } })
   }
+
+  public async validateUser(username: string, password: string): Promise<UserDocument | null> {
+    const user = await this.userRepository.findOne({ username })
+    const isPasswordCorrect = await this.userRepository.comparePasswords(username, password)
+
+    if (!user || !isPasswordCorrect) {
+      return null
+    }
+    return user
+  }
 }

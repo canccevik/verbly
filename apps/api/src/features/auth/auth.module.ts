@@ -7,14 +7,18 @@ import { MAIL_QUEUE } from '@modules/mail/mail.constant'
 import { MongooseModule } from '@nestjs/mongoose'
 import { OTP, OTPSchema } from './schemas'
 import { OTPRepository } from './repositories'
+import { PassportModule } from '@nestjs/passport'
+import { LocalStrategy } from './passport/strategies'
+import { SessionSerializer } from './passport'
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: OTP.name, schema: OTPSchema }]),
     BullModule.registerQueue({ name: MAIL_QUEUE }),
+    PassportModule.register({ session: true }),
     UserModule
   ],
   controllers: [AuthController],
-  providers: [AuthService, OTPRepository]
+  providers: [AuthService, OTPRepository, LocalStrategy, SessionSerializer]
 })
 export class AuthModule {}

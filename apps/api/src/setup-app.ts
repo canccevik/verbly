@@ -10,6 +10,9 @@ import { Reflector } from '@nestjs/core'
 import { Logger } from 'nestjs-pino'
 import { useContainer } from 'class-validator'
 import { AppModule } from '@modules/app.module'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
+import passport from 'passport'
 
 export function setupApp(app: NestExpressApplication): void {
   useContainer(app.select(AppModule), { fallbackOnErrors: true })
@@ -17,6 +20,25 @@ export function setupApp(app: NestExpressApplication): void {
   const config = app.get<Config>(ENV)
 
   app.setGlobalPrefix(config.GLOBAL_PREFIX)
+
+  app.use(
+    session({
+      name: 'sessionId',
+      secret: config.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 3 * 24 * 60 * 60 * 1000 // 3 days in ms
+      },
+      store: MongoStore.create({
+        mongoUrl: config.DATABASE_URI,
+        stringify: false
+      })
+    })
+  )
+
+  app.use(passport.initialize())
+  app.use(passport.session())
 
   app.use(helmet())
   app.use(compression())

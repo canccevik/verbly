@@ -10,7 +10,8 @@ const config = {
   GOOGLE_PASSWORD: str(),
   DEFAULT_PROFILE_PHOTO: url(),
   REDIS_HOST: str(),
-  REDIS_PORT: port()
+  REDIS_PORT: port(),
+  SESSION_SECRET: str()
 }
 
 export const validators = makeValidators(config)
