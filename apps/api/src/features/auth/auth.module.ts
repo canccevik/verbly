@@ -8,7 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { OTP, OTPSchema } from './schemas'
 import { OTPRepository } from './repositories'
 import { PassportModule } from '@nestjs/passport'
-import { LocalStrategy } from './passport/strategies'
+import { GoogleStrategy, LocalStrategy } from './passport/strategies'
 import { SessionSerializer } from './passport'
 
 @Module({
@@ -19,6 +19,6 @@ import { SessionSerializer } from './passport'
     UserModule
   ],
   controllers: [AuthController],
-  providers: [AuthService, OTPRepository, LocalStrategy, SessionSerializer]
+  providers: [AuthService, OTPRepository, LocalStrategy, GoogleStrategy, SessionSerializer]
 })
 export class AuthModule {}

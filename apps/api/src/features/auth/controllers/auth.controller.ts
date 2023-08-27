@@ -1,10 +1,10 @@
-import { Body, Controller, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common'
 import { AuthService } from '../services/auth.service'
 import { ApiTags } from '@nestjs/swagger'
 import { Message } from '@core/decorators'
 import { RegisterDto, VerifyAccountDto } from '../dto'
 import { UserDocument } from '@features/user/schemas/user.schema'
-import { LocalAuthGuard } from '../guards'
+import { GoogleOAuthGuard, LocalAuthGuard } from '../guards'
 import { AuthenticatedGuard } from '@core/guards'
 import { Request, Response } from 'express'
 import { Payload } from '@core/interceptors'
@@ -30,6 +30,15 @@ export class AuthController {
   @Message('Logged in successfully.')
   @UseGuards(LocalAuthGuard)
   public login(): void {}
+
+  @Get('login/google')
+  @UseGuards(GoogleOAuthGuard)
+  public loginWithGoogle(): void {}
+
+  @Get('login/google/callback')
+  @UseGuards(GoogleOAuthGuard)
+  @Message('Logged in successfully.')
+  public loginWithGoogleCallback(): void {}
 
   @Post('logout')
   @UseGuards(AuthenticatedGuard)

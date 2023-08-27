@@ -11,7 +11,9 @@ const config = {
   DEFAULT_PROFILE_PHOTO: url(),
   REDIS_HOST: str(),
   REDIS_PORT: port(),
-  SESSION_SECRET: str()
+  SESSION_SECRET: str(),
+  GOOGLE_CLIENT_ID: str(),
+  GOOGLE_CLIENT_SECRET: str()
 }
 
 export const validators = makeValidators(config)
