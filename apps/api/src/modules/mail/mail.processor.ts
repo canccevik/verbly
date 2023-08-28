@@ -1,7 +1,7 @@
 import { MailerService } from '@nestjs-modules/mailer'
 import { Process, Processor } from '@nestjs/bull'
 import { Job } from 'bull'
-import { FORGOT_PASSWORD, MAIL_QUEUE, VERIFICATION } from './mail.constant'
+import { MAIL_QUEUE, RESET_PASSWORD, VERIFICATION } from './mail.constant'
 
 @Processor(MAIL_QUEUE)
 export class MailProcessor {
@@ -18,12 +18,14 @@ export class MailProcessor {
     })
   }
 
-  @Process(FORGOT_PASSWORD)
-  public async sendResetPasswordCode(job: Job<{ email: string; otpCode: string }>): Promise<void> {
+  @Process(RESET_PASSWORD)
+  public async sendResetPasswordCode(
+    job: Job<{ email: string; redirectUrl: string }>
+  ): Promise<void> {
     await this.mailerService.sendMail({
       to: job.data.email,
-      subject: 'Password Reset',
-      text: `The OTP code is: ${job.data.otpCode}`
+      subject: 'Reset Password',
+      html: `<a href='${job.data.redirectUrl}'>Reset password</a>`
     })
   }
 }
