@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common'
 import { AccountService } from '../services/account.service'
 import { Message } from '@core/decorators'
-import { ForgotPasswordDto, VerifyAccountDto } from '../dto'
+import { ForgotPasswordDto, ResetPasswordDto, VerifyAccountDto } from '../dto'
 import { ApiTags } from '@nestjs/swagger'
 
 @ApiTags('account')
@@ -19,5 +19,11 @@ export class AccountController {
   @Message('Password reset email sent successfully.')
   public async sendResetPasswordMail(@Body() dto: ForgotPasswordDto): Promise<void> {
     await this.accountService.sendResetPasswordMail(dto)
+  }
+
+  @Post('password')
+  @Message('Password reset successfully.')
+  public async resetPassword(@Body() dto: ResetPasswordDto): Promise<void> {
+    await this.accountService.resetPassword(dto)
   }
 }
