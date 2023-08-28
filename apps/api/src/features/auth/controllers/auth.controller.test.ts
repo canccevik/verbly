@@ -36,13 +36,12 @@ describe('AuthController', () => {
     it('should call register method from auth service', async () => {
       // ARRANGE
       const registerDto = { username: 'johndoe' } as RegisterDto
-      jest.spyOn(authService, 'register').mockResolvedValue(registerDto as UserDocument)
 
       // ACT
       const result = await authController.register(registerDto)
 
       // ASSERT
-      expect(result).toEqual(registerDto)
+      expect(result).toBeUndefined()
       expect(authService.register).toBeCalledWith(registerDto)
     })
   })

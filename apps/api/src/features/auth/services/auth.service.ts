@@ -16,13 +16,10 @@ export class AuthService {
     private readonly otpRepository: OTPRepository
   ) {}
 
-  public async register(dto: RegisterDto): Promise<UserDocument> {
+  public async register(dto: RegisterDto): Promise<void> {
+    await this.userRepository.create(dto)
     const otpCode = await this.generateOtpCode(dto.email)
-    const user = await this.userRepository.create(dto)
-    user.password = undefined
-
     await this.mailQueue.add(VERIFICATION, { email: dto.email, otpCode })
-    return user
   }
 
   private async generateOtpCode(email: string): Promise<string> {

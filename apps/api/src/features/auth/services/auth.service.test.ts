@@ -69,9 +69,8 @@ describe('AuthService', () => {
       const result = await authService.register(userMock as RegisterDto)
 
       // ASSERT
+      expect(result).toBeUndefined()
       expect(userRepository.create).toHaveBeenCalledWith(userMock)
-      expect(result.password).toBeUndefined()
-      expect(result).toEqual(userMock)
       expect(mailQueue.add).toHaveBeenCalledWith(VERIFICATION, { email: userMock.email, otpCode })
     })
   })
