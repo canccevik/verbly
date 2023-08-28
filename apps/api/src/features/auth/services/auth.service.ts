@@ -1,8 +1,8 @@
 import { UserRepository } from '@features/user/repositories/user.repository'
 import { UserDocument } from '@features/user/schemas/user.schema'
 import { MAIL_QUEUE, VERIFICATION } from '@modules/mail/mail.constant'
-import { BadRequestException, Injectable } from '@nestjs/common'
-import { RegisterDto, VerifyAccountDto } from '../dto'
+import { Injectable } from '@nestjs/common'
+import { RegisterDto } from '../dto'
 import { InjectQueue } from '@nestjs/bull'
 import { Queue } from 'bull'
 import { OTPRepository } from '../repositories'
@@ -34,16 +34,6 @@ export class AuthService {
     })
     await this.otpRepository.create({ email, otpCode })
     return otpCode
-  }
-
-  public async verifyAccount(dto: VerifyAccountDto): Promise<void> {
-    const otp = await this.otpRepository.findOne({ email: dto.email, otpCode: dto.otpCode })
-
-    if (!otp) {
-      throw new BadRequestException('Email or OTP code is not correct.')
-    }
-    await this.otpRepository.findByIdAndDelete(otp.id)
-    await this.userRepository.updateOne({ email: dto.email }, { $set: { isEmailConfirmed: true } })
   }
 
   public async validateUser(username: string, password: string): Promise<UserDocument | null> {

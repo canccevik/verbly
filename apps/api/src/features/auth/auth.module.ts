@@ -19,6 +19,7 @@ import { SessionSerializer } from './passport'
     UserModule
   ],
   controllers: [AuthController],
-  providers: [AuthService, OTPRepository, LocalStrategy, GoogleStrategy, SessionSerializer]
+  providers: [AuthService, OTPRepository, LocalStrategy, GoogleStrategy, SessionSerializer],
+  exports: [OTPRepository]
 })
 export class AuthModule {}

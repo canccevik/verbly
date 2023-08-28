@@ -6,11 +6,9 @@ import { OTPRepository } from '../repositories'
 import { Queue } from 'bull'
 import { getQueueToken } from '@nestjs/bull'
 import { MAIL_QUEUE, VERIFICATION } from '@modules/mail/mail.constant'
-import { RegisterDto, VerifyAccountDto } from '../dto'
+import { RegisterDto } from '../dto'
 import { UserDocument } from '@features/user/schemas'
 import otpGenerator from 'otp-generator'
-import { OTPDocument } from '../schemas'
-import { BadRequestException } from '@nestjs/common'
 
 describe('AuthService', () => {
   let authService: AuthService
@@ -75,49 +73,6 @@ describe('AuthService', () => {
       expect(result.password).toBeUndefined()
       expect(result).toEqual(userMock)
       expect(mailQueue.add).toHaveBeenCalledWith(VERIFICATION, { email: userMock.email, otpCode })
-    })
-  })
-
-  describe('verifyAccount', () => {
-    it('should verify user when otp found', async () => {
-      // ARRANGE
-      const verifyAccountDto: VerifyAccountDto = {
-        email: 'johndoe@gmail.com',
-        otpCode: '123456'
-      }
-      const otpMock = { id: 'id', ...verifyAccountDto } as OTPDocument
-
-      jest.spyOn(otpRepository, 'findOne').mockResolvedValue(otpMock)
-
-      // ACT
-      const result = await authService.verifyAccount(verifyAccountDto)
-
-      // ASSERT
-      expect(result).toBeUndefined()
-      expect(otpRepository.findOne).toHaveBeenCalledWith({
-        email: otpMock.email,
-        otpCode: otpMock.otpCode
-      })
-      expect(otpRepository.findByIdAndDelete).toHaveBeenCalledWith(otpMock.id)
-      expect(userRepository.updateOne).toHaveBeenCalledWith(
-        { email: verifyAccountDto.email },
-        { $set: { isEmailConfirmed: true } }
-      )
-    })
-
-    it('should throw bad request error when otp not found', async () => {
-      // ARRANGE
-      const verifyAccountDto: VerifyAccountDto = {
-        email: 'johndoe@gmail.com',
-        otpCode: '123456'
-      }
-
-      jest.spyOn(otpRepository, 'findOne').mockResolvedValue(null)
-
-      // ACT & ASSERT
-      expect(authService.verifyAccount(verifyAccountDto)).rejects.toThrowError(
-        new BadRequestException('Email or OTP code is not correct.')
-      )
     })
   })
 
