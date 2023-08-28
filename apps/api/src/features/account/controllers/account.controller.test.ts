@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing'
 import { createMock } from '@golevelup/ts-jest'
 import { AccountService } from '../services'
-import { VerifyAccountDto } from '../dto'
+import { ForgotPasswordDto, VerifyAccountDto } from '../dto'
 import { AccountController } from './account.controller'
 
 describe('AccountController', () => {
@@ -40,6 +40,20 @@ describe('AccountController', () => {
       // ASSERT
       expect(result).toEqual(undefined)
       expect(accountService.verifyAccount).toBeCalledWith(verifyAccountDto)
+    })
+  })
+
+  describe('sendResetPasswordMail', () => {
+    it('should call send reset password mail method from account service', async () => {
+      // ARRANGE
+      const forgotPasswordDto: ForgotPasswordDto = { email: 'johndoe@gmail.com' }
+
+      // ACT
+      const result = await accountController.sendResetPasswordMail(forgotPasswordDto)
+
+      // ASSERT
+      expect(result).toEqual(undefined)
+      expect(accountService.sendResetPasswordMail).toBeCalledWith(forgotPasswordDto)
     })
   })
 })

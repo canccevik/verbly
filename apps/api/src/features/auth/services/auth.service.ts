@@ -27,7 +27,6 @@ export class AuthService {
 
   private async generateOtpCode(email: string): Promise<string> {
     const otpCode = otpGenerator.generate(6, {
-      digits: true,
       lowerCaseAlphabets: false,
       upperCaseAlphabets: false,
       specialChars: false
