@@ -2,18 +2,17 @@ import { Test } from '@nestjs/testing'
 import { createMock } from '@golevelup/ts-jest'
 import { AuthService } from '../services'
 import { UserRepository } from '@features/user/repositories'
-import { OTPRepository } from '../repositories'
 import { Queue } from 'bull'
 import { getQueueToken } from '@nestjs/bull'
 import { MAIL_QUEUE, VERIFICATION } from '@modules/mail/mail.constant'
 import { RegisterDto } from '../dto'
 import { UserDocument } from '@features/user/schemas'
-import otpGenerator from 'otp-generator'
+import { OTPService } from '@modules/otp/otp.service'
 
 describe('AuthService', () => {
   let authService: AuthService
   let userRepository: UserRepository
-  let otpRepository: OTPRepository
+  let otpService: OTPService
   let mailQueue: Queue
 
   beforeAll(async () => {
@@ -28,7 +27,7 @@ describe('AuthService', () => {
 
     authService = module.get<AuthService>(AuthService)
     userRepository = module.get<UserRepository>(UserRepository)
-    otpRepository = module.get<OTPRepository>(OTPRepository)
+    otpService = module.get<OTPService>(OTPService)
     mailQueue = module.get<Queue>(getQueueToken(MAIL_QUEUE))
   })
 
@@ -42,9 +41,9 @@ describe('AuthService', () => {
     expect(userRepository).toBeDefined()
   })
 
-  it('should otp repository to be defined', () => {
+  it('should otp service to be defined', () => {
     // ASSERT
-    expect(otpRepository).toBeDefined()
+    expect(otpService).toBeDefined()
   })
 
   it('should mail queue to be defined', () => {
@@ -62,7 +61,7 @@ describe('AuthService', () => {
       } as UserDocument
 
       const otpCode = '123456'
-      jest.spyOn(otpGenerator, 'generate').mockReturnValue(otpCode)
+      jest.spyOn(otpService, 'generateOTPCode').mockResolvedValue(otpCode)
       jest.spyOn(userRepository, 'create').mockResolvedValue(userMock)
 
       // ACT
@@ -71,6 +70,7 @@ describe('AuthService', () => {
       // ASSERT
       expect(result).toBeUndefined()
       expect(userRepository.create).toHaveBeenCalledWith(userMock)
+      expect(otpService.generateOTPCode).toHaveBeenCalledWith(userMock.email)
       expect(mailQueue.add).toHaveBeenCalledWith(VERIFICATION, { email: userMock.email, otpCode })
     })
   })

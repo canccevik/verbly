@@ -2,19 +2,17 @@ import { Test } from '@nestjs/testing'
 import { createMock } from '@golevelup/ts-jest'
 import { UserRepository } from '@features/user/repositories'
 import { ForgotPasswordDto, VerifyAccountDto } from '../dto'
-import { BadRequestException } from '@nestjs/common'
-import { OTPRepository } from '@features/auth/repositories'
-import { OTPDocument } from '@features/auth/schemas'
 import { AccountService } from './account.service'
 import { Queue } from 'bull'
 import { getQueueToken } from '@nestjs/bull'
 import { FORGOT_PASSWORD, MAIL_QUEUE } from '@modules/mail/mail.constant'
-import otpGenerator from 'otp-generator'
+import { OTPDocument } from '@modules/otp/otp.schema'
+import { OTPService } from '@modules/otp/otp.service'
 
 describe('AccountService', () => {
   let accountService: AccountService
   let userRepository: UserRepository
-  let otpRepository: OTPRepository
+  let otpService: OTPService
   let mailQueue: Queue
 
   beforeAll(async () => {
@@ -29,7 +27,7 @@ describe('AccountService', () => {
 
     accountService = module.get<AccountService>(AccountService)
     userRepository = module.get<UserRepository>(UserRepository)
-    otpRepository = module.get<OTPRepository>(OTPRepository)
+    otpService = module.get<OTPService>(OTPService)
     mailQueue = module.get<Queue>(getQueueToken(MAIL_QUEUE))
   })
 
@@ -43,9 +41,9 @@ describe('AccountService', () => {
     expect(userRepository).toBeDefined()
   })
 
-  it('should otp repository to be defined', () => {
+  it('should otp service to be defined', () => {
     // ASSERT
-    expect(otpRepository).toBeDefined()
+    expect(otpService).toBeDefined()
   })
 
   it('should mail queue to be defined', () => {
@@ -54,7 +52,7 @@ describe('AccountService', () => {
   })
 
   describe('verifyAccount', () => {
-    it('should verify user when otp found', async () => {
+    it('should verify user', async () => {
       // ARRANGE
       const verifyAccountDto: VerifyAccountDto = {
         email: 'johndoe@gmail.com',
@@ -62,54 +60,33 @@ describe('AccountService', () => {
       }
       const otpMock = { id: 'id', ...verifyAccountDto } as OTPDocument
 
-      jest.spyOn(otpRepository, 'findOne').mockResolvedValue(otpMock)
-
       // ACT
       const result = await accountService.verifyAccount(verifyAccountDto)
 
       // ASSERT
       expect(result).toBeUndefined()
-      expect(otpRepository.findOne).toHaveBeenCalledWith({
-        email: otpMock.email,
-        otpCode: otpMock.otpCode
-      })
-      expect(otpRepository.findByIdAndDelete).toHaveBeenCalledWith(otpMock.id)
+      expect(otpService.useOTPCode).toHaveBeenCalledWith(otpMock.email, otpMock.otpCode)
       expect(userRepository.updateOne).toHaveBeenCalledWith(
         { email: verifyAccountDto.email },
         { $set: { isEmailConfirmed: true } }
       )
     })
-
-    it('should throw bad request error when otp not found', async () => {
-      // ARRANGE
-      const verifyAccountDto: VerifyAccountDto = {
-        email: 'johndoe@gmail.com',
-        otpCode: '123456'
-      }
-
-      jest.spyOn(otpRepository, 'findOne').mockResolvedValue(null)
-
-      // ACT & ASSERT
-      expect(accountService.verifyAccount(verifyAccountDto)).rejects.toThrowError(
-        new BadRequestException('Email or OTP code is not correct.')
-      )
-    })
   })
 
   describe('sendResetPasswordMail', () => {
-    it('should create otp and send reset password email', async () => {
+    it('should create otp and send reset password mail', async () => {
       // ARRANGE
       const forgotPasswordDto: ForgotPasswordDto = { email: 'johndoe@gmail.com' }
 
       const otpCode = '123456'
-      jest.spyOn(otpGenerator, 'generate').mockReturnValue(otpCode)
+      jest.spyOn(otpService, 'generateOTPCode').mockResolvedValue(otpCode)
 
       // ACT
       const result = await accountService.sendResetPasswordMail(forgotPasswordDto)
 
       // ASSERT
       expect(result).toBeUndefined()
-      expect(otpRepository.create).toHaveBeenCalledWith({ email: forgotPasswordDto.email, otpCode })
+      expect(otpService.generateOTPCode).toHaveBeenCalledWith(forgotPasswordDto.email)
       expect(mailQueue.add).toHaveBeenCalledWith(FORGOT_PASSWORD, {
         email: forgotPasswordDto.email,
         otpCode

@@ -4,22 +4,19 @@ import { AuthController } from './controllers/auth.controller'
 import { UserModule } from '@features/user/user.module'
 import { BullModule } from '@nestjs/bull'
 import { MAIL_QUEUE } from '@modules/mail/mail.constant'
-import { MongooseModule } from '@nestjs/mongoose'
-import { OTP, OTPSchema } from './schemas'
-import { OTPRepository } from './repositories'
 import { PassportModule } from '@nestjs/passport'
 import { GoogleStrategy, LocalStrategy } from './passport/strategies'
 import { SessionSerializer } from './passport'
+import { OTPModule } from '@modules/otp/otp.module'
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: OTP.name, schema: OTPSchema }]),
     BullModule.registerQueue({ name: MAIL_QUEUE }),
     PassportModule.register({ session: true }),
-    UserModule
+    UserModule,
+    OTPModule
   ],
   controllers: [AuthController],
-  providers: [AuthService, OTPRepository, LocalStrategy, GoogleStrategy, SessionSerializer],
-  exports: [OTPRepository]
+  providers: [AuthService, LocalStrategy, GoogleStrategy, SessionSerializer]
 })
 export class AuthModule {}

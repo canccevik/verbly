@@ -3,7 +3,6 @@ import { createMock } from '@golevelup/ts-jest'
 import { AuthService } from '../services'
 import { AuthController } from './auth.controller'
 import { RegisterDto } from '../dto'
-import { UserDocument } from '@features/user/schemas'
 import { ExecutionContext } from '@nestjs/common'
 import { Request, Response } from 'express'
 
