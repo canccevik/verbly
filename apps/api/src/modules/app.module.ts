@@ -6,6 +6,7 @@ import { LoggerModule } from './logger/logger.module'
 import { MailModule } from './mail/mail.module'
 import { FeatureModule } from '@features/feature.module'
 import { BullModule } from './bull/bull.module'
+import { JwtModule } from './jwt/jwt.module'
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { BullModule } from './bull/bull.module'
     DatabaseModule,
     LoggerModule,
     MailModule,
-    BullModule
+    BullModule,
+    JwtModule
   ]
 })
 export class AppModule {}

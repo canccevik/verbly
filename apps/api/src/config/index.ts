@@ -13,7 +13,9 @@ const config = {
   REDIS_PORT: port(),
   SESSION_SECRET: str(),
   GOOGLE_CLIENT_ID: str(),
-  GOOGLE_CLIENT_SECRET: str()
+  GOOGLE_CLIENT_SECRET: str(),
+  JWT_SECRET: str(),
+  JWT_EXPIRES_IN: str()
 }
 
 export const validators = makeValidators(config)
