@@ -20,6 +20,9 @@ importers:
       '@logtail/pino':
         specifier: ^0.4.6
         version: 0.4.6(pino@8.15.0)
+      '@medibloc/nestjs-request-context':
+        specifier: ^1.0.1
+        version: 1.0.1(@nestjs/common@10.2.1)(@nestjs/platform-express@10.2.1)(express@4.18.2)
       '@nestjs-modules/mailer':
         specifier: ^1.9.1
         version: 1.9.1(@nestjs/common@10.2.1)(@nestjs/core@10.2.0)(nodemailer@6.9.4)
@@ -1172,6 +1175,19 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  /@medibloc/nestjs-request-context@1.0.1(@nestjs/common@10.2.1)(@nestjs/platform-express@10.2.1)(express@4.18.2):
+    resolution: {integrity: sha512-4z8FCSDlvbJOS/UcbSXdIB3q3+Vg3jAQYbucSR3uh8aKKG7oVmHCBnDrPS5WYAFy6G8f4bGP8TbQqiJD8bJpNQ==}
+    engines: {node: '>=14.15.2'}
+    peerDependencies:
+      '@nestjs/common': '>=7.5.5'
+      '@nestjs/platform-express': '>=7.5.5'
+      express: '>=4.17.1'
+    dependencies:
+      '@nestjs/common': 10.2.1(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/platform-express': 10.2.1(@nestjs/common@10.2.1)(@nestjs/core@10.2.0)
+      express: 4.18.2
     dev: false
 
   /@msgpack/msgpack@2.8.0:

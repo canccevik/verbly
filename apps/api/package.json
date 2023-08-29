@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@logtail/pino": "^0.4.6",
+    "@medibloc/nestjs-request-context": "^1.0.1",
     "@nestjs-modules/mailer": "^1.9.1",
     "@nestjs/bull": "^10.0.1",
     "@nestjs/common": "^10.2.1",
