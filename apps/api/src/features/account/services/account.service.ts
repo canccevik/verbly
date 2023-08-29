@@ -1,12 +1,12 @@
 import { UserRepository } from '@features/user/repositories'
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { ForgotPasswordDto, ResetPasswordDto, VerifyAccountDto } from '../dto'
+import { ForgotPasswordDto, ResetPasswordDto, UpdatePasswordDto, VerifyAccountDto } from '../dto'
 import { InjectQueue } from '@nestjs/bull'
 import { MAIL_QUEUE, RESET_PASSWORD } from '@modules/mail/mail.constant'
 import { OTPService } from '@modules/otp/otp.service'
 import { Queue } from 'bull'
 import { JwtService } from '@nestjs/jwt'
-import bcrypt from 'bcrypt'
+import { UserDocument } from '@features/user/schemas'
 
 @Injectable()
 export class AccountService {
@@ -32,13 +32,21 @@ export class AccountService {
   public async resetPassword(dto: ResetPasswordDto): Promise<void> {
     try {
       const payload = this.jwtService.verify<{ email: string }>(dto.token)
-      const hashedPassword = bcrypt.hashSync(dto.password, 10)
-      await this.userRepository.updateOne(
-        { email: payload.email },
-        { $set: { password: hashedPassword } }
-      )
+      await this.userRepository.updatePassword({ email: payload.email }, dto.password)
     } catch (error) {
-      throw new BadRequestException('Token is not valid')
+      throw new BadRequestException('Token is not valid.')
     }
+  }
+
+  public async updatePassword(dto: UpdatePasswordDto, user: UserDocument): Promise<void> {
+    const isOldPasswordCorrect = await this.userRepository.comparePasswords(
+      user.username,
+      dto.oldPassword
+    )
+
+    if (!isOldPasswordCorrect) {
+      throw new BadRequestException('Old password is wrong.')
+    }
+    await this.userRepository.updatePassword({ _id: user.id }, dto.newPassword)
   }
 }

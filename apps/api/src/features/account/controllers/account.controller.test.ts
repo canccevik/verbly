@@ -1,8 +1,9 @@
 import { Test } from '@nestjs/testing'
 import { createMock } from '@golevelup/ts-jest'
 import { AccountService } from '../services'
-import { ForgotPasswordDto, ResetPasswordDto, VerifyAccountDto } from '../dto'
+import { ForgotPasswordDto, ResetPasswordDto, UpdatePasswordDto, VerifyAccountDto } from '../dto'
 import { AccountController } from './account.controller'
+import { UserDocument } from '@features/user/schemas'
 
 describe('AccountController', () => {
   let accountController: AccountController
@@ -68,6 +69,21 @@ describe('AccountController', () => {
       // ASSERT
       expect(result).toEqual(undefined)
       expect(accountService.resetPassword).toBeCalledWith(resetPasswordDto)
+    })
+  })
+
+  describe('updatePassword', () => {
+    it('should call update password method from account service', async () => {
+      // ARRANGE
+      const updatePasswordDto: UpdatePasswordDto = { oldPassword: 'pass', newPassword: 'pass' }
+      const userMock = { id: 'id' } as UserDocument
+
+      // ACT
+      const result = await accountController.updatePassword(updatePasswordDto, userMock)
+
+      // ASSERT
+      expect(result).toEqual(undefined)
+      expect(accountService.updatePassword).toBeCalledWith(updatePasswordDto, userMock)
     })
   })
 })

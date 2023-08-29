@@ -1,16 +1,16 @@
 import { Test } from '@nestjs/testing'
 import { createMock } from '@golevelup/ts-jest'
 import { UserRepository } from '@features/user/repositories'
-import { ForgotPasswordDto, ResetPasswordDto, VerifyAccountDto } from '../dto'
+import { ForgotPasswordDto, ResetPasswordDto, UpdatePasswordDto, VerifyAccountDto } from '../dto'
 import { AccountService } from './account.service'
 import { Queue } from 'bull'
 import { getQueueToken } from '@nestjs/bull'
 import { RESET_PASSWORD, MAIL_QUEUE } from '@modules/mail/mail.constant'
 import { OTPDocument } from '@modules/otp/otp.schema'
 import { OTPService } from '@modules/otp/otp.service'
-import bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt'
 import { BadRequestException } from '@nestjs/common'
+import { UserDocument } from '@features/user/schemas'
 
 describe('AccountService', () => {
   let accountService: AccountService
@@ -109,9 +109,7 @@ describe('AccountService', () => {
       // ARRANGE
       const resetPasswordDto: ResetPasswordDto = { token: 'token', password: 'john123' }
       const payload = { email: 'johndoe@gmail.com' }
-      const hashedPassword = 'hashed-password'
 
-      jest.spyOn(bcrypt, 'hashSync').mockReturnValue(hashedPassword)
       jest.spyOn(jwtService, 'verify').mockReturnValue(payload)
 
       // ACT
@@ -119,10 +117,9 @@ describe('AccountService', () => {
 
       // ASSERT
       expect(jwtService.verify).toHaveBeenCalledWith(resetPasswordDto.token)
-      expect(bcrypt.hashSync).toHaveBeenCalledWith(resetPasswordDto.password, 10)
-      expect(userRepository.updateOne).toHaveBeenCalledWith(
+      expect(userRepository.updatePassword).toHaveBeenCalledWith(
         { email: payload.email },
-        { $set: { password: hashedPassword } }
+        resetPasswordDto.password
       )
     })
 
@@ -139,7 +136,41 @@ describe('AccountService', () => {
 
       // ACT & ASSERT
       expect(accountService.resetPassword(resetPasswordDto)).rejects.toThrowError(
-        new BadRequestException('Token is not valid')
+        new BadRequestException('Token is not valid.')
+      )
+    })
+  })
+
+  describe('updatePassword', () => {
+    it('should update password of user', async () => {
+      // ARRANGE
+      const updatePasswordDto: UpdatePasswordDto = { oldPassword: 'old', newPassword: 'new' }
+      const userMock = { id: 'id', username: 'john' } as UserDocument
+
+      // ACT
+      await accountService.updatePassword(updatePasswordDto, userMock)
+
+      // ASSERT
+      expect(userRepository.comparePasswords).toHaveBeenCalledWith(
+        userMock.username,
+        updatePasswordDto.oldPassword
+      )
+      expect(userRepository.updatePassword).toHaveBeenCalledWith(
+        { _id: userMock.id },
+        updatePasswordDto.newPassword
+      )
+    })
+
+    it('should throw bad request error when old password is wrong', async () => {
+      // ARRANGE
+      const updatePasswordDto: UpdatePasswordDto = { oldPassword: 'old', newPassword: 'new' }
+      const userMock = { id: 'id', username: 'john' } as UserDocument
+
+      jest.spyOn(userRepository, 'comparePasswords').mockResolvedValue(null)
+
+      // ACT & ASSERT
+      expect(accountService.updatePassword(updatePasswordDto, userMock)).rejects.toThrowError(
+        new BadRequestException('Old password is wrong.')
       )
     })
   })

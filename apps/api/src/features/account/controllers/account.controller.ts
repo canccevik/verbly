@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import { Body, Controller, Post, Put } from '@nestjs/common'
 import { AccountService } from '../services/account.service'
-import { Message } from '@core/decorators'
-import { ForgotPasswordDto, ResetPasswordDto, VerifyAccountDto } from '../dto'
+import { Message, User } from '@core/decorators'
+import { ForgotPasswordDto, ResetPasswordDto, UpdatePasswordDto, VerifyAccountDto } from '../dto'
 import { ApiTags } from '@nestjs/swagger'
+import { UserDocument } from '@features/user/schemas'
 
 @ApiTags('account')
 @Controller('account')
@@ -25,5 +26,14 @@ export class AccountController {
   @Message('Password reset successfully.')
   public async resetPassword(@Body() dto: ResetPasswordDto): Promise<void> {
     await this.accountService.resetPassword(dto)
+  }
+
+  @Put('password')
+  @Message('Password updated successfully.')
+  public async updatePassword(
+    @Body() dto: UpdatePasswordDto,
+    @User() user: UserDocument
+  ): Promise<void> {
+    await this.accountService.updatePassword(dto, user)
   }
 }
