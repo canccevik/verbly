@@ -15,7 +15,10 @@ const config = {
   GOOGLE_CLIENT_ID: str(),
   GOOGLE_CLIENT_SECRET: str(),
   JWT_SECRET: str(),
-  JWT_EXPIRES_IN: str()
+  JWT_EXPIRES_IN: str(),
+  CLOUDINARY_CLOUD_NAME: str(),
+  CLOUDINARY_API_KEY: str(),
+  CLOUDINARY_API_SECRET: str()
 }
 
 export const validators = makeValidators(config)
