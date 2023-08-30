@@ -30,6 +30,22 @@ describe('UserController', () => {
     expect(userService).toBeDefined()
   })
 
+  describe('getAuthenticatedUser', () => {
+    it('should call get authenticated user method from user service', async () => {
+      // ARRANGE
+      const userMock = { id: 'id' } as UserDocument
+
+      jest.spyOn(userService, 'getAuthenticatedUser').mockResolvedValue(userMock)
+
+      // ACT
+      const result = await userController.getAuthenticatedUser(userMock)
+
+      // ASSERT
+      expect(result).toEqual(userMock)
+      expect(userService.getAuthenticatedUser).toBeCalledWith(userMock)
+    })
+  })
+
   describe('updateUser', () => {
     it('should call update user method from user service', async () => {
       // ARRANGE

@@ -55,6 +55,19 @@ describe('UserService', () => {
     expect(config).toBeDefined()
   })
 
+  describe('getAuthenticatedUser', () => {
+    it('should return authenticated user', async () => {
+      // ARRANGE
+      const userMock = { id: 'id' } as UserDocument
+
+      // ACT
+      const result = await userService.getAuthenticatedUser(userMock)
+
+      // ASSERT
+      expect(result).toEqual(userMock)
+    })
+  })
+
   describe('updateUser', () => {
     it('should update user', async () => {
       // ARRANGE

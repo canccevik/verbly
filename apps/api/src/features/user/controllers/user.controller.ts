@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Put,
   UploadedFile,
   UseGuards,
@@ -21,6 +22,12 @@ import { UserPhotoPipe } from '../pipes'
 @UseGuards(AuthenticatedGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get('/me')
+  @Message('User fetched successfully.')
+  public async getAuthenticatedUser(@User() user: UserDocument): Promise<UserDocument> {
+    return this.userService.getAuthenticatedUser(user)
+  }
 
   @Put('/me')
   @Message('User updated successfully.')

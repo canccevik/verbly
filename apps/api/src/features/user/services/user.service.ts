@@ -13,6 +13,10 @@ export class UserService {
     private readonly cloudinaryService: CloudinaryService
   ) {}
 
+  public async getAuthenticatedUser(user: UserDocument): Promise<UserDocument> {
+    return user
+  }
+
   public async updateUser(dto: UpdateUserDto, userId: string): Promise<UserDocument> {
     return this.userRepository.findByIdAndUpdate(userId, { $set: dto })
   }
