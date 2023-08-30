@@ -8,7 +8,7 @@ import { FeatureModule } from '@features/feature.module'
 import { BullModule } from './bull/bull.module'
 import { JwtModule } from './jwt/jwt.module'
 import { RequestContextModule } from '@medibloc/nestjs-request-context'
-import { AuthenticatedContext } from '@core/context'
+import { AuthenticatedContext } from '@common/context'
 
 @Module({
   imports: [

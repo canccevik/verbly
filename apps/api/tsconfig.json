@@ -4,6 +4,7 @@
     "paths": {
       "@config/*": ["src/config/*"],
       "@core/*": ["src/core/*"],
+      "@common/*": ["src/common/*"],
       "@modules/*": ["src/modules/*"],
       "@features/*": ["src/features/*"]
     },

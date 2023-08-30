@@ -1,4 +1,4 @@
-import { AuthenticatedContext } from '@core/context'
+import { AuthenticatedContext } from '@common/context'
 import { UserDocument } from '@features/user/schemas'
 import { RequestContext } from '@medibloc/nestjs-request-context'
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common'

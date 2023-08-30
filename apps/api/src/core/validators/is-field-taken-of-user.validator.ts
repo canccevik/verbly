@@ -1,4 +1,4 @@
-import { AuthenticatedContext } from '@core/context'
+import { AuthenticatedContext } from '@common/context'
 import { UserRepository } from '@features/user/repositories/user.repository'
 import { User } from '@features/user/schemas/user.schema'
 import { RequestContext } from '@medibloc/nestjs-request-context'
