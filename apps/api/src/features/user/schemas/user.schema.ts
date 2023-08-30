@@ -9,10 +9,10 @@ dotenv.config()
 export type UserDocument = HydratedDocument<User>
 
 export enum Gender {
-  NOT_KNOWN,
-  MALE,
-  FEMALE,
-  NON_BINARY
+  NotKnown,
+  Male,
+  Female,
+  NonBinary
 }
 
 @Schema({
@@ -58,7 +58,7 @@ export class User {
     type: Number,
     required: true,
     enum: Gender,
-    default: Gender.NOT_KNOWN
+    default: Gender.NotKnown
   })
   public gender: number
 
