@@ -39,11 +39,26 @@ describe('UserController', () => {
       jest.spyOn(userService, 'updateUser').mockResolvedValue(userMock)
 
       // ACT
-      const result = await userController.updateUser(updateUserDto, userMock)
+      const result = await userController.updateUser(updateUserDto, userMock.id)
 
       // ASSERT
       expect(result).toEqual(userMock)
       expect(userService.updateUser).toBeCalledWith(updateUserDto, userMock.id)
+    })
+  })
+
+  describe('updateProfilePhoto', () => {
+    it('should call update profile photo method from user service', async () => {
+      // ARRANGE
+      const userMock = { id: 'id' } as UserDocument
+      const fileMock = {} as Express.Multer.File
+
+      // ACT
+      const result = await userController.updateProfilePhoto(userMock.id, fileMock)
+
+      // ASSERT
+      expect(result).toBeUndefined()
+      expect(userService.updateProfilePhoto).toBeCalledWith(userMock.id, fileMock)
     })
   })
 })
