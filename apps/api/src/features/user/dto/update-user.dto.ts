@@ -1,5 +1,5 @@
-import { IsFieldTakenOfUser } from '@core/validators/is-field-taken-of-user.validator'
-import { IsISO } from '@core/validators/is-iso.validator'
+import { IsFieldTakenOfUser } from '@common/validators/is-field-taken-of-user.validator'
+import { IsISO } from '@common/validators/is-iso.validator'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsLowercase, IsOptional, IsString, Length, Matches } from 'class-validator'
 import { Gender } from '../schemas'
