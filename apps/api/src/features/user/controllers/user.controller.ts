@@ -17,8 +17,8 @@ import { AuthenticatedGuard } from '@core/guards'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { UserPhotoPipe } from '../pipes'
 
+@Controller()
 @ApiTags('users')
-@Controller('users')
 @UseGuards(AuthenticatedGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
