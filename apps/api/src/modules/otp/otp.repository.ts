@@ -1,4 +1,4 @@
-import { BaseRepository } from '@core/repositories'
+import { BaseRepository } from '@common/repositories'
 import { OTP } from './otp.schema'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
