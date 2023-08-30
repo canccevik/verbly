@@ -61,4 +61,18 @@ describe('UserController', () => {
       expect(userService.updateProfilePhoto).toBeCalledWith(userMock.id, fileMock)
     })
   })
+
+  describe('removeProfilePhoto', () => {
+    it('should call remove profile photo method from user service', async () => {
+      // ARRANGE
+      const userMock = { id: 'id' } as UserDocument
+
+      // ACT
+      const result = await userController.removeProfilePhoto(userMock)
+
+      // ASSERT
+      expect(result).toBeUndefined()
+      expect(userService.removeProfilePhoto).toBeCalledWith(userMock)
+    })
+  })
 })

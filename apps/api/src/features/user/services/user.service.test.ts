@@ -6,15 +6,25 @@ import { UserService } from './user.service'
 import { UpdateUserDto } from '../dto/update-user.dto'
 import { UploadApiResponse } from 'cloudinary'
 import { CloudinaryService } from '@modules/cloudinary/cloudinary.service'
+import { Config, ENV } from '@config/index'
 
 describe('UserService', () => {
   let userService: UserService
   let userRepository: UserRepository
   let cloudinaryService: CloudinaryService
+  let config: Config
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      providers: [UserService]
+      providers: [
+        UserService,
+        {
+          provide: ENV,
+          useValue: {
+            defaultProfilePhoto: process.env.DEFAULT_PROFILE_PHOTO
+          }
+        }
+      ]
     })
       .useMocker(createMock)
       .compile()
@@ -22,6 +32,7 @@ describe('UserService', () => {
     userService = module.get<UserService>(UserService)
     userRepository = module.get<UserRepository>(UserRepository)
     cloudinaryService = module.get<CloudinaryService>(CloudinaryService)
+    config = module.get<Config>(ENV)
   })
 
   it('should user service to be defined', () => {
@@ -37,6 +48,11 @@ describe('UserService', () => {
   it('should cloudinary service to be defined', () => {
     // ASSERT
     expect(cloudinaryService).toBeDefined()
+  })
+
+  it('should config to be defined', () => {
+    // ASSERT
+    expect(config).toBeDefined()
   })
 
   describe('updateUser', () => {
@@ -75,6 +91,25 @@ describe('UserService', () => {
       expect(userRepository.updateOne).toHaveBeenCalledWith(
         { _id: userMock.id },
         { $set: { profilePhoto: uploadedFileMock.url } }
+      )
+    })
+  })
+
+  describe('removeProfilePhoto', () => {
+    it('should remove profile photo of user', async () => {
+      // ARRANGE
+      const fileId = 'file-id'
+      const photoUrl = `https://res.cloudinary.com/x/image/upload/x/users/${fileId}.png`
+      const userMock = { id: 'id', profilePhoto: photoUrl } as UserDocument
+
+      // ACT
+      await userService.removeProfilePhoto(userMock)
+
+      // ASSERT
+      expect(cloudinaryService.deleteFile).toHaveBeenCalledWith(`users/${fileId}`)
+      expect(userRepository.updateOne).toHaveBeenCalledWith(
+        { _id: userMock.id },
+        { $set: { profilePhoto: config.DEFAULT_PROFILE_PHOTO } }
       )
     })
   })

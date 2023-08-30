@@ -1,4 +1,12 @@
-import { Body, Controller, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Put,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors
+} from '@nestjs/common'
 import { UserService } from '../services/user.service'
 import { ApiTags } from '@nestjs/swagger'
 import { UserDocument } from '../schemas'
@@ -31,5 +39,11 @@ export class UserController {
     @UploadedFile(UserPhotoPipe) file: Express.Multer.File
   ): Promise<void> {
     await this.userService.updateProfilePhoto(userId, file)
+  }
+
+  @Delete('/me/profile-photo')
+  @Message('Profile photo removed successfully.')
+  public async removeProfilePhoto(@User() user: UserDocument): Promise<void> {
+    await this.userService.removeProfilePhoto(user)
   }
 }
