@@ -66,4 +66,18 @@ describe('ListController', () => {
       expect(listService.updateList).toBeCalledWith(updateListDto, listId)
     })
   })
+
+  describe('removeList', () => {
+    it('should call remove list method from list service', async () => {
+      // ARRANGE
+      const listId = 'id'
+
+      // ACT
+      const result = await listController.removeList(listId)
+
+      // ASSERT
+      expect(result).toBeUndefined()
+      expect(listService.removeList).toBeCalledWith(listId)
+    })
+  })
 })

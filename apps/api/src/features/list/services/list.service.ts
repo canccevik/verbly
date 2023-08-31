@@ -15,4 +15,8 @@ export class ListService {
   public async updateList(dto: UpdateListDto, listId: string): Promise<ListDocument> {
     return this.listRepository.findByIdAndUpdate(listId, { $set: dto })
   }
+
+  public async removeList(listId: string): Promise<void> {
+    await this.listRepository.findByIdAndDelete(listId)
+  }
 }

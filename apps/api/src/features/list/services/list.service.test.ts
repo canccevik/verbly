@@ -50,7 +50,7 @@ describe('ListService', () => {
   })
 
   describe('updateList', () => {
-    it('should update list', async () => {
+    it('should update list by id', async () => {
       // ARRANGE
       const updateListDto = { name: 'list' } as UpdateListDto
       const listMock = updateListDto as ListDocument
@@ -64,6 +64,20 @@ describe('ListService', () => {
       // ASSERT
       expect(result).toEqual(listMock)
       expect(listRepository.findByIdAndUpdate).toHaveBeenCalledWith(listId, { $set: updateListDto })
+    })
+  })
+
+  describe('removeList', () => {
+    it('should remove list by id', async () => {
+      // ARRANGE
+      const listId = 'id'
+
+      // ACT
+      const result = await listService.removeList(listId)
+
+      // ASSERT
+      expect(result).toBeUndefined()
+      expect(listRepository.findByIdAndDelete).toHaveBeenCalledWith(listId)
     })
   })
 })

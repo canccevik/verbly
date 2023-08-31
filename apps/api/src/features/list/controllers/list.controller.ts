@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Put, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Param, Post, Put, UseGuards } from '@nestjs/common'
 import { ListService } from '../services/list.service'
 import { ApiTags } from '@nestjs/swagger'
 import { ListDocument } from '../schemas'
@@ -31,5 +31,12 @@ export class ListController {
     @Param('listId') listId: string
   ): Promise<ListDocument> {
     return this.listService.updateList(dto, listId)
+  }
+
+  @Delete(':listId')
+  @UseGuards(ListOwnershipGuard)
+  @Message('List removed successfully.')
+  public async removeList(@Param('listId') listId: string): Promise<void> {
+    await this.listService.removeList(listId)
   }
 }
