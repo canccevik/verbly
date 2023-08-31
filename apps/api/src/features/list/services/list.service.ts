@@ -22,15 +22,15 @@ export class ListService {
     return list
   }
 
-  public async createList(dto: CreateListDto, userId: string): Promise<ListDocument> {
-    return this.listRepository.create({ ...dto, ownerId: userId })
+  public async createList(userId: string, dto: CreateListDto): Promise<ListDocument> {
+    return this.listRepository.create({ ownerId: userId, ...dto })
   }
 
-  public async updateList(dto: UpdateListDto, listId: string): Promise<ListDocument> {
+  public async updateListById(listId: string, dto: UpdateListDto): Promise<ListDocument> {
     return this.listRepository.findByIdAndUpdate(listId, { $set: dto })
   }
 
-  public async removeList(listId: string): Promise<void> {
+  public async removeListById(listId: string): Promise<void> {
     await this.listRepository.findByIdAndDelete(listId)
   }
 }

@@ -86,8 +86,8 @@ describe('ListController', () => {
     })
   })
 
-  describe('updateList', () => {
-    it('should call update list method from list service', async () => {
+  describe('updateListById', () => {
+    it('should call update list by id method from list service', async () => {
       // ARRANGE
       const updateListDto = { name: 'name' } as UpdateListDto
       const listMock = updateListDto as ListDocument
@@ -96,25 +96,25 @@ describe('ListController', () => {
       jest.spyOn(listService, 'updateList').mockResolvedValue(listMock)
 
       // ACT
-      const result = await listController.updateList(updateListDto, listId)
+      const result = await listController.updateListById(updateListDto, listId)
 
       // ASSERT
       expect(result).toEqual(listMock)
-      expect(listService.updateList).toBeCalledWith(updateListDto, listId)
+      expect(listService.updateListById).toBeCalledWith(updateListDto, listId)
     })
   })
 
-  describe('removeList', () => {
-    it('should call remove list method from list service', async () => {
+  describe('removeListById', () => {
+    it('should call remove list by id method from list service', async () => {
       // ARRANGE
       const listId = 'id'
 
       // ACT
-      const result = await listController.removeList(listId)
+      const result = await listController.removeListById(listId)
 
       // ASSERT
       expect(result).toBeUndefined()
-      expect(listService.removeList).toBeCalledWith(listId)
+      expect(listService.removeListById).toBeCalledWith(listId)
     })
   })
 })

@@ -59,11 +59,11 @@ describe('ListService', () => {
       jest.spyOn(listRepository, 'create').mockResolvedValue(listMock)
 
       // ACT
-      const result = await listService.createList(createListDto, userId)
+      const result = await listService.createList(userId, createListDto)
 
       // ASSERT
       expect(result).toEqual(listMock)
-      expect(listRepository.create).toHaveBeenCalledWith({ ...createListDto, ownerId: userId })
+      expect(listRepository.create).toHaveBeenCalledWith({ ownerId: userId, ...createListDto })
     })
   })
 
@@ -96,7 +96,7 @@ describe('ListService', () => {
     })
   })
 
-  describe('updateList', () => {
+  describe('updateListById', () => {
     it('should update list by id', async () => {
       // ARRANGE
       const updateListDto = { name: 'list' } as UpdateListDto
@@ -106,7 +106,7 @@ describe('ListService', () => {
       jest.spyOn(listRepository, 'findByIdAndUpdate').mockResolvedValue(listMock)
 
       // ACT
-      const result = await listService.updateList(updateListDto, listId)
+      const result = await listService.updateListById(listId, updateListDto)
 
       // ASSERT
       expect(result).toEqual(listMock)
@@ -114,13 +114,13 @@ describe('ListService', () => {
     })
   })
 
-  describe('removeList', () => {
+  describe('removeListById', () => {
     it('should remove list by id', async () => {
       // ARRANGE
       const listId = 'id'
 
       // ACT
-      const result = await listService.removeList(listId)
+      const result = await listService.removeListById(listId)
 
       // ASSERT
       expect(result).toBeUndefined()

@@ -41,17 +41,17 @@ export class ListController {
   @Put(':listId')
   @UseGuards(ListOwnershipGuard)
   @Message('List updated successfully.')
-  public async updateList(
+  public async updateListById(
     @Body() dto: UpdateListDto,
     @Param('listId') listId: string
   ): Promise<ListDocument> {
-    return this.listService.updateList(dto, listId)
+    return this.listService.updateListById(dto, listId)
   }
 
   @Delete(':listId')
   @UseGuards(ListOwnershipGuard)
   @Message('List removed successfully.')
-  public async removeList(@Param('listId') listId: string): Promise<void> {
-    await this.listService.removeList(listId)
+  public async removeListById(@Param('listId') listId: string): Promise<void> {
+    await this.listService.removeListById(listId)
   }
 }
