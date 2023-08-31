@@ -65,7 +65,7 @@ describe('ListController', () => {
 
       // ASSERT
       expect(result).toEqual(listMock)
-      expect(listService.createList).toBeCalledWith(createListDto, userId)
+      expect(listService.createList).toBeCalledWith(userId, createListDto)
     })
   })
 
@@ -93,14 +93,14 @@ describe('ListController', () => {
       const listMock = updateListDto as ListDocument
       const listId = 'id'
 
-      jest.spyOn(listService, 'updateList').mockResolvedValue(listMock)
+      jest.spyOn(listService, 'updateListById').mockResolvedValue(listMock)
 
       // ACT
       const result = await listController.updateListById(updateListDto, listId)
 
       // ASSERT
       expect(result).toEqual(listMock)
-      expect(listService.updateListById).toBeCalledWith(updateListDto, listId)
+      expect(listService.updateListById).toBeCalledWith(listId, updateListDto)
     })
   })
 

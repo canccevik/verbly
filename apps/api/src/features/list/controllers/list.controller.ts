@@ -28,7 +28,7 @@ export class ListController {
     @Body() dto: CreateListDto,
     @Param('userId') userId: string
   ): Promise<ListDocument> {
-    return this.listService.createList(dto, userId)
+    return this.listService.createList(userId, dto)
   }
 
   @Get(':listId')
@@ -45,7 +45,7 @@ export class ListController {
     @Body() dto: UpdateListDto,
     @Param('listId') listId: string
   ): Promise<ListDocument> {
-    return this.listService.updateListById(dto, listId)
+    return this.listService.updateListById(listId, dto)
   }
 
   @Delete(':listId')
