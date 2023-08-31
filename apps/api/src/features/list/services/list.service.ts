@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { ListRepository } from '../repositories'
 import { CreateListDto } from '../dto'
 import { List, ListDocument } from '../schemas'
@@ -11,6 +11,15 @@ export class ListService {
 
   public async getListsByUserId(userId: string): Promise<FindAllResult<List>> {
     return this.listRepository.find({ ownerId: userId })
+  }
+
+  public async getListById(listId: string): Promise<ListDocument> {
+    const list = await this.listRepository.findOne({ _id: listId })
+
+    if (!list) {
+      throw new NotFoundException('List not found.')
+    }
+    return list
   }
 
   public async createList(dto: CreateListDto, userId: string): Promise<ListDocument> {

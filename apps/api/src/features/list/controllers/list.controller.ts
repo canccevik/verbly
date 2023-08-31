@@ -31,6 +31,13 @@ export class ListController {
     return this.listService.createList(dto, userId)
   }
 
+  @Get(':listId')
+  @SkipSelfUserGuard()
+  @Message('List fetched successfully.')
+  public async getListById(@Param('listId') listId: string): Promise<ListDocument> {
+    return this.listService.getListById(listId)
+  }
+
   @Put(':listId')
   @UseGuards(ListOwnershipGuard)
   @Message('List updated successfully.')

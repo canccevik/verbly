@@ -69,6 +69,23 @@ describe('ListController', () => {
     })
   })
 
+  describe('getListById', () => {
+    it('should call get list by id method from list service', async () => {
+      // ARRANGE
+      const listId = 'id'
+      const resultMock = { name: 'list' } as ListDocument
+
+      jest.spyOn(listService, 'getListById').mockResolvedValue(resultMock)
+
+      // ACT
+      const result = await listController.getListById(listId)
+
+      // ASSERT
+      expect(result).toEqual(resultMock)
+      expect(listService.getListById).toBeCalledWith(listId)
+    })
+  })
+
   describe('updateList', () => {
     it('should call update list method from list service', async () => {
       // ARRANGE

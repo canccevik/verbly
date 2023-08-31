@@ -5,6 +5,7 @@ import { ListRepository } from '../repositories'
 import { CreateListDto } from '../dto'
 import { ListDocument } from '../schemas'
 import { UpdateListDto } from '../dto/update-list.dto'
+import { NotFoundException } from '@nestjs/common'
 
 describe('ListService', () => {
   let listService: ListService
@@ -63,6 +64,35 @@ describe('ListService', () => {
       // ASSERT
       expect(result).toEqual(listMock)
       expect(listRepository.create).toHaveBeenCalledWith({ ...createListDto, ownerId: userId })
+    })
+  })
+
+  describe('getListById', () => {
+    it('should return the list when list found', async () => {
+      // ARRANGE
+      const listId = 'id'
+      const resultMock = { name: 'list' } as ListDocument
+
+      jest.spyOn(listRepository, 'findOne').mockResolvedValue(resultMock)
+
+      // ACT
+      const result = await listService.getListById(listId)
+
+      // ASSERT
+      expect(result).toEqual(resultMock)
+      expect(listRepository.findOne).toHaveBeenCalledWith({ _id: listId })
+    })
+
+    it('should throw not found exception when list not found', async () => {
+      // ARRANGE
+      const listId = 'id'
+
+      jest.spyOn(listRepository, 'findOne').mockResolvedValue(null)
+
+      // ACT & ASSERT
+      expect(listService.getListById(listId)).rejects.toThrowError(
+        new NotFoundException('List not found.')
+      )
     })
   })
 
