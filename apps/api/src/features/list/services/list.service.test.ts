@@ -31,6 +31,23 @@ describe('ListService', () => {
     expect(listRepository).toBeDefined()
   })
 
+  describe('getListsByUserId', () => {
+    it('should return all lists of user', async () => {
+      // ARRANGE
+      const userId = 'id'
+      const resultMock = [{ name: 'list' } as ListDocument]
+
+      jest.spyOn(listRepository, 'find').mockResolvedValue(resultMock)
+
+      // ACT
+      const result = await listService.getListsByUserId(userId)
+
+      // ASSERT
+      expect(result).toEqual(resultMock)
+      expect(listRepository.find).toHaveBeenCalledWith({ ownerId: userId })
+    })
+  })
+
   describe('createList', () => {
     it('should create list', async () => {
       // ARRANGE

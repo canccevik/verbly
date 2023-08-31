@@ -1,18 +1,26 @@
-import { Body, Controller, Delete, Param, Post, Put, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common'
 import { ListService } from '../services/list.service'
 import { ApiTags } from '@nestjs/swagger'
-import { ListDocument } from '../schemas'
+import { List, ListDocument } from '../schemas'
 import { CreateListDto } from '../dto'
-import { Message } from '@core/decorators'
+import { Message, SkipSelfUserGuard } from '@core/decorators'
 import { SelfUserGuard } from '@core/guards'
 import { UpdateListDto } from '../dto/update-list.dto'
 import { ListOwnershipGuard } from '../guards'
+import { FindAllResult } from '@common/repositories/types/queries.type'
 
 @Controller()
 @ApiTags('lists')
 @UseGuards(SelfUserGuard)
 export class ListController {
   constructor(private readonly listService: ListService) {}
+
+  @Get()
+  @SkipSelfUserGuard()
+  @Message('Lists fetched successfully.')
+  public async getListsByUserId(@Param('userId') userId: string): Promise<FindAllResult<List>> {
+    return this.listService.getListsByUserId(userId)
+  }
 
   @Post()
   @Message('List created successfully.')

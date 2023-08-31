@@ -3,8 +3,9 @@ import { createMock } from '@golevelup/ts-jest'
 import { ListService } from '../services'
 import { ListController } from './list.controller'
 import { CreateListDto } from '../dto'
-import { ListDocument } from '../schemas'
+import { List, ListDocument } from '../schemas'
 import { UpdateListDto } from '../dto/update-list.dto'
+import { FindAllResult } from '@common/repositories/types/queries.type'
 
 describe('ListController', () => {
   let listController: ListController
@@ -29,6 +30,25 @@ describe('ListController', () => {
   it('should list service to be defined', () => {
     // ASSERT
     expect(listService).toBeDefined()
+  })
+
+  describe('getListsByUserId', () => {
+    it('should call get lists by user id method from list service', async () => {
+      // ARRANGE
+      const userId = 'id'
+      const resultMock = [{ name: 'list' } as ListDocument]
+
+      jest
+        .spyOn(listService, 'getListsByUserId')
+        .mockResolvedValue(resultMock as unknown as FindAllResult<List>)
+
+      // ACT
+      const result = await listController.getListsByUserId(userId)
+
+      // ASSERT
+      expect(result).toEqual(resultMock)
+      expect(listService.getListsByUserId).toBeCalledWith(userId)
+    })
   })
 
   describe('createList', () => {
