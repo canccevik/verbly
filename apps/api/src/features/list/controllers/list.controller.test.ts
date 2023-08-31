@@ -47,7 +47,7 @@ describe('ListController', () => {
 
       // ASSERT
       expect(result).toEqual(resultMock)
-      expect(listService.getListsByUserId).toBeCalledWith(userId)
+      expect(listService.getListsByUserId).toHaveBeenCalledWith(userId)
     })
   })
 
@@ -65,7 +65,7 @@ describe('ListController', () => {
 
       // ASSERT
       expect(result).toEqual(listMock)
-      expect(listService.createList).toBeCalledWith(userId, createListDto)
+      expect(listService.createList).toHaveBeenCalledWith(userId, createListDto)
     })
   })
 
@@ -82,7 +82,7 @@ describe('ListController', () => {
 
       // ASSERT
       expect(result).toEqual(resultMock)
-      expect(listService.getListById).toBeCalledWith(listId)
+      expect(listService.getListById).toHaveBeenCalledWith(listId)
     })
   })
 
@@ -100,7 +100,7 @@ describe('ListController', () => {
 
       // ASSERT
       expect(result).toEqual(listMock)
-      expect(listService.updateListById).toBeCalledWith(listId, updateListDto)
+      expect(listService.updateListById).toHaveBeenCalledWith(listId, updateListDto)
     })
   })
 
@@ -114,7 +114,7 @@ describe('ListController', () => {
 
       // ASSERT
       expect(result).toBeUndefined()
-      expect(listService.removeListById).toBeCalledWith(listId)
+      expect(listService.removeListById).toHaveBeenCalledWith(listId)
     })
   })
 })

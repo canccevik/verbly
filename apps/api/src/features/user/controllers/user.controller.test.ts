@@ -42,7 +42,7 @@ describe('UserController', () => {
 
       // ASSERT
       expect(result).toEqual(userMock)
-      expect(userService.getAuthenticatedUser).toBeCalledWith(userMock)
+      expect(userService.getAuthenticatedUser).toHaveBeenCalledWith(userMock)
     })
   })
 
@@ -59,7 +59,7 @@ describe('UserController', () => {
 
       // ASSERT
       expect(result).toEqual(userMock)
-      expect(userService.updateUser).toBeCalledWith(updateUserDto, userMock.id)
+      expect(userService.updateUser).toHaveBeenCalledWith(updateUserDto, userMock.id)
     })
   })
 
@@ -74,7 +74,7 @@ describe('UserController', () => {
 
       // ASSERT
       expect(result).toBeUndefined()
-      expect(userService.updateProfilePhoto).toBeCalledWith(userMock.id, fileMock)
+      expect(userService.updateProfilePhoto).toHaveBeenCalledWith(userMock.id, fileMock)
     })
   })
 
@@ -88,7 +88,7 @@ describe('UserController', () => {
 
       // ASSERT
       expect(result).toBeUndefined()
-      expect(userService.removeProfilePhoto).toBeCalledWith(userMock)
+      expect(userService.removeProfilePhoto).toHaveBeenCalledWith(userMock)
     })
   })
 })

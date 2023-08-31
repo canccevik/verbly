@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { HydratedDocument, SchemaTypes, Types } from 'mongoose'
+import { HydratedDocument, SchemaTypes } from 'mongoose'
 
 export type WordDocument = HydratedDocument<Word>
 
@@ -18,14 +18,14 @@ export class Word {
     type: SchemaTypes.ObjectId,
     required: true
   })
-  public listId: Types.ObjectId
+  public listId: string
 
   @Prop({
     type: String,
     required: true,
     trim: true,
     maxlength: 50,
-    match: [/^[A-Za-z]+$/, 'only letters are allowed in the word']
+    match: [/^[\p{L}\s]+$/u, 'only letters are allowed in the word']
   })
   public word: string
 
@@ -34,7 +34,7 @@ export class Word {
     required: true,
     trim: true,
     maxlength: 50,
-    match: [/^[A-Za-z]+$/, 'only letters are allowed in the meaning']
+    match: [/^[\p{L}\s]+$/u, 'only letters are allowed in the meaning']
   })
   public meaning: string
 
@@ -42,7 +42,7 @@ export class Word {
     type: String,
     trim: true,
     maxlength: 50,
-    match: [/^[A-Za-z]+$/, 'only letters are allowed in the pronunciation']
+    match: [/^[\p{L}\s]+$/u, 'only letters are allowed in the pronunciation']
   })
   public pronunciation: string
 

@@ -40,7 +40,7 @@ describe('AccountController', () => {
 
       // ASSERT
       expect(result).toEqual(undefined)
-      expect(accountService.verifyAccount).toBeCalledWith(verifyAccountDto)
+      expect(accountService.verifyAccount).toHaveBeenCalledWith(verifyAccountDto)
     })
   })
 
@@ -54,7 +54,7 @@ describe('AccountController', () => {
 
       // ASSERT
       expect(result).toEqual(undefined)
-      expect(accountService.sendResetPasswordMail).toBeCalledWith(forgotPasswordDto)
+      expect(accountService.sendResetPasswordMail).toHaveBeenCalledWith(forgotPasswordDto)
     })
   })
 
@@ -68,7 +68,7 @@ describe('AccountController', () => {
 
       // ASSERT
       expect(result).toEqual(undefined)
-      expect(accountService.resetPassword).toBeCalledWith(resetPasswordDto)
+      expect(accountService.resetPassword).toHaveBeenCalledWith(resetPasswordDto)
     })
   })
 
@@ -83,7 +83,7 @@ describe('AccountController', () => {
 
       // ASSERT
       expect(result).toEqual(undefined)
-      expect(accountService.updatePassword).toBeCalledWith(updatePasswordDto, userMock)
+      expect(accountService.updatePassword).toHaveBeenCalledWith(updatePasswordDto, userMock)
     })
   })
 })

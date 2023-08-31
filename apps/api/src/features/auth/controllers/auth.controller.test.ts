@@ -41,7 +41,7 @@ describe('AuthController', () => {
 
       // ASSERT
       expect(result).toBeUndefined()
-      expect(authService.register).toBeCalledWith(registerDto)
+      expect(authService.register).toHaveBeenCalledWith(registerDto)
     })
   })
 

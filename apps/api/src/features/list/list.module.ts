@@ -8,6 +8,7 @@ import { ListRepository } from './repositories'
 @Module({
   imports: [MongooseModule.forFeature([{ name: List.name, schema: ListSchema }])],
   controllers: [ListController],
-  providers: [ListService, ListRepository]
+  providers: [ListService, ListRepository],
+  exports: [ListRepository]
 })
 export class ListModule {}
