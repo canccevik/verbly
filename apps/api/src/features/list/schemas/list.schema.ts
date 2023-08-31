@@ -15,7 +15,7 @@ export class List {
     type: SchemaTypes.ObjectId,
     required: true
   })
-  public ownerId: Types.ObjectId
+  public ownerId: string
 
   @Prop({
     type: String,
