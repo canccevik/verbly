@@ -4,6 +4,7 @@ import { ListService } from '../services'
 import { ListController } from './list.controller'
 import { CreateListDto } from '../dto'
 import { ListDocument } from '../schemas'
+import { UpdateListDto } from '../dto/update-list.dto'
 
 describe('ListController', () => {
   let listController: ListController
@@ -45,6 +46,24 @@ describe('ListController', () => {
       // ASSERT
       expect(result).toEqual(listMock)
       expect(listService.createList).toBeCalledWith(createListDto, userId)
+    })
+  })
+
+  describe('updateList', () => {
+    it('should call update list method from list service', async () => {
+      // ARRANGE
+      const updateListDto = { name: 'name' } as UpdateListDto
+      const listMock = updateListDto as ListDocument
+      const listId = 'id'
+
+      jest.spyOn(listService, 'updateList').mockResolvedValue(listMock)
+
+      // ACT
+      const result = await listController.updateList(updateListDto, listId)
+
+      // ASSERT
+      expect(result).toEqual(listMock)
+      expect(listService.updateList).toBeCalledWith(updateListDto, listId)
     })
   })
 })

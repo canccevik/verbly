@@ -1,10 +1,12 @@
-import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Param, Post, Put, UseGuards } from '@nestjs/common'
 import { ListService } from '../services/list.service'
 import { ApiTags } from '@nestjs/swagger'
 import { ListDocument } from '../schemas'
 import { CreateListDto } from '../dto'
 import { Message } from '@core/decorators'
 import { SelfUserGuard } from '@core/guards'
+import { UpdateListDto } from '../dto/update-list.dto'
+import { ListOwnershipGuard } from '../guards'
 
 @Controller()
 @ApiTags('lists')
@@ -19,5 +21,15 @@ export class ListController {
     @Param('userId') userId: string
   ): Promise<ListDocument> {
     return this.listService.createList(dto, userId)
+  }
+
+  @Put(':listId')
+  @UseGuards(ListOwnershipGuard)
+  @Message('List updated successfully.')
+  public async updateList(
+    @Body() dto: UpdateListDto,
+    @Param('listId') listId: string
+  ): Promise<ListDocument> {
+    return this.listService.updateList(dto, listId)
   }
 }

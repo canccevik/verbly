@@ -4,6 +4,7 @@ import { ListService } from './list.service'
 import { ListRepository } from '../repositories'
 import { CreateListDto } from '../dto'
 import { ListDocument } from '../schemas'
+import { UpdateListDto } from '../dto/update-list.dto'
 
 describe('ListService', () => {
   let listService: ListService
@@ -45,6 +46,24 @@ describe('ListService', () => {
       // ASSERT
       expect(result).toEqual(listMock)
       expect(listRepository.create).toHaveBeenCalledWith({ ...createListDto, ownerId: userId })
+    })
+  })
+
+  describe('updateList', () => {
+    it('should update list', async () => {
+      // ARRANGE
+      const updateListDto = { name: 'list' } as UpdateListDto
+      const listMock = updateListDto as ListDocument
+      const listId = 'id'
+
+      jest.spyOn(listRepository, 'findByIdAndUpdate').mockResolvedValue(listMock)
+
+      // ACT
+      const result = await listService.updateList(updateListDto, listId)
+
+      // ASSERT
+      expect(result).toEqual(listMock)
+      expect(listRepository.findByIdAndUpdate).toHaveBeenCalledWith(listId, { $set: updateListDto })
     })
   })
 })
