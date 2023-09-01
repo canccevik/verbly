@@ -14,7 +14,7 @@ export class ListService {
   }
 
   public async getListById(listId: string): Promise<ListDocument> {
-    const list = await this.listRepository.findOne({ _id: listId })
+    const list = await this.listRepository.findOne({ _id: listId }).populate('words')
 
     if (!list) {
       throw new NotFoundException('List not found.')

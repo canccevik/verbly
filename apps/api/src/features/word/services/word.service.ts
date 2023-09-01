@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common'
 import { WordRepository } from '../repositories'
 import { CreateWordDto } from '../dto'
 import { WordDocument, WordStatus } from '../schemas'
+import { ListRepository } from '@features/list/repositories'
 
 @Injectable()
 export class WordService {
-  constructor(private readonly wordRepository: WordRepository) {}
+  constructor(
+    private readonly wordRepository: WordRepository,
+    private readonly listRepository: ListRepository
+  ) {}
 
   public async createWord(listId: string, dto: CreateWordDto): Promise<WordDocument> {
     const wordStatus = dto.status || WordStatus.ToBeLearned
@@ -16,6 +20,8 @@ export class WordService {
       .limit(1)
     const order = lastWordOfListArr.length ? lastWordOfListArr[0].order + 1 : 0
 
-    return this.wordRepository.create({ listId, order, ...dto })
+    const word = await this.wordRepository.create({ listId, order, ...dto })
+    await this.listRepository.findByIdAndUpdate(listId, { $push: { words: word.id } })
+    return word
   }
 }
