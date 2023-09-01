@@ -70,27 +70,39 @@ describe('ListService', () => {
   describe('getListById', () => {
     it('should return the list when list found', async () => {
       // ARRANGE
-      const listId = 'id'
+      const listId = 'list-id'
+      const userId = 'user-id'
       const resultMock = { name: 'list' } as ListDocument
 
-      jest.spyOn(listRepository, 'findOne').mockResolvedValue(resultMock)
+      jest.spyOn(listRepository, 'findOne').mockImplementation(
+        // @ts-ignore
+        jest.fn(() => ({
+          populate: jest.fn(() => resultMock)
+        }))
+      )
 
       // ACT
-      const result = await listService.getListById(listId)
+      const result = await listService.getListById(listId, userId)
 
       // ASSERT
       expect(result).toEqual(resultMock)
-      expect(listRepository.findOne).toHaveBeenCalledWith({ _id: listId })
+      expect(listRepository.findOne).toHaveBeenCalledWith({ _id: listId, ownerId: userId })
     })
 
     it('should throw not found exception when list not found', async () => {
       // ARRANGE
-      const listId = 'id'
+      const listId = 'list-id'
+      const userId = 'user-id'
 
-      jest.spyOn(listRepository, 'findOne').mockResolvedValue(null)
+      jest.spyOn(listRepository, 'findOne').mockImplementation(
+        // @ts-ignore
+        jest.fn(() => ({
+          populate: jest.fn(() => null)
+        }))
+      )
 
       // ACT & ASSERT
-      expect(listService.getListById(listId)).rejects.toThrowError(
+      expect(listService.getListById(listId, userId)).rejects.toThrowError(
         new NotFoundException('List not found.')
       )
     })
