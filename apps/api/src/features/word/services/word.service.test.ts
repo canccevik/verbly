@@ -4,10 +4,12 @@ import { WordRepository } from '../repositories'
 import { WordService } from './word.service'
 import { CreateWordDto } from '../dto'
 import { WordDocument } from '../schemas'
+import { ListRepository } from '@features/list/repositories'
 
 describe('WordService', () => {
   let wordService: WordService
   let wordRepository: WordRepository
+  let listRepository: ListRepository
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -18,6 +20,7 @@ describe('WordService', () => {
 
     wordService = module.get<WordService>(WordService)
     wordRepository = module.get<WordRepository>(WordRepository)
+    listRepository = module.get<ListRepository>(ListRepository)
   })
 
   it('should word service to be defined', () => {
@@ -31,23 +34,35 @@ describe('WordService', () => {
   })
 
   describe('createWord', () => {
-    it('should create word', async () => {
+    it('should create word and add to list', async () => {
       // ARRANGE
       const createWordDto = { word: 'test' } as CreateWordDto
-      const wordMock = { ...createWordDto, order: 0 } as WordDocument
+      const wordMock = { ...createWordDto, order: 0, status: 0 } as WordDocument
       const listId = 'id'
 
       jest.spyOn(wordRepository, 'create').mockResolvedValue(wordMock)
+      jest.spyOn(wordRepository, 'find').mockImplementation(
+        // @ts-ignore
+        jest.fn(() => ({
+          sort: jest.fn(() => ({
+            limit: jest.fn(() => wordMock)
+          }))
+        }))
+      )
 
       // ACT
-      const result = await wordService.createWord(listId, createWordDto)
+      const word = await wordService.createWord(listId, createWordDto)
 
       // ASSERT
-      expect(result).toEqual(wordMock)
+      expect(word).toEqual(wordMock)
+      expect(wordRepository.find).toHaveBeenCalledWith({ listId, status: wordMock.status })
       expect(wordRepository.create).toHaveBeenCalledWith({
         listId,
-        order: NaN,
+        order: wordMock.order,
         ...createWordDto
+      })
+      expect(listRepository.findByIdAndUpdate).toHaveBeenCalledWith(listId, {
+        $push: { words: word.id }
       })
     })
   })
