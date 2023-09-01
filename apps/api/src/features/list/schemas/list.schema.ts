@@ -50,7 +50,7 @@ export class List {
   public meaningLanguage: string
 
   @Prop({
-    type: [{ type: SchemaTypes.ObjectId, ref: 'List', default: [] }]
+    type: [{ type: SchemaTypes.ObjectId, ref: 'Word', default: [] }]
   })
   public words: Types.ObjectId[]
 
