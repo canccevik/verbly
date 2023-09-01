@@ -13,8 +13,10 @@ export class ListService {
     return this.listRepository.find({ ownerId: userId })
   }
 
-  public async getListById(listId: string): Promise<ListDocument> {
-    const list = await this.listRepository.findOne({ _id: listId }).populate('words')
+  public async getListById(listId: string, userId: string): Promise<ListDocument> {
+    const list = await this.listRepository
+      .findOne({ _id: listId, ownerId: userId })
+      .populate('words')
 
     if (!list) {
       throw new NotFoundException('List not found.')

@@ -34,8 +34,11 @@ export class ListController {
   @Get(':listId')
   @SkipSelfUserGuard()
   @Message('List fetched successfully.')
-  public async getListById(@Param('listId') listId: string): Promise<ListDocument> {
-    return this.listService.getListById(listId)
+  public async getListById(
+    @Param('listId') listId: string,
+    @Param('userId') userId: string
+  ): Promise<ListDocument> {
+    return this.listService.getListById(listId, userId)
   }
 
   @Put(':listId')
