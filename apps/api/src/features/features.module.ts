@@ -7,6 +7,7 @@ import { ListModule } from './list/list.module'
 import { RouterModule } from '@nestjs/core'
 import { WordModule } from './word/word.module'
 import { routes } from './routes'
+import { FavoriteModule } from './favorite/favorite.module'
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { routes } from './routes'
     AuthModule,
     AccountModule,
     ListModule,
-    WordModule
+    WordModule,
+    FavoriteModule
   ],
   providers: [...validators]
 })
