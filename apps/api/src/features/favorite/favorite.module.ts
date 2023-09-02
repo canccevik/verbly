@@ -4,9 +4,13 @@ import { FavoriteController } from './controllers/favorite.controller'
 import { MongooseModule } from '@nestjs/mongoose'
 import { Favorite, FavoriteSchema } from './schemas'
 import { FavoriteRepository } from './repositories'
+import { ListModule } from '@features/list/list.module'
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Favorite.name, schema: FavoriteSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: Favorite.name, schema: FavoriteSchema }]),
+    ListModule
+  ],
   controllers: [FavoriteController],
   providers: [FavoriteService, FavoriteRepository]
 })
