@@ -60,4 +60,35 @@ describe('FavoriteService', () => {
       )
     })
   })
+
+  describe('removeListFromFavorites', () => {
+    it('should remove list from favorites', async () => {
+      // ARRANGE
+      const userId = 'user-id'
+      const listId = 'list-id'
+      const favoriteMock = { userId, listId } as FavoriteDocument
+
+      jest.spyOn(favoriteRepository, 'findOne').mockResolvedValue(favoriteMock)
+
+      // ACT
+      const result = await favoriteService.removeListFromFavorites(listId, userId)
+
+      // ASSERT
+      expect(result).toBeUndefined()
+      expect(favoriteRepository.deleteOne).toHaveBeenCalledWith({ userId, listId })
+    })
+
+    it('should throw bad request exception when list is not in favorites', async () => {
+      // ARRANGE
+      const userId = 'user-id'
+      const listId = 'list-id'
+
+      jest.spyOn(favoriteRepository, 'findOne').mockResolvedValue(null)
+
+      // ACT & ASSERT
+      expect(favoriteService.removeListFromFavorites(userId, listId)).rejects.toThrowError(
+        new BadRequestException('List is not in your favorites.')
+      )
+    })
+  })
 })

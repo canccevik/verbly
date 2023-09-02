@@ -1,4 +1,4 @@
-import { Controller, Param, Post, UseGuards } from '@nestjs/common'
+import { Controller, Delete, Param, Post, UseGuards } from '@nestjs/common'
 import { FavoriteService } from '../services/favorite.service'
 import { ApiTags } from '@nestjs/swagger'
 import { Message, User } from '@core/decorators'
@@ -19,5 +19,15 @@ export class FavoriteController {
     @Param('listId') listId: string
   ): Promise<void> {
     await this.favoriteService.addListToFavorites(userId, listId)
+  }
+
+  @Delete(':listId')
+  @UseGuards(ListExistsGuard)
+  @Message('List removed from favorites successfully.')
+  public async removeListFromFavorites(
+    @User('id') userId: string,
+    @Param('listId') listId: string
+  ): Promise<void> {
+    await this.favoriteService.removeListFromFavorites(userId, listId)
   }
 }

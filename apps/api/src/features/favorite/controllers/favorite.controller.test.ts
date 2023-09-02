@@ -29,7 +29,7 @@ describe('FavoriteController', () => {
   })
 
   describe('addListToFavorites', () => {
-    it('should call add list to favorites method from word service', async () => {
+    it('should call add list to favorites method from favorite service', async () => {
       // ARRANGE
       const userId = 'user-id'
       const listId = 'list-id'
@@ -40,6 +40,21 @@ describe('FavoriteController', () => {
       // ASSERT
       expect(result).toBeUndefined()
       expect(favoriteService.addListToFavorites).toHaveBeenCalledWith(userId, listId)
+    })
+  })
+
+  describe('removeListFromFavorites', () => {
+    it('should call remove list from favorites method from favorite service', async () => {
+      // ARRANGE
+      const userId = 'user-id'
+      const listId = 'list-id'
+
+      // ACT
+      const result = await favoriteController.removeListFromFavorites(userId, listId)
+
+      // ASSERT
+      expect(result).toBeUndefined()
+      expect(favoriteService.removeListFromFavorites).toHaveBeenCalledWith(userId, listId)
     })
   })
 })

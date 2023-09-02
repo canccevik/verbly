@@ -13,4 +13,13 @@ export class FavoriteService {
     }
     await this.favoriteRepository.create({ userId, listId })
   }
+
+  public async removeListFromFavorites(listId: string, userId: string): Promise<void> {
+    const isListInFavorites = await this.favoriteRepository.findOne({ userId, listId })
+
+    if (!isListInFavorites) {
+      throw new BadRequestException('List is not in your favorites.')
+    }
+    await this.favoriteRepository.deleteOne({ userId, listId })
+  }
 }
