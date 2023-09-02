@@ -44,5 +44,5 @@ export class RegisterDto {
   @ApiProperty()
   @IsOptional()
   @IsEnum(Gender)
-  public gender: number
+  public gender?: number
 }

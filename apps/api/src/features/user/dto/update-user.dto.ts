@@ -12,16 +12,16 @@ export class UpdateUserDto {
   @Length(3, 20)
   @Matches(/^[a-z0-9]+$/, { message: 'username is not valid' })
   @IsFieldTakenOfUser('username')
-  public username: string
+  public username?: string
 
   @ApiProperty()
   @IsOptional()
   @IsString()
   @IsISO()
-  public nativeLanguage: string
+  public nativeLanguage?: string
 
   @ApiProperty()
   @IsOptional()
   @IsEnum(Gender)
-  public gender: number
+  public gender?: number
 }

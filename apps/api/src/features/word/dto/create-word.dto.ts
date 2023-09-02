@@ -22,10 +22,10 @@ export class CreateWordDto {
   @IsString()
   @Length(1, 50)
   @Matches(/^[\p{L}\s]+$/u, { message: 'only letters are allowed in the pronunciation' })
-  public pronunciation: string
+  public pronunciation?: string
 
   @ApiProperty()
   @IsOptional()
   @IsEnum(WordStatus)
-  public status: number
+  public status?: number
 }

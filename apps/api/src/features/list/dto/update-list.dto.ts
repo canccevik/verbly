@@ -7,29 +7,29 @@ export class UpdateListDto {
   @IsOptional()
   @IsString()
   @Length(1, 50)
-  public name: string
+  public name?: string
 
   @ApiProperty()
   @IsOptional()
   @IsString()
   @IsISO()
-  public wordLanguage: string
+  public wordLanguage?: string
 
   @ApiProperty()
   @IsOptional()
   @IsString()
   @IsISO()
-  public meaningLanguage: string
+  public meaningLanguage?: string
 
   @ApiProperty()
   @IsOptional()
   @IsString()
   @Length(1, 25)
-  public icon: string
+  public icon?: string
 
   @ApiProperty()
   @IsOptional()
   @IsString()
   @IsHexColor()
-  public color: string
+  public color?: string
 }
