@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing'
 import { createMock } from '@golevelup/ts-jest'
 import { WordService } from '../services'
 import { WordController } from './word.controller'
-import { CreateWordDto } from '../dto'
+import { CreateWordDto, UpdateWordDto } from '../dto'
 import { WordDocument } from '../schemas'
 
 describe('WordController', () => {
@@ -45,6 +45,25 @@ describe('WordController', () => {
       // ASSERT
       expect(result).toEqual(wordMock)
       expect(wordService.createWord).toHaveBeenCalledWith(listId, createWordDto)
+    })
+  })
+
+  describe('updateWordById', () => {
+    it('should call update word by id method from word service', async () => {
+      // ARRANGE
+      const listId = 'list-id'
+      const wordId = 'word-id'
+      const updateWordDto = { word: 'test' } as UpdateWordDto
+      const wordMock = updateWordDto as WordDocument
+
+      jest.spyOn(wordService, 'updateWordById').mockResolvedValue(wordMock)
+
+      // ACT
+      const result = await wordController.updateWordById(updateWordDto, listId, wordId)
+
+      // ASSERT
+      expect(result).toEqual(wordMock)
+      expect(wordService.updateWordById).toHaveBeenCalledWith(wordId, listId, updateWordDto)
     })
   })
 })

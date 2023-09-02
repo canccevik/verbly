@@ -1,9 +1,9 @@
-import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Param, Post, Put, UseGuards } from '@nestjs/common'
 import { WordService } from '../services/word.service'
 import { ApiTags } from '@nestjs/swagger'
 import { WordDocument } from '../schemas'
 import { Message } from '@core/decorators'
-import { CreateWordDto } from '../dto'
+import { CreateWordDto, UpdateWordDto } from '../dto'
 import { SelfUserGuard } from '@core/guards'
 import { ListOwnershipGuard } from '@features/list/guards'
 
@@ -20,5 +20,15 @@ export class WordController {
     @Param('listId') listId: string
   ): Promise<WordDocument> {
     return this.wordService.createWord(listId, dto)
+  }
+
+  @Put(':wordId')
+  @Message('Word updated successfully.')
+  public async updateWordById(
+    @Body() dto: UpdateWordDto,
+    @Param('listId') listId: string,
+    @Param('wordId') wordId: string
+  ): Promise<WordDocument> {
+    return this.wordService.updateWordById(wordId, listId, dto)
   }
 }

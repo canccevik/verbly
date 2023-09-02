@@ -2,9 +2,10 @@ import { Test } from '@nestjs/testing'
 import { createMock } from '@golevelup/ts-jest'
 import { WordRepository } from '../repositories'
 import { WordService } from './word.service'
-import { CreateWordDto } from '../dto'
+import { CreateWordDto, UpdateWordDto } from '../dto'
 import { WordDocument } from '../schemas'
 import { ListRepository } from '@features/list/repositories'
+import { NotFoundException } from '@nestjs/common'
 
 describe('WordService', () => {
   let wordService: WordService
@@ -64,6 +65,49 @@ describe('WordService', () => {
       expect(listRepository.findByIdAndUpdate).toHaveBeenCalledWith(listId, {
         $push: { words: word.id }
       })
+    })
+  })
+
+  describe('updateWordById', () => {
+    it('should update word', async () => {
+      // ARRANGE
+      const wordId = 'word-id'
+      const listId = 'list-id'
+      const updateWordDto = { word: 'test', status: 0, order: 0 } as UpdateWordDto
+      const wordMock = { id: wordId, ...updateWordDto } as WordDocument
+
+      jest.spyOn(wordRepository, 'findOne').mockResolvedValue(wordMock)
+      jest.spyOn(wordRepository, 'findByIdAndUpdate').mockResolvedValue(wordMock)
+
+      // ACT
+      const word = await wordService.updateWordById(wordId, listId, updateWordDto)
+
+      // ASSERT
+      expect(word).toEqual(wordMock)
+      expect(wordRepository.findOne).toHaveBeenCalledWith({ _id: wordId, listId: listId })
+      expect(wordRepository.updateStatus).toHaveBeenCalledWith(wordMock, wordMock.status)
+      expect(wordRepository.updateOrder).toHaveBeenCalledWith(
+        wordMock,
+        wordMock.order,
+        wordMock.status
+      )
+      expect(wordRepository.findByIdAndUpdate).toHaveBeenCalledWith(wordMock.id, {
+        word: updateWordDto.word
+      })
+    })
+
+    it('should throw not found error when word not found', async () => {
+      // ARRANGE
+      const wordId = 'word-id'
+      const listId = 'list-id'
+      const updateWordDto = { word: 'test' } as UpdateWordDto
+
+      jest.spyOn(wordRepository, 'findOne').mockResolvedValue(null)
+
+      // ACT & ASSERT
+      expect(wordService.updateWordById(wordId, listId, updateWordDto)).rejects.toThrowError(
+        new NotFoundException('Word not found.')
+      )
     })
   })
 })

@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { WordRepository } from '../repositories'
-import { CreateWordDto } from '../dto'
+import { CreateWordDto, UpdateWordDto } from '../dto'
 import { WordDocument, WordStatus } from '../schemas'
 import { ListRepository } from '@features/list/repositories'
 
@@ -23,5 +23,25 @@ export class WordService {
     const word = await this.wordRepository.create({ listId, order, ...dto })
     await this.listRepository.findByIdAndUpdate(listId, { $push: { words: word.id } })
     return word
+  }
+
+  public async updateWordById(
+    wordId: string,
+    listId: string,
+    dto: UpdateWordDto
+  ): Promise<WordDocument> {
+    const word = await this.wordRepository.findOne({ _id: wordId, listId: listId })
+    const { order, status, ...updateDto } = dto
+
+    if (!word) {
+      throw new NotFoundException('Word not found.')
+    }
+    if (status !== null) {
+      await this.wordRepository.updateStatus(word, status)
+    }
+    if (order !== null) {
+      await this.wordRepository.updateOrder(word, order, status)
+    }
+    return this.wordRepository.findByIdAndUpdate(wordId, updateDto)
   }
 }
