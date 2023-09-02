@@ -66,4 +66,19 @@ describe('WordController', () => {
       expect(wordService.updateWordById).toHaveBeenCalledWith(wordId, listId, updateWordDto)
     })
   })
+
+  describe('removeWordById', () => {
+    it('should call remove word by id method from word service', async () => {
+      // ARRANGE
+      const listId = 'list-id'
+      const wordId = 'word-id'
+
+      // ACT
+      const result = await wordController.removeWordById(listId, wordId)
+
+      // ASSERT
+      expect(result).toBeUndefined()
+      expect(wordService.removeWordById).toHaveBeenCalledWith(wordId, listId)
+    })
+  })
 })

@@ -30,7 +30,7 @@ export class WordService {
     listId: string,
     dto: UpdateWordDto
   ): Promise<WordDocument> {
-    const word = await this.wordRepository.findOne({ _id: wordId, listId: listId })
+    const word = await this.wordRepository.findOne({ _id: wordId, listId })
     const { order, status, ...updateDto } = dto
 
     if (!word) {
@@ -43,5 +43,14 @@ export class WordService {
       await this.wordRepository.updateOrder(word, order, status)
     }
     return this.wordRepository.findByIdAndUpdate(wordId, updateDto)
+  }
+
+  public async removeWordById(wordId: string, listId: string): Promise<void> {
+    const word = await this.wordRepository.findOne({ _id: wordId, listId })
+
+    if (!word) {
+      throw new NotFoundException('Word not found.')
+    }
+    await this.wordRepository.removeFromList(word)
   }
 }

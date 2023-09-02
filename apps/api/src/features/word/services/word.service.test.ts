@@ -84,7 +84,7 @@ describe('WordService', () => {
 
       // ASSERT
       expect(word).toEqual(wordMock)
-      expect(wordRepository.findOne).toHaveBeenCalledWith({ _id: wordId, listId: listId })
+      expect(wordRepository.findOne).toHaveBeenCalledWith({ _id: wordId, listId })
       expect(wordRepository.updateStatus).toHaveBeenCalledWith(wordMock, wordMock.status)
       expect(wordRepository.updateOrder).toHaveBeenCalledWith(
         wordMock,
@@ -106,6 +106,38 @@ describe('WordService', () => {
 
       // ACT & ASSERT
       expect(wordService.updateWordById(wordId, listId, updateWordDto)).rejects.toThrowError(
+        new NotFoundException('Word not found.')
+      )
+    })
+  })
+
+  describe('removeWordById', () => {
+    it('should remove word', async () => {
+      // ARRANGE
+      const wordId = 'word-id'
+      const listId = 'list-id'
+      const wordMock = { id: wordId, word: 'test', status: 0, order: 0 } as WordDocument
+
+      jest.spyOn(wordRepository, 'findOne').mockResolvedValue(wordMock)
+
+      // ACT
+      const word = await wordService.removeWordById(wordId, listId)
+
+      // ASSERT
+      expect(word).toBeUndefined()
+      expect(wordRepository.findOne).toHaveBeenCalledWith({ _id: wordId, listId })
+      expect(wordRepository.removeFromList).toHaveBeenCalledWith(wordMock)
+    })
+
+    it('should throw not found error when word not found', async () => {
+      // ARRANGE
+      const wordId = 'word-id'
+      const listId = 'list-id'
+
+      jest.spyOn(wordRepository, 'findOne').mockResolvedValue(null)
+
+      // ACT & ASSERT
+      expect(wordService.removeWordById(wordId, listId)).rejects.toThrowError(
         new NotFoundException('Word not found.')
       )
     })

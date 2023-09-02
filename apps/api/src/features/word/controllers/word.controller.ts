@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Put, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Param, Post, Put, UseGuards } from '@nestjs/common'
 import { WordService } from '../services/word.service'
 import { ApiTags } from '@nestjs/swagger'
 import { WordDocument } from '../schemas'
@@ -30,5 +30,14 @@ export class WordController {
     @Param('wordId') wordId: string
   ): Promise<WordDocument> {
     return this.wordService.updateWordById(wordId, listId, dto)
+  }
+
+  @Delete(':wordId')
+  @Message('Word removed successfully.')
+  public async removeWordById(
+    @Param('listId') listId: string,
+    @Param('wordId') wordId: string
+  ): Promise<void> {
+    await this.wordService.removeWordById(wordId, listId)
   }
 }
