@@ -2,6 +2,7 @@ import { Test } from '@nestjs/testing'
 import { createMock } from '@golevelup/ts-jest'
 import { FavoriteService } from '../services'
 import { FavoriteController } from './favorite.controller'
+import { ListDocument } from '@features/list/schemas'
 
 describe('FavoriteController', () => {
   let favoriteController: FavoriteController
@@ -28,6 +29,23 @@ describe('FavoriteController', () => {
     expect(favoriteService).toBeDefined()
   })
 
+  describe('getFavoriteListsByUserId', () => {
+    it('should call get favorite lists by user id method from favorite service', async () => {
+      // ARRANGE
+      const userId = 'user-id'
+      const favoriteListsMock = [{ name: 'test' }] as ListDocument[]
+
+      jest.spyOn(favoriteService, 'getFavoriteListsByUserId').mockResolvedValue(favoriteListsMock)
+
+      // ACT
+      const result = await favoriteController.getFavoriteListsByUserId(userId)
+
+      // ASSERT
+      expect(result).toEqual(favoriteListsMock)
+      expect(favoriteService.getFavoriteListsByUserId).toHaveBeenCalledWith(userId)
+    })
+  })
+
   describe('addListToFavorites', () => {
     it('should call add list to favorites method from favorite service', async () => {
       // ARRANGE
@@ -39,7 +57,7 @@ describe('FavoriteController', () => {
 
       // ASSERT
       expect(result).toBeUndefined()
-      expect(favoriteService.addListToFavorites).toHaveBeenCalledWith(userId, listId)
+      expect(favoriteService.addListToFavorites).toHaveBeenCalledWith(listId, userId)
     })
   })
 
@@ -54,7 +72,7 @@ describe('FavoriteController', () => {
 
       // ASSERT
       expect(result).toBeUndefined()
-      expect(favoriteService.removeListFromFavorites).toHaveBeenCalledWith(userId, listId)
+      expect(favoriteService.removeListFromFavorites).toHaveBeenCalledWith(listId, userId)
     })
   })
 })
