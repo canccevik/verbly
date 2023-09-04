@@ -10,10 +10,7 @@ async function bootstrap(): Promise<void> {
   const config = app.get<Config>(ENV)
 
   setupApp(app)
-
-  if (config.isDev) {
-    setupSwagger(app)
-  }
+  config.isDev && setupSwagger(app)
   await app.listen(config.PORT)
 }
 bootstrap()

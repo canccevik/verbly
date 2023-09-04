@@ -6,7 +6,6 @@ import { LoggerModule } from './logger/logger.module'
 import { MailModule } from './mail/mail.module'
 import { FeaturesModule } from '@features/features.module'
 import { BullModule } from './bull/bull.module'
-import { JwtModule } from './jwt/jwt.module'
 import { RequestContextModule } from '@medibloc/nestjs-request-context'
 import { AuthenticatedContext } from '@common/context'
 
@@ -25,8 +24,7 @@ import { AuthenticatedContext } from '@common/context'
     DatabaseModule,
     LoggerModule,
     MailModule,
-    BullModule,
-    JwtModule
+    BullModule
   ]
 })
 export class AppModule {}
