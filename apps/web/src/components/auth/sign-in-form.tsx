@@ -9,10 +9,9 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
-import { fetcher } from '@/lib/utils'
+import { fetchApi } from '@/lib/utils'
 import { loginSchema } from '@/lib/validators/login-schema'
 import { useRouter } from 'next/navigation'
-import { Loader2 } from 'lucide-react'
 
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -25,7 +24,7 @@ export default function SignInForm() {
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     setIsLoading(true)
-    const response = await fetcher('/auth/login', 'POST', values)
+    const response = await fetchApi('/auth/login', 'POST', values)
     setIsLoading(false)
 
     if (response.statusCode !== 201) {
