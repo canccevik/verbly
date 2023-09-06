@@ -21,6 +21,11 @@ export function setupApp(app: NestExpressApplication): void {
 
   app.setGlobalPrefix(config.GLOBAL_PREFIX)
 
+  app.enableCors({
+    origin: config.WEB_APP_ORIGIN,
+    credentials: true
+  })
+
   app.use(
     session({
       name: 'sessionId',
@@ -28,7 +33,9 @@ export function setupApp(app: NestExpressApplication): void {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        maxAge: 3 * 24 * 60 * 60 * 1000 // 3 days in ms
+        maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days in ms,
+        httpOnly: true,
+        secure: false
       },
       store: MongoStore.create({
         mongoUrl: config.DATABASE_URI,
