@@ -17,6 +17,10 @@ module.exports = {
     },
     extend: {
       colors: {
+        'main-blue': 'var(--main-blue)',
+        'main-blue-hover': 'var(--main-blue-hover)',
+        'main-grey': 'var(--main-grey)',
+        'main-grey-hover': 'var(--main-grey-hover)',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

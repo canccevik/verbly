@@ -33,6 +33,11 @@
     --ring: 240 10% 3.9%;
 
     --radius: 0.5rem;
+
+    --main-blue: #5096ff;
+    --main-blue-hover: #3c83ee;
+    --main-grey: #f3f3f3;
+    --main-grey-hover: #e9e9e9;
   }
 
   .dark {
@@ -73,4 +78,8 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+img {
+  user-select: none;
 }
