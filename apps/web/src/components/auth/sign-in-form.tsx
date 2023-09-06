@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import CircleSocialButton from '../circle-social-button'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
@@ -12,8 +12,11 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { fetcher } from '@/lib/utils'
 import { loginSchema } from '@/lib/validators/login-schema'
 import { useRouter } from 'next/navigation'
+import { Loader2 } from 'lucide-react'
 
 export default function SignInForm() {
+  const [isLoading, setIsLoading] = useState(false)
+
   const router = useRouter()
 
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -21,7 +24,9 @@ export default function SignInForm() {
   })
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
+    setIsLoading(true)
     const response = await fetcher('/auth/login', 'POST', values)
+    setIsLoading(false)
 
     if (response.statusCode !== 201) {
       return form.setError('root', { message: 'Wrong username or password.' })
@@ -73,7 +78,9 @@ export default function SignInForm() {
           Forgot password?
         </Link>
 
-        <Button type="submit">Sign in</Button>
+        <Button type="submit" loading={isLoading}>
+          Sign in
+        </Button>
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
