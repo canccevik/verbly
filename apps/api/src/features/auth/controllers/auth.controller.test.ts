@@ -5,6 +5,7 @@ import { AuthController } from './auth.controller'
 import { RegisterDto } from '../dto'
 import { ExecutionContext } from '@nestjs/common'
 import { Request, Response } from 'express'
+import { ENV } from '@config/index'
 
 describe('AuthController', () => {
   let authController: AuthController
@@ -12,7 +13,13 @@ describe('AuthController', () => {
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      controllers: [AuthController]
+      controllers: [AuthController],
+      providers: [
+        {
+          provide: ENV,
+          useValue: {}
+        }
+      ]
     })
       .useMocker(createMock)
       .compile()
