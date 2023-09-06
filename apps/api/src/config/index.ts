@@ -18,7 +18,8 @@ const config = {
   JWT_EXPIRES_IN: str(),
   CLOUDINARY_CLOUD_NAME: str(),
   CLOUDINARY_API_KEY: str(),
-  CLOUDINARY_API_SECRET: str()
+  CLOUDINARY_API_SECRET: str(),
+  WEB_APP_ORIGIN: url()
 }
 
 export const validators = makeValidators(config)
