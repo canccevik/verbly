@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { fetchApi } from '@/lib/utils'
-import { loginSchema } from '@/lib/validators/login-schema'
+import { signInSchema } from '@/lib/schemas/sign-in-schema'
 import { useRouter } from 'next/navigation'
 
 export default function SignInForm() {
@@ -18,11 +18,11 @@ export default function SignInForm() {
 
   const router = useRouter()
 
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema)
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema)
   })
 
-  async function onSubmit(values: z.infer<typeof loginSchema>) {
+  async function onSubmit(values: z.infer<typeof signInSchema>) {
     setIsLoading(true)
     const response = await fetchApi('/auth/login', 'POST', values)
     setIsLoading(false)
@@ -93,7 +93,7 @@ export default function SignInForm() {
         <div className="w-full flex justify-evenly">
           <CircleSocialButton
             text="Google"
-            href="/"
+            href={process.env.GOOGLE_LOGIN_URL!}
             alt="Google logo"
             img={{
               width: 20,

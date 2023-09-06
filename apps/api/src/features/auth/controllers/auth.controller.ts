@@ -1,4 +1,14 @@
-import { Body, Controller, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Inject,
+  Post,
+  Req,
+  Res,
+  UseGuards
+} from '@nestjs/common'
 import { AuthService } from '../services/auth.service'
 import { ApiTags } from '@nestjs/swagger'
 import { Message } from '@core/decorators'
@@ -7,11 +17,15 @@ import { GoogleOAuthGuard, LocalAuthGuard } from '../guards'
 import { AuthenticatedGuard } from '@core/guards'
 import { Request, Response } from 'express'
 import { Payload } from '@core/interceptors'
+import { Config, ENV } from '@config/index'
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    @Inject(ENV) private readonly config: Config,
+    private readonly authService: AuthService
+  ) {}
 
   @Post('register')
   @Message('Registration is successful.')
@@ -30,8 +44,9 @@ export class AuthController {
 
   @Get('login/google/callback')
   @UseGuards(GoogleOAuthGuard)
-  @Message('Logged in successfully.')
-  public loginWithGoogleCallback(): void {}
+  public loginWithGoogleCallback(@Res() res: Response): void {
+    res.redirect(this.config.WEB_APP_ORIGIN)
+  }
 
   @Post('logout')
   @UseGuards(AuthenticatedGuard)
