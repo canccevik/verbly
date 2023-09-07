@@ -1,19 +1,25 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '../ui/button'
-import { Input } from '../ui/input'
+import { Button } from '../../ui/button'
+import { Input } from '../../ui/input'
 import Link from 'next/link'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage
+} from '../../ui/form'
 import { useRouter } from 'next/navigation'
 import { signUpSchema } from '@/lib/schemas/sign-up-schema'
-import LanguageDropdown from '../language-dropdown'
+import LanguageDropdown from '../../language-dropdown'
 import ISO6391 from 'iso-639-1'
 import { fetchApi } from '@/lib/utils'
-import SocialButtonGroup from './social-button-group'
+import SocialButtonGroup from '../social-button-group'
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -40,7 +46,9 @@ export default function SignUpForm() {
     if (response.statusCode !== 201) {
       return form.setError('root', { message: response.message[0] })
     }
-    router.push('/')
+
+    const email = form.getValues('email')
+    router.push(`/sign-up/otp?email=${email}`)
   }
 
   return (
@@ -101,6 +109,7 @@ export default function SignUpForm() {
                   setOpen={setIsDropdownOpen}
                 />
               </FormControl>
+              <FormMessage className="text-left ml-3" />
             </FormItem>
           )}
         />
@@ -113,7 +122,10 @@ export default function SignUpForm() {
           )}
         </>
 
-        <Link href={'/sign-in'} className="text-right text-sm font-medium">
+        <Link
+          href={'/sign-in'}
+          className="text-right text-sm font-medium ml-auto inline"
+        >
           Have an account? Sign in
         </Link>
 

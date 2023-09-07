@@ -1,4 +1,4 @@
-import SignInForm from '@/components/auth/sign-in-form'
+import SignInForm from '@/components/auth/sign-in/sign-in-form'
 import { Metadata } from 'next'
 import Image from 'next/image'
 

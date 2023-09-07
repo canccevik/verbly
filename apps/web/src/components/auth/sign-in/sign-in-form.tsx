@@ -1,17 +1,23 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '../ui/button'
-import { Input } from '../ui/input'
+import { Button } from '../../ui/button'
+import { Input } from '../../ui/input'
 import Link from 'next/link'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage
+} from '../../ui/form'
 import { fetchApi } from '@/lib/utils'
 import { signInSchema } from '@/lib/schemas/sign-in-schema'
 import { useRouter } from 'next/navigation'
-import SocialButtonGroup from './social-button-group'
+import SocialButtonGroup from '../social-button-group'
 
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -73,7 +79,10 @@ export default function SignInForm() {
           )}
         </>
 
-        <Link href={'/'} className="text-right text-sm font-medium">
+        <Link
+          href={'/'}
+          className="text-right text-sm font-medium ml-auto inline"
+        >
           Forgot password?
         </Link>
 
@@ -81,7 +90,10 @@ export default function SignInForm() {
           Sign in
         </Button>
 
-        <Link href={'/sign-up'} className="text-sm font-medium text-zinc-700">
+        <Link
+          href={'/sign-up'}
+          className="text-sm font-medium text-zinc-700 inline w-fit mx-auto"
+        >
           Don&apos;t have an account? Sign up
         </Link>
 

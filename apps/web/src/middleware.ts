@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
 
   const sessionId = request.cookies.get('sessionId')
 
-  const publicRoutes = ['/sign-in', '/sign-up']
+  const publicRoutes = ['/sign-in', '/sign-up', '/sign-up/otp']
   const isRequestedRoutePublic = publicRoutes.includes(request.nextUrl.pathname)
 
   if (!isRequestedRoutePublic && !sessionId) {
