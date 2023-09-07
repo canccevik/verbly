@@ -81,6 +81,10 @@ export default function SignInForm() {
           Sign in
         </Button>
 
+        <Link href={'/sign-up'} className="text-sm font-medium text-zinc-700">
+          Don&apos;t have an account? Sign up
+        </Link>
+
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
