@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import CircleSocialButton from '../circle-social-button'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import Link from 'next/link'
@@ -12,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { fetchApi } from '@/lib/utils'
 import { signInSchema } from '@/lib/schemas/sign-in-schema'
 import { useRouter } from 'next/navigation'
+import SocialButtonGroup from './social-button-group'
 
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -90,38 +90,7 @@ export default function SignInForm() {
           </div>
         </div>
 
-        <div className="w-full flex justify-evenly">
-          <CircleSocialButton
-            text="Google"
-            href={process.env.GOOGLE_LOGIN_URL!}
-            alt="Google logo"
-            img={{
-              width: 20,
-              height: 20,
-              src: 'images/google-logo.svg'
-            }}
-          />
-          <CircleSocialButton
-            text="Facebook"
-            href="/"
-            alt="Facebook logo"
-            img={{
-              width: 40,
-              height: 40,
-              src: 'images/facebook-logo.svg'
-            }}
-          />
-          <CircleSocialButton
-            text="X"
-            href="/"
-            alt="X logo"
-            img={{
-              width: 20,
-              height: 20,
-              src: 'images/x-logo.svg'
-            }}
-          />
-        </div>
+        <SocialButtonGroup />
       </form>
     </Form>
   )

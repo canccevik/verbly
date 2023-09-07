@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import CircleSocialButton from '../circle-social-button'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import Link from 'next/link'
@@ -14,6 +13,7 @@ import { signUpSchema } from '@/lib/schemas/sign-up-schema'
 import LanguageDropdown from '../language-dropdown'
 import ISO6391 from 'iso-639-1'
 import { fetchApi } from '@/lib/utils'
+import SocialButtonGroup from './social-button-group'
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -130,38 +130,7 @@ export default function SignUpForm() {
           </div>
         </div>
 
-        <div className="w-full flex justify-evenly">
-          <CircleSocialButton
-            text="Google"
-            href={process.env.GOOGLE_LOGIN_URL!}
-            alt="Google logo"
-            img={{
-              width: 20,
-              height: 20,
-              src: 'images/google-logo.svg'
-            }}
-          />
-          <CircleSocialButton
-            text="Facebook"
-            href="/"
-            alt="Facebook logo"
-            img={{
-              width: 40,
-              height: 40,
-              src: 'images/facebook-logo.svg'
-            }}
-          />
-          <CircleSocialButton
-            text="X"
-            href="/"
-            alt="X logo"
-            img={{
-              width: 20,
-              height: 20,
-              src: 'images/x-logo.svg'
-            }}
-          />
-        </div>
+        <SocialButtonGroup />
       </form>
     </Form>
   )
