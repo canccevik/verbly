@@ -5,7 +5,8 @@ import { JwtConfigService } from './jwt-config.service'
 @Module({
   imports: [
     JwtModuleHost.registerAsync({
-      useClass: JwtConfigService
+      useClass: JwtConfigService,
+      global: true
     })
   ]
 })
