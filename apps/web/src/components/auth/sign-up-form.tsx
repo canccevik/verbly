@@ -9,26 +9,36 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
-import { fetchApi } from '@/lib/utils'
-import { signInSchema } from '@/lib/schemas/sign-in-schema'
 import { useRouter } from 'next/navigation'
+import { signUpSchema } from '@/lib/schemas/sign-up-schema'
+import LanguageDropdown from '../language-dropdown'
+import ISO6391 from 'iso-639-1'
+import { fetchApi } from '@/lib/utils'
 
-export default function SignInForm() {
+export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
+  const [language, setLanguage] = useState('')
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   const router = useRouter()
 
-  const form = useForm<z.infer<typeof signInSchema>>({
-    resolver: zodResolver(signInSchema)
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema)
   })
 
-  async function onSubmit(values: z.infer<typeof signInSchema>) {
+  function setNativeLanguage(language: string) {
+    setLanguage(language)
+    const languageCode = ISO6391.getCode(language)
+    form.setValue('nativeLanguage', languageCode)
+  }
+
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
     setIsLoading(true)
-    const response = await fetchApi('/auth/login', 'POST', values)
+    const response = await fetchApi('/auth/register', 'POST', values)
     setIsLoading(false)
 
     if (response.statusCode !== 201) {
-      return form.setError('root', { message: 'Wrong username or password.' })
+      return form.setError('root', { message: response.message[0] })
     }
     router.push('/')
   }
@@ -54,6 +64,19 @@ export default function SignInForm() {
 
         <FormField
           control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input type="email" placeholder="E-mail" {...field} />
+              </FormControl>
+              <FormMessage className="text-left ml-3" />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
@@ -61,6 +84,23 @@ export default function SignInForm() {
                 <Input type="password" placeholder="Password" {...field} />
               </FormControl>
               <FormMessage className="text-left ml-3" />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="nativeLanguage"
+          render={() => (
+            <FormItem>
+              <FormControl>
+                <LanguageDropdown
+                  language={language}
+                  setLanguage={setNativeLanguage}
+                  open={isDropdownOpen}
+                  setOpen={setIsDropdownOpen}
+                />
+              </FormControl>
             </FormItem>
           )}
         />
@@ -73,12 +113,12 @@ export default function SignInForm() {
           )}
         </>
 
-        <Link href={'/'} className="text-right text-sm font-medium">
-          Forgot password?
+        <Link href={'/sign-in'} className="text-right text-sm font-medium">
+          Have an account? Sign in
         </Link>
 
         <Button type="submit" loading={isLoading}>
-          Sign in
+          Sign up
         </Button>
 
         <div className="relative">
@@ -86,7 +126,7 @@ export default function SignInForm() {
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="bg-background px-4">Or continue with</span>
+            <span className="bg-background px-4">Or join us with</span>
           </div>
         </div>
 

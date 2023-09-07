@@ -1,6 +1,5 @@
 import Image, { ImageProps } from 'next/image'
 import Link from 'next/link'
-import React from 'react'
 
 interface CircleSocialButtonProps {
   text: string
@@ -16,12 +15,12 @@ export default function CircleSocialButton({
   img
 }: CircleSocialButtonProps) {
   return (
-    <div className="w-[100px] flex flex-col items-center gap-1">
+    <div className="w-[100px] flex flex-col items-center">
       <Link href={href}>
         <div className="w-[60px] h-[60px] rounded-full bg-main-grey flex justify-center hover:bg-main-grey-hover">
           <Image {...img} alt={alt} />
         </div>
-        <p className="text-sm">{text}</p>
+        <p className="text-sm mt-1">{text}</p>
       </Link>
     </div>
   )

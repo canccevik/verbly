@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react'
 import { ChevronsUpDown } from 'lucide-react'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Button } from './ui/button'
@@ -13,9 +12,9 @@ import {
 
 interface LanguageDropdownProps {
   open: boolean
-  setOpen: Dispatch<SetStateAction<boolean>>
+  setOpen: (open: boolean) => void
   language: string
-  setLanguage: Dispatch<SetStateAction<string>>
+  setLanguage: (language: string) => void
 }
 
 const languageNames = ISO6391.getAllNames()
