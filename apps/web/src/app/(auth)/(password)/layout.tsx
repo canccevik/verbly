@@ -15,7 +15,7 @@ export default function PasswordLayout({
 
       <div className="w-4/12 bg-main-blue flex flex-col justify-center">
         <Image
-          src={'images/forgot-password-character.svg'}
+          src={'images/auth/password-character.svg'}
           alt="Forgot password character"
           width={700}
           height={700}

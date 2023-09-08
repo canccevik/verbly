@@ -20,7 +20,7 @@ export default function SignIn() {
 
       <div className="w-4/12 bg-main-blue flex flex-col justify-center">
         <Image
-          src={'images/sign-in-character.svg'}
+          src={'images/auth/sign-in-character.svg'}
           alt="Sign in character"
           width={700}
           height={700}

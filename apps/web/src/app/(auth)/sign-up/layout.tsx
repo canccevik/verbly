@@ -16,7 +16,7 @@ export default function SignUpLayout({
 
       <div className="w-4/12 bg-main-blue flex flex-col justify-center">
         <Image
-          src={'images/sign-up-character.svg'}
+          src={'images/auth/sign-up-character.svg'}
           alt="Sign up character"
           width={600}
           height={600}

@@ -10,7 +10,7 @@ export default function SocialButtonGroup() {
         img={{
           width: 20,
           height: 20,
-          src: 'images/google-logo.svg'
+          src: 'images/auth/social/google-logo.svg'
         }}
       />
       <CircleSocialButton
@@ -20,7 +20,7 @@ export default function SocialButtonGroup() {
         img={{
           width: 40,
           height: 40,
-          src: 'images/facebook-logo.svg'
+          src: 'images/auth/social/facebook-logo.svg'
         }}
       />
       <CircleSocialButton
@@ -30,7 +30,7 @@ export default function SocialButtonGroup() {
         img={{
           width: 20,
           height: 20,
-          src: 'images/x-logo.svg'
+          src: 'images/auth/social/x-logo.svg'
         }}
       />
     </div>
