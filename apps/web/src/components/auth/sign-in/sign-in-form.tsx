@@ -80,7 +80,7 @@ export default function SignInForm() {
         </>
 
         <Link
-          href={'/'}
+          href={'/forgot-password'}
           className="text-right text-sm font-medium ml-auto inline"
         >
           Forgot password?
