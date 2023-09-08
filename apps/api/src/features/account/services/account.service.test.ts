@@ -11,6 +11,7 @@ import { OTPService } from '@modules/otp/otp.service'
 import { JwtService } from '@nestjs/jwt'
 import { BadRequestException } from '@nestjs/common'
 import { UserDocument } from '@features/user/schemas'
+import { Config, ENV } from '@config/index'
 
 describe('AccountService', () => {
   let accountService: AccountService
@@ -18,12 +19,14 @@ describe('AccountService', () => {
   let otpService: OTPService
   let jwtService: JwtService
   let mailQueue: Queue
+  let config: Config
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
       providers: [
         AccountService,
-        { provide: getQueueToken(MAIL_QUEUE), useValue: createMock<Queue>() }
+        { provide: getQueueToken(MAIL_QUEUE), useValue: createMock<Queue>() },
+        { provide: ENV, useValue: { WEB_APP_ORIGIN: 'origin' } }
       ]
     })
       .useMocker(createMock)
@@ -34,6 +37,7 @@ describe('AccountService', () => {
     otpService = module.get<OTPService>(OTPService)
     jwtService = module.get<JwtService>(JwtService)
     mailQueue = module.get<Queue>(getQueueToken(MAIL_QUEUE))
+    config = module.get<Config>(ENV)
   })
 
   it('should account service to be defined', () => {
@@ -61,6 +65,11 @@ describe('AccountService', () => {
     expect(mailQueue).toBeDefined()
   })
 
+  it('should config to be defined', () => {
+    // ASSERT
+    expect(config).toBeDefined()
+  })
+
   describe('verifyAccount', () => {
     it('should verify user', async () => {
       // ARRANGE
@@ -86,8 +95,9 @@ describe('AccountService', () => {
   describe('sendResetPasswordMail', () => {
     it('should create otp and send reset password mail', async () => {
       // ARRANGE
-      const forgotPasswordDto: ForgotPasswordDto = { email: 'johndoe@gmail.com' }
       const token = 'token'
+      const redirectUrl = `${config.WEB_APP_ORIGIN}/reset-password?token=${token}`
+      const forgotPasswordDto: ForgotPasswordDto = { email: 'johndoe@gmail.com' }
 
       jest.spyOn(jwtService, 'sign').mockReturnValue(token)
 
@@ -99,7 +109,7 @@ describe('AccountService', () => {
       expect(jwtService.sign).toHaveBeenCalledWith({ email: forgotPasswordDto.email })
       expect(mailQueue.add).toHaveBeenCalledWith(RESET_PASSWORD, {
         email: forgotPasswordDto.email,
-        redirectUrl: token
+        redirectUrl
       })
     })
   })
