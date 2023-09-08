@@ -18,6 +18,7 @@ import { fetchApi } from '@/lib/utils'
 import { signInSchema } from '@/lib/schemas/sign-in-schema'
 import { useRouter } from 'next/navigation'
 import SocialButtonGroup from '../social-button-group'
+import PasswordInput from '@/components/password-input'
 
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -64,7 +65,7 @@ export default function SignInForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input type="password" placeholder="Password" {...field} />
+                <PasswordInput {...field} />
               </FormControl>
               <FormMessage className="text-left ml-3" />
             </FormItem>

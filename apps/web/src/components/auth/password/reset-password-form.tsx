@@ -8,7 +8,6 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { fetchApi } from '@/lib/utils'
 import { resetPasswordSchema } from '@/lib/schemas/reset-password-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -18,6 +17,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/use-toast'
+import PasswordInput from '@/components/password-input'
 
 export default function ResetPasswordForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -62,7 +62,7 @@ export default function ResetPasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input type="password" placeholder="New password" {...field} />
+                <PasswordInput {...field} />
               </FormControl>
               <FormMessage className="text-left ml-3" />
             </FormItem>
@@ -75,11 +75,7 @@ export default function ResetPasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Confirm new password"
-                  {...field}
-                />
+                <PasswordInput placeholder="Confirm new password" {...field} />
               </FormControl>
               <FormMessage className="text-left ml-3" />
             </FormItem>

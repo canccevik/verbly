@@ -20,6 +20,7 @@ import LanguageDropdown from '../../language-dropdown'
 import ISO6391 from 'iso-639-1'
 import { fetchApi } from '@/lib/utils'
 import SocialButtonGroup from '../social-button-group'
+import PasswordInput from '@/components/password-input'
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -89,7 +90,7 @@ export default function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input type="password" placeholder="Password" {...field} />
+                <PasswordInput {...field} />
               </FormControl>
               <FormMessage className="text-left ml-3" />
             </FormItem>
