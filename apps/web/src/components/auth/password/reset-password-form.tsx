@@ -3,7 +3,7 @@
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { fetchApi } from '@/lib/utils'
-import { resetPasswordSchema } from '@/lib/schemas/reset-password-schema'
+import { resetPasswordSchema } from '@/lib/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'

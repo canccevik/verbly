@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
-import { signUpOtpSchema } from '@/lib/schemas/sign-up-otp-schema'
+import { signUpOtpSchema } from '@/lib/validations/auth'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
