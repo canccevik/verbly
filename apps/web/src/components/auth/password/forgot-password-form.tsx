@@ -17,11 +17,12 @@ import { forgotPasswordSchema } from '@/lib/schemas/forgot-password-schema'
 import { fetchApi } from '@/lib/utils'
 import { z } from 'zod'
 import Link from 'next/link'
+import { useToast } from '@/components/ui/use-toast'
 
 export default function ForgotPasswordForm() {
   const [isLoading, setIsLoading] = useState(false)
-
   const router = useRouter()
+  const { toast } = useToast()
 
   const form = useForm<z.infer<typeof forgotPasswordSchema>>({
     resolver: zodResolver(forgotPasswordSchema)
@@ -35,6 +36,11 @@ export default function ForgotPasswordForm() {
     if (response.statusCode !== 201) {
       return form.setError('root', { message: response.message })
     }
+    toast({
+      title: 'Password reset link sent',
+      description:
+        'A password reset link has been sent to your email. Please check your inbox.'
+    })
     router.push('/')
   }
 

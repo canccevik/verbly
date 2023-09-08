@@ -17,11 +17,13 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import Link from 'next/link'
+import { useToast } from '@/components/ui/use-toast'
 
 export default function ResetPasswordForm() {
   const [isLoading, setIsLoading] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
+  const { toast } = useToast()
 
   const form = useForm<z.infer<typeof resetPasswordSchema>>({
     resolver: zodResolver(resetPasswordSchema)
@@ -40,6 +42,11 @@ export default function ResetPasswordForm() {
     if (response.statusCode !== 201) {
       return form.setError('root', { message: response.message })
     }
+    toast({
+      title: 'Password reset successful',
+      description:
+        'Your password has been successfully reset. You can now sign-in with your new password.'
+    })
     router.push('/')
   }
 

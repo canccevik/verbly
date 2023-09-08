@@ -16,11 +16,13 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { fetchApi } from '@/lib/utils'
+import { useToast } from '@/components/ui/use-toast'
 
 export default function SignUpOtpForm() {
   const [isLoading, setIsLoading] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
+  const { toast } = useToast()
 
   const email = searchParams.get('email')
 
@@ -37,6 +39,10 @@ export default function SignUpOtpForm() {
     if (response.statusCode !== 201) {
       return form.setError('root', { message: 'Invalid otp code.' })
     }
+    toast({
+      title: 'Registration successful',
+      description: "We're glad you joined us!"
+    })
     router.push('/sign-in')
   }
 
