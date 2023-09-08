@@ -11,7 +11,7 @@ import { forgotPasswordSchema } from '@/lib/validations/auth'
 import { fetchApi } from '@/lib/utils'
 import { z } from 'zod'
 import Link from 'next/link'
-import { useToast } from '@/components/ui/use-toast'
+import { useToast } from '@/hooks/use-toast'
 import FormAlert from '@/components/form-alert'
 
 export default function ForgotPasswordForm() {

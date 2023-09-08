@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import Link from 'next/link'
-import { useToast } from '@/components/ui/use-toast'
+import { useToast } from '@/hooks/use-toast'
 import PasswordInput from '@/components/password-input'
 import FormAlert from '@/components/form-alert'
 
