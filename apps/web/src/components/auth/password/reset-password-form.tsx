@@ -12,7 +12,7 @@ import { z } from 'zod'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/use-toast'
 import PasswordInput from '@/components/password-input'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import FormAlert from '@/components/form-alert'
 
 export default function ResetPasswordForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -75,19 +75,7 @@ export default function ResetPasswordForm() {
           )}
         />
 
-        {Object.keys(form.formState.errors).length > 0 && (
-          <Alert variant={'destructive'}>
-            <AlertDescription>
-              <ul>
-                {Object.values(form.formState.errors).map((error) => (
-                  <li className="text-left ml-3" key={error.message}>
-                    {error.message}
-                  </li>
-                ))}
-              </ul>
-            </AlertDescription>
-          </Alert>
-        )}
+        <FormAlert form={form} />
 
         <Button type="submit" loading={isLoading}>
           Reset password

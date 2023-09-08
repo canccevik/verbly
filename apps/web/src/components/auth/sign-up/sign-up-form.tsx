@@ -15,7 +15,7 @@ import ISO6391 from 'iso-639-1'
 import { fetchApi } from '@/lib/utils'
 import SocialButtonGroup from '../social-button-group'
 import PasswordInput from '@/components/password-input'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import FormAlert from '@/components/form-alert'
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -107,19 +107,7 @@ export default function SignUpForm() {
           )}
         />
 
-        {Object.keys(form.formState.errors).length > 0 && (
-          <Alert variant={'destructive'}>
-            <AlertDescription>
-              <ul>
-                {Object.values(form.formState.errors).map((error) => (
-                  <li className="text-left ml-3" key={error.message}>
-                    {error.message}
-                  </li>
-                ))}
-              </ul>
-            </AlertDescription>
-          </Alert>
-        )}
+        <FormAlert form={form} />
 
         <Link
           href={'/sign-in'}

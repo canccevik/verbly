@@ -11,7 +11,7 @@ import { useState } from 'react'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { fetchApi } from '@/lib/utils'
 import { useToast } from '@/components/ui/use-toast'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import FormAlert from '@/components/form-alert'
 
 export default function SignUpOtpForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -56,19 +56,7 @@ export default function SignUpOtpForm() {
           )}
         />
 
-        {Object.keys(form.formState.errors).length > 0 && (
-          <Alert variant={'destructive'}>
-            <AlertDescription>
-              <ul>
-                {Object.values(form.formState.errors).map((error) => (
-                  <li className="text-left ml-3" key={error.message}>
-                    {error.message}
-                  </li>
-                ))}
-              </ul>
-            </AlertDescription>
-          </Alert>
-        )}
+        <FormAlert form={form} />
 
         <Button type="submit" loading={isLoading} className="w-full">
           Verify
