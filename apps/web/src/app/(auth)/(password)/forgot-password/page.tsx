@@ -2,7 +2,7 @@ import ForgotPasswordForm from '@/components/auth/password/forgot-password-form'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Verbly - Forgot Password'
+  title: 'Forgot Password'
 }
 
 export default function ForgotPassword() {

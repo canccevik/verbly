@@ -2,7 +2,7 @@ import ResetPasswordForm from '@/components/auth/password/reset-password-form'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Verbly - Reset Password'
+  title: 'Reset Password'
 }
 
 export default function ResetPassword() {

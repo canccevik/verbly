@@ -1,4 +1,9 @@
 import SignUpOtpForm from '@/components/auth/sign-up/sign-up-otp-form'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Verify Account'
+}
 
 export default function SignUpOtp() {
   return (
