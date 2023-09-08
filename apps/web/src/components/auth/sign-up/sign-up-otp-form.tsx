@@ -8,15 +8,10 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { fetchApi } from '@/lib/utils'
 import { useToast } from '@/components/ui/use-toast'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 export default function SignUpOtpForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -57,18 +52,23 @@ export default function SignUpOtpForm() {
               <FormControl>
                 <Input placeholder="Enter your otp code" {...field} />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
 
-        <>
-          {form.formState.errors.root && (
-            <FormMessage className="text-center ml-3">
-              {form.formState.errors.root.message}
-            </FormMessage>
-          )}
-        </>
+        {Object.keys(form.formState.errors).length > 0 && (
+          <Alert variant={'destructive'}>
+            <AlertDescription>
+              <ul>
+                {Object.values(form.formState.errors).map((error) => (
+                  <li className="text-left ml-3" key={error.message}>
+                    {error.message}
+                  </li>
+                ))}
+              </ul>
+            </AlertDescription>
+          </Alert>
+        )}
 
         <Button type="submit" loading={isLoading} className="w-full">
           Verify

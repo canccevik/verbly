@@ -7,13 +7,7 @@ import Link from 'next/link'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage
-} from '../../ui/form'
+import { Form, FormControl, FormField, FormItem } from '../../ui/form'
 import { useRouter } from 'next/navigation'
 import { signUpSchema } from '@/lib/schemas/sign-up-schema'
 import LanguageDropdown from '../../language-dropdown'
@@ -21,6 +15,7 @@ import ISO6391 from 'iso-639-1'
 import { fetchApi } from '@/lib/utils'
 import SocialButtonGroup from '../social-button-group'
 import PasswordInput from '@/components/password-input'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -37,6 +32,7 @@ export default function SignUpForm() {
     setLanguage(language)
     const languageCode = ISO6391.getCode(language)
     form.setValue('nativeLanguage', languageCode)
+    form.clearErrors('nativeLanguage')
   }
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
@@ -66,7 +62,6 @@ export default function SignUpForm() {
               <FormControl>
                 <Input placeholder="Username" {...field} />
               </FormControl>
-              <FormMessage className="text-left ml-3" />
             </FormItem>
           )}
         />
@@ -79,7 +74,6 @@ export default function SignUpForm() {
               <FormControl>
                 <Input type="email" placeholder="E-mail" {...field} />
               </FormControl>
-              <FormMessage className="text-left ml-3" />
             </FormItem>
           )}
         />
@@ -92,7 +86,6 @@ export default function SignUpForm() {
               <FormControl>
                 <PasswordInput {...field} />
               </FormControl>
-              <FormMessage className="text-left ml-3" />
             </FormItem>
           )}
         />
@@ -110,22 +103,27 @@ export default function SignUpForm() {
                   setOpen={setIsDropdownOpen}
                 />
               </FormControl>
-              <FormMessage className="text-left ml-3" />
             </FormItem>
           )}
         />
 
-        <>
-          {form.formState.errors.root && (
-            <FormMessage className="text-left ml-3">
-              {form.formState.errors.root.message}
-            </FormMessage>
-          )}
-        </>
+        {Object.keys(form.formState.errors).length > 0 && (
+          <Alert variant={'destructive'}>
+            <AlertDescription>
+              <ul>
+                {Object.values(form.formState.errors).map((error) => (
+                  <li className="text-left ml-3" key={error.message}>
+                    {error.message}
+                  </li>
+                ))}
+              </ul>
+            </AlertDescription>
+          </Alert>
+        )}
 
         <Link
           href={'/sign-in'}
-          className="text-right text-sm font-medium ml-auto inline"
+          className="text-right text-sm font-medium ml-auto inline text-zinc-700"
         >
           Have an account? Sign in
         </Link>
@@ -138,7 +136,7 @@ export default function SignUpForm() {
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
           </div>
-          <div className="relative flex justify-center text-sm">
+          <div className="relative flex justify-center text-sm text-zinc-700">
             <span className="bg-background px-4">Or join us with</span>
           </div>
         </div>

@@ -7,18 +7,13 @@ import Link from 'next/link'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage
-} from '../../ui/form'
+import { Form, FormControl, FormField, FormItem } from '../../ui/form'
 import { fetchApi } from '@/lib/utils'
 import { signInSchema } from '@/lib/schemas/sign-in-schema'
 import { useRouter } from 'next/navigation'
 import SocialButtonGroup from '../social-button-group'
 import PasswordInput from '@/components/password-input'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -54,7 +49,6 @@ export default function SignInForm() {
               <FormControl>
                 <Input placeholder="Username" {...field} />
               </FormControl>
-              <FormMessage className="text-left ml-3" />
             </FormItem>
           )}
         />
@@ -67,22 +61,27 @@ export default function SignInForm() {
               <FormControl>
                 <PasswordInput {...field} />
               </FormControl>
-              <FormMessage className="text-left ml-3" />
             </FormItem>
           )}
         />
 
-        <>
-          {form.formState.errors.root && (
-            <FormMessage className="text-left ml-3">
-              {form.formState.errors.root.message}
-            </FormMessage>
-          )}
-        </>
+        {Object.keys(form.formState.errors).length > 0 && (
+          <Alert variant={'destructive'}>
+            <AlertDescription>
+              <ul>
+                {Object.values(form.formState.errors).map((error) => (
+                  <li className="text-left ml-3" key={error.message}>
+                    {error.message}
+                  </li>
+                ))}
+              </ul>
+            </AlertDescription>
+          </Alert>
+        )}
 
         <Link
           href={'/forgot-password'}
-          className="text-right text-sm font-medium ml-auto inline"
+          className="text-right text-sm font-medium ml-auto inline text-zinc-700"
         >
           Forgot password?
         </Link>
@@ -102,7 +101,7 @@ export default function SignInForm() {
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
           </div>
-          <div className="relative flex justify-center text-sm">
+          <div className="relative flex justify-center text-sm text-zinc-700">
             <span className="bg-background px-4">Or continue with</span>
           </div>
         </div>

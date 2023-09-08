@@ -1,12 +1,6 @@
 'use client'
 
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormControl,
-  FormMessage
-} from '@/components/ui/form'
+import { Form, FormField, FormItem, FormControl } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
@@ -18,6 +12,7 @@ import { fetchApi } from '@/lib/utils'
 import { z } from 'zod'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/use-toast'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 export default function ForgotPasswordForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -58,18 +53,23 @@ export default function ForgotPasswordForm() {
               <FormControl>
                 <Input type="email" placeholder="E-mail address" {...field} />
               </FormControl>
-              <FormMessage className="text-left ml-3" />
             </FormItem>
           )}
         />
 
-        <>
-          {form.formState.errors.root && (
-            <FormMessage className="text-left ml-3">
-              {form.formState.errors.root.message}
-            </FormMessage>
-          )}
-        </>
+        {Object.keys(form.formState.errors).length > 0 && (
+          <Alert variant={'destructive'}>
+            <AlertDescription>
+              <ul>
+                {Object.values(form.formState.errors).map((error) => (
+                  <li className="text-left ml-3" key={error.message}>
+                    {error.message}
+                  </li>
+                ))}
+              </ul>
+            </AlertDescription>
+          </Alert>
+        )}
 
         <Button type="submit" loading={isLoading}>
           Send
@@ -79,7 +79,7 @@ export default function ForgotPasswordForm() {
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
           </div>
-          <div className="relative flex justify-center text-s">
+          <div className="relative flex justify-center text-s text-zinc-500">
             <span className="bg-background px-4">Or</span>
           </div>
         </div>
