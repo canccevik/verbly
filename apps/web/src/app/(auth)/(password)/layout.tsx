@@ -1,10 +1,10 @@
 import Image from 'next/image'
 
-export default function PasswordLayout({
-  children
-}: {
+interface PasswordLayoutProps {
   children: React.ReactNode
-}) {
+}
+
+export default function PasswordLayout({ children }: PasswordLayoutProps) {
   return (
     <div className="w-screen h-screen flex">
       <div className="w-8/12 flex justify-center items-center">

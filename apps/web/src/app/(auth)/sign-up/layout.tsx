@@ -1,11 +1,10 @@
 import Image from 'next/image'
-import React from 'react'
 
-export default function SignUpLayout({
-  children
-}: {
+interface SignUpLayoutProps {
   children: React.ReactNode
-}) {
+}
+
+export default function SignUpLayout({ children }: SignUpLayoutProps) {
   return (
     <div className="w-screen h-screen flex">
       <div className="w-8/12 flex justify-center items-center">
