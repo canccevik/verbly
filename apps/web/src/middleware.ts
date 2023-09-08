@@ -1,5 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+const publicRoutes = [
+  '/sign-in',
+  '/sign-up',
+  '/sign-up/otp',
+  '/forgot-password',
+  '/reset-password'
+]
+
 export function middleware(request: NextRequest) {
   const isPublicFile = /\.(.*)$/.test(request.nextUrl.pathname)
 
@@ -7,12 +15,6 @@ export function middleware(request: NextRequest) {
 
   const sessionId = request.cookies.get('sessionId')
 
-  const publicRoutes = [
-    '/sign-in',
-    '/sign-up',
-    '/sign-up/otp',
-    '/forgot-password'
-  ]
   const isRequestedRoutePublic = publicRoutes.includes(request.nextUrl.pathname)
 
   if (!isRequestedRoutePublic && !sessionId) {

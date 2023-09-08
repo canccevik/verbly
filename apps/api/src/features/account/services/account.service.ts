@@ -1,5 +1,5 @@
 import { UserRepository } from '@features/user/repositories'
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Inject, Injectable } from '@nestjs/common'
 import { ForgotPasswordDto, ResetPasswordDto, UpdatePasswordDto, VerifyAccountDto } from '../dto'
 import { InjectQueue } from '@nestjs/bull'
 import { MAIL_QUEUE, RESET_PASSWORD } from '@modules/mail/mail.constant'
@@ -7,11 +7,13 @@ import { OTPService } from '@modules/otp/otp.service'
 import { Queue } from 'bull'
 import { JwtService } from '@nestjs/jwt'
 import { UserDocument } from '@features/user/schemas'
+import { Config, ENV } from '@config/index'
 
 @Injectable()
 export class AccountService {
   constructor(
     @InjectQueue(MAIL_QUEUE) private readonly mailQueue: Queue,
+    @Inject(ENV) private readonly config: Config,
     private readonly userRepository: UserRepository,
     private readonly otpService: OTPService,
     private readonly jwtService: JwtService
@@ -24,8 +26,7 @@ export class AccountService {
 
   public async sendResetPasswordMail(dto: ForgotPasswordDto): Promise<void> {
     const token = this.jwtService.sign({ email: dto.email })
-    // TODO: set the redirectUrl as the frontend reset password page url
-    const redirectUrl = token
+    const redirectUrl = `${this.config.WEB_APP_ORIGIN}/reset-password?token=${token}`
     await this.mailQueue.add(RESET_PASSWORD, { email: dto.email, redirectUrl })
   }
 

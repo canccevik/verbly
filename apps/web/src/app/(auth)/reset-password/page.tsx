@@ -1,23 +1,22 @@
-import ForgotPasswordForm from '@/components/auth/forgot-password/forgot-password-form'
+import ResetPasswordForm from '@/components/auth/reset-password/reset-password-form'
 import { Metadata } from 'next'
 import Image from 'next/image'
 
 export const metadata: Metadata = {
-  title: 'Verbly - Forgot Password'
+  title: 'Verbly - Reset Password'
 }
 
-export default function ForgotPassword() {
+export default function ResetPassword() {
   return (
     <div className="w-screen h-screen flex">
       <div className="w-8/12 flex justify-center items-center">
         <div className="w-[400px] text-center flex flex-col gap-6">
-          <h1 className="font-medium text-4xl">Forgot password?</h1>
+          <h1 className="font-medium text-4xl">Reset password</h1>
           <h4 className="text-lg">
-            Please enter your email address to receive a link to reset your
-            password.
+            Please enter and confirm your new password.
           </h4>
 
-          <ForgotPasswordForm />
+          <ResetPasswordForm />
         </div>
       </div>
 

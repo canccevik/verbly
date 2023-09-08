@@ -2,34 +2,39 @@
 
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
-  FormControl,
   FormMessage
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useForm } from 'react-hook-form'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { forgotPasswordSchema } from '@/lib/schemas/forgot-password-schema'
 import { fetchApi } from '@/lib/utils'
+import { resetPasswordSchema } from '@/lib/schemas/reset-password-schema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import Link from 'next/link'
 
-export default function ForgotPasswordForm() {
+export default function ResetPasswordForm() {
   const [isLoading, setIsLoading] = useState(false)
-
+  const searchParams = useSearchParams()
   const router = useRouter()
 
-  const form = useForm<z.infer<typeof forgotPasswordSchema>>({
-    resolver: zodResolver(forgotPasswordSchema)
+  const form = useForm<z.infer<typeof resetPasswordSchema>>({
+    resolver: zodResolver(resetPasswordSchema)
   })
 
-  async function onSubmit(values: z.infer<typeof forgotPasswordSchema>) {
+  const token = searchParams.get('token')
+
+  async function onSubmit(values: z.infer<typeof resetPasswordSchema>) {
     setIsLoading(true)
-    const response = await fetchApi('/account/forgot-password', 'POST', values)
+    const response = await fetchApi('/account/password', 'POST', {
+      token,
+      password: values.firstPassword
+    })
     setIsLoading(false)
 
     if (response.statusCode !== 201) {
@@ -46,11 +51,28 @@ export default function ForgotPasswordForm() {
       >
         <FormField
           control={form.control}
-          name="email"
+          name="firstPassword"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input type="email" placeholder="E-mail address" {...field} />
+                <Input type="password" placeholder="New password" {...field} />
+              </FormControl>
+              <FormMessage className="text-left ml-3" />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="secondPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Confirm new password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage className="text-left ml-3" />
             </FormItem>
@@ -66,7 +88,7 @@ export default function ForgotPasswordForm() {
         </>
 
         <Button type="submit" loading={isLoading}>
-          Send
+          Reset password
         </Button>
 
         <div className="relative">
