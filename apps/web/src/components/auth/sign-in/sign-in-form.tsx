@@ -69,7 +69,7 @@ export default function SignInForm() {
 
         <Link
           href={'/forgot-password'}
-          className="text-right text-sm font-medium ml-auto inline text-zinc-700"
+          className="text-right text-sm font-medium ml-auto inline text-zinc-700 hover:text-main-blue"
         >
           Forgot password?
         </Link>
@@ -80,7 +80,7 @@ export default function SignInForm() {
 
         <Link
           href={'/sign-up'}
-          className="text-sm font-medium text-zinc-700 inline w-fit mx-auto"
+          className="text-sm font-medium text-zinc-700 inline w-fit mx-auto hover:text-main-blue"
         >
           Don&apos;t have an account? Sign up
         </Link>

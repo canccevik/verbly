@@ -111,7 +111,7 @@ export default function SignUpForm() {
 
         <Link
           href={'/sign-in'}
-          className="text-right text-sm font-medium ml-auto inline text-zinc-700"
+          className="text-right text-sm font-medium ml-auto inline text-zinc-700 hover:text-main-blue"
         >
           Have an account? Sign in
         </Link>

@@ -22,13 +22,13 @@ export default function PasswordInput({ ...props }: PasswordInputProps) {
 
       {isVisible ? (
         <EyeOff
-          className="absolute right-6 placeholder:cursor-pointer text-zinc-500"
+          className="absolute right-6 cursor-pointer text-zinc-500 hover:text-zinc-600"
           size={22}
           onClick={toggleVisibility}
         />
       ) : (
         <Eye
-          className="absolute right-6 cursor-pointer text-zinc-500"
+          className="absolute right-6 cursor-pointer text-zinc-500 hover:text-zinc-600"
           size={22}
           onClick={toggleVisibility}
         />

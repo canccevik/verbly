@@ -92,7 +92,7 @@ export default function ResetPasswordForm() {
 
         <Link
           href={'/sign-in'}
-          className="text-sm font-medium text-zinc-700 inline w-fit mx-auto"
+          className="text-sm font-medium text-zinc-700 inline w-fit mx-auto hover:text-main-blue"
         >
           Back to sign in
         </Link>
