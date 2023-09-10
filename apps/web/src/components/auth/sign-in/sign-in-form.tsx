@@ -15,16 +15,18 @@ import SocialButtonGroup from '../social-button-group'
 import PasswordInput from '@/components/password-input'
 import FormAlert from '@/components/form-alert'
 
+type FormData = z.infer<typeof signInSchema>
+
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false)
 
   const router = useRouter()
 
-  const form = useForm<z.infer<typeof signInSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(signInSchema)
   })
 
-  async function onSubmit(values: z.infer<typeof signInSchema>) {
+  async function onSubmit(values: FormData) {
     setIsLoading(true)
     const response = await fetchApi('/auth/login', 'POST', values)
     setIsLoading(false)

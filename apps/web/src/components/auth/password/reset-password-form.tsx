@@ -14,19 +14,21 @@ import { useToast } from '@/hooks/use-toast'
 import PasswordInput from '@/components/password-input'
 import FormAlert from '@/components/form-alert'
 
+type FormData = z.infer<typeof resetPasswordSchema>
+
 export default function ResetPasswordForm() {
   const [isLoading, setIsLoading] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
   const { toast } = useToast()
 
-  const form = useForm<z.infer<typeof resetPasswordSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(resetPasswordSchema)
   })
 
   const token = searchParams.get('token')
 
-  async function onSubmit(values: z.infer<typeof resetPasswordSchema>) {
+  async function onSubmit(values: FormData) {
     setIsLoading(true)
     const response = await fetchApi('/account/password', 'POST', {
       token,

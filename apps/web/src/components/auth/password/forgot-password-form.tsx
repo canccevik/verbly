@@ -14,16 +14,18 @@ import Link from 'next/link'
 import { useToast } from '@/hooks/use-toast'
 import FormAlert from '@/components/form-alert'
 
+type FormData = z.infer<typeof forgotPasswordSchema>
+
 export default function ForgotPasswordForm() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
 
-  const form = useForm<z.infer<typeof forgotPasswordSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(forgotPasswordSchema)
   })
 
-  async function onSubmit(values: z.infer<typeof forgotPasswordSchema>) {
+  async function onSubmit(values: FormData) {
     setIsLoading(true)
     const response = await fetchApi('/account/forgot-password', 'POST', values)
     setIsLoading(false)

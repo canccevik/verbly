@@ -14,6 +14,8 @@ import { useToast } from '@/hooks/use-toast'
 import FormAlert from '@/components/form-alert'
 import Link from 'next/link'
 
+type FormData = z.infer<typeof signUpOtpSchema>
+
 export default function SignUpOtpForm() {
   const [isLoading, setIsLoading] = useState(false)
   const searchParams = useSearchParams()
@@ -22,12 +24,12 @@ export default function SignUpOtpForm() {
 
   const email = searchParams.get('email')
 
-  const form = useForm<z.infer<typeof signUpOtpSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(signUpOtpSchema),
     defaultValues: { email: email || '' }
   })
 
-  async function onSubmit(values: z.infer<typeof signUpOtpSchema>) {
+  async function onSubmit(values: FormData) {
     setIsLoading(true)
     const response = await fetchApi('/account/verification', 'POST', values)
     setIsLoading(false)

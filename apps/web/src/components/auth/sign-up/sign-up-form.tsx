@@ -17,6 +17,8 @@ import SocialButtonGroup from '../social-button-group'
 import PasswordInput from '@/components/password-input'
 import FormAlert from '@/components/form-alert'
 
+type FormData = z.infer<typeof signUpSchema>
+
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [language, setLanguage] = useState('')
@@ -24,7 +26,7 @@ export default function SignUpForm() {
 
   const router = useRouter()
 
-  const form = useForm<z.infer<typeof signUpSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(signUpSchema)
   })
 
@@ -35,7 +37,7 @@ export default function SignUpForm() {
     form.clearErrors('nativeLanguage')
   }
 
-  async function onSubmit(values: z.infer<typeof signUpSchema>) {
+  async function onSubmit(values: FormData) {
     setIsLoading(true)
     const response = await fetchApi('/auth/register', 'POST', values)
     setIsLoading(false)
