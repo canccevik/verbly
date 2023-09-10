@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function NotFound() {
   return (
@@ -17,9 +18,11 @@ export default function NotFound() {
         Sorry, the page you’re looking for doesn’t exist or has been removed.
       </p>
 
-      <Button variant={'outline'} className="w-[350px]">
-        Back to home
-      </Button>
+      <Link href={'/'}>
+        <Button variant={'outline'} className="w-[350px]">
+          Back to home
+        </Button>
+      </Link>
     </div>
   )
 }
