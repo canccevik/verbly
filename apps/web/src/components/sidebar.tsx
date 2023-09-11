@@ -1,5 +1,7 @@
+'use client'
+
 import Link from 'next/link'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import {
   ChevronsUpDown,
   Compass,
@@ -19,8 +21,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { useUser } from '@/hooks/use-user'
+import { Skeleton } from './ui/skeleton'
 
 export default function Sidebar() {
+  const { user } = useUser()
+
   return (
     <div className="w-2/12 h-screen border-r-2 border-gray-100 flex flex-col justify-between items-center pt-10 px-8">
       <div className="flex items-center gap-x-5 self-start ml-5">
@@ -60,24 +66,27 @@ export default function Sidebar() {
 
       <div></div>
 
-      <ul className="w-full mb-5 relative">
+      <div className="w-full mb-5 relative">
         <DropdownMenu>
-          <DropdownMenuTrigger className="w-full outline-none">
-            <li className="flex items-center justify-between bg-zinc-100 px-8 py-5 rounded-2xl">
-              <div className="flex items-center justify-start">
-                <Avatar>
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                  />
-                  <AvatarFallback>CÇ</AvatarFallback>
-                </Avatar>
+          <DropdownMenuTrigger className="w-full outline-none flex items-center justify-between bg-zinc-100 px-8 py-5 rounded-2xl">
+            <div className="flex items-center justify-start">
+              {user ? (
+                <>
+                  <Avatar>
+                    <AvatarImage src={user.profilePhoto} alt="Avatar" />
+                  </Avatar>
 
-                <span className="ml-6 font-semibold">Can Çevik</span>
-              </div>
+                  <span className="ml-3 font-semibold">{user.username}</span>
+                </>
+              ) : (
+                <>
+                  <Skeleton className="w-10 h-10 rounded-full bg-zinc-300" />
+                  <Skeleton className="w-24 h-4 bg-zinc-300 ml-3" />
+                </>
+              )}
+            </div>
 
-              <ChevronsUpDown className="text-zinc-600" size={20} />
-            </li>
+            <ChevronsUpDown className="text-zinc-600" size={20} />
           </DropdownMenuTrigger>
 
           <DropdownMenuContent className="w-[250px]">
@@ -100,7 +109,7 @@ export default function Sidebar() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </ul>
+      </div>
     </div>
   )
 }
