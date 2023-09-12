@@ -13,7 +13,7 @@ import { AuthService } from '../services/auth.service'
 import { ApiTags } from '@nestjs/swagger'
 import { Message } from '@core/decorators'
 import { RegisterDto } from '../dto'
-import { GoogleOAuthGuard, LocalAuthGuard } from '../guards'
+import { FacebookAuthGuard, GoogleOAuthGuard, LocalAuthGuard } from '../guards'
 import { AuthenticatedGuard } from '@core/guards'
 import { Request, Response } from 'express'
 import { Payload } from '@core/interceptors'
@@ -45,6 +45,16 @@ export class AuthController {
   @Get('login/google/callback')
   @UseGuards(GoogleOAuthGuard)
   public loginWithGoogleCallback(@Res() res: Response): void {
+    res.redirect(this.config.WEB_APP_ORIGIN)
+  }
+
+  @Get('login/facebook')
+  @UseGuards(FacebookAuthGuard)
+  public loginWithFacebook(): void {}
+
+  @Get('login/facebook/callback')
+  @UseGuards(FacebookAuthGuard)
+  public loginWithFacebookCallback(@Res() res: Response): void {
     res.redirect(this.config.WEB_APP_ORIGIN)
   }
 

@@ -65,6 +65,7 @@ export class User {
   @Prop({
     type: String,
     required: true,
+    default: 'en',
     validate: {
       validator: function (value) {
         return iso.validate(value)
@@ -84,17 +85,22 @@ export class User {
   public isEmailConfirmed: boolean
 
   @Prop({
-    type: String
-  })
-  public googleId: string
-
-  @Prop({
     type: String,
     required: true,
     default: process.env.DEFAULT_PROFILE_PHOTO,
     match: [/^(https?):\/\/[^\s$.?#].[^\s]*$/gm, 'url is not valid']
   })
   public profilePhoto: string
+
+  @Prop({
+    type: String
+  })
+  public googleId: string
+
+  @Prop({
+    type: String
+  })
+  public facebookId: string
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

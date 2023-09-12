@@ -5,7 +5,7 @@ import { UserModule } from '@features/user/user.module'
 import { BullModule } from '@nestjs/bull'
 import { MAIL_QUEUE } from '@modules/mail/mail.constant'
 import { PassportModule } from '@nestjs/passport'
-import { GoogleStrategy, LocalStrategy } from './passport/strategies'
+import { FacebookStrategy, GoogleStrategy, LocalStrategy } from './passport/strategies'
 import { SessionSerializer } from './passport'
 import { OTPModule } from '@modules/otp/otp.module'
 
@@ -17,6 +17,6 @@ import { OTPModule } from '@modules/otp/otp.module'
     OTPModule
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, GoogleStrategy, SessionSerializer]
+  providers: [AuthService, LocalStrategy, GoogleStrategy, FacebookStrategy, SessionSerializer]
 })
 export class AuthModule {}

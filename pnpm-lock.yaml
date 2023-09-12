@@ -110,6 +110,9 @@ importers:
       passport:
         specifier: ^0.6.0
         version: 0.6.0
+      passport-facebook:
+        specifier: ^3.0.0
+        version: 3.0.0
       passport-google-oauth20:
         specifier: ^2.0.0
         version: 2.0.0
@@ -165,6 +168,9 @@ importers:
       '@types/otp-generator':
         specifier: ^4.0.0
         version: 4.0.0
+      '@types/passport-facebook':
+        specifier: ^3.0.0
+        version: 3.0.0
       '@types/passport-google-oauth20':
         specifier: ^2.0.11
         version: 2.0.11
@@ -3433,6 +3439,14 @@ packages:
 
   /@types/parse-json@4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
+    dev: true
+
+  /@types/passport-facebook@3.0.0:
+    resolution: {integrity: sha512-hZjXy39X+In1/y607NfGVJEWtl5vuClkAbglcAiq/UBuUSPCu6uBvyGd4wE3ikc4iJ1as3biuanBMrMZus0U5A==}
+    dependencies:
+      '@types/express': 4.17.17
+      '@types/passport': 1.0.12
+      '@types/passport-oauth2': 1.4.12
     dev: true
 
   /@types/passport-google-oauth20@2.0.11:
@@ -10658,6 +10672,13 @@ packages:
   /parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
     engines: {node: '>= 0.8'}
+
+  /passport-facebook@3.0.0:
+    resolution: {integrity: sha512-K/qNzuFsFISYAyC1Nma4qgY/12V3RSLFdFVsPKXiKZt434wOvthFW1p7zKa1iQihQMRhaWorVE1o3Vi1o+ZgeQ==}
+    engines: {node: '>= 0.4.0'}
+    dependencies:
+      passport-oauth2: 1.7.0
+    dev: false
 
   /passport-google-oauth20@2.0.0:
     resolution: {integrity: sha512-KSk6IJ15RoxuGq7D1UKK/8qKhNfzbLeLrG3gkLZ7p4A6DBCcv7xpyQwuXtWdpyR0+E0mwkpjY1VfPOhxQrKzdQ==}
