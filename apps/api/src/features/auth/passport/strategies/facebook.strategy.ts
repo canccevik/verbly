@@ -4,8 +4,10 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { Strategy, Profile } from 'passport-facebook'
 
+export const FACEBOOK_STRATEGY = 'facebook'
+
 @Injectable()
-export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
+export class FacebookStrategy extends PassportStrategy(Strategy, FACEBOOK_STRATEGY) {
   constructor(
     @Inject(ENV) private readonly config: Config,
     private readonly userRepository: UserRepository

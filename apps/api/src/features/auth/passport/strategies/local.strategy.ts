@@ -4,8 +4,10 @@ import { Strategy } from 'passport-local'
 import { AuthService } from '../../services/auth.service'
 import { UserDocument } from '@features/user/schemas'
 
+export const LOCAL_STRATEGY = 'local'
+
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy) {
+export class LocalStrategy extends PassportStrategy(Strategy, LOCAL_STRATEGY) {
   constructor(private readonly authService: AuthService) {
     super()
   }
