@@ -1,4 +1,4 @@
-import { email, port, str, url } from 'envalid'
+import { email, port, str, url, num } from 'envalid'
 import { makeValidators, Static } from 'nestjs-envalid'
 
 const config = {
@@ -19,7 +19,9 @@ const config = {
   CLOUDINARY_CLOUD_NAME: str(),
   CLOUDINARY_API_KEY: str(),
   CLOUDINARY_API_SECRET: str(),
-  WEB_APP_ORIGIN: url()
+  WEB_APP_ORIGIN: url(),
+  THROTTLER_TTL: num(),
+  THROTTLER_LIMIT: num()
 }
 
 export const validators = makeValidators(config)
