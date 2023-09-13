@@ -101,6 +101,11 @@ export class User {
     type: String
   })
   public facebookId: string
+
+  @Prop({
+    type: String
+  })
+  public microsoftId: string
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

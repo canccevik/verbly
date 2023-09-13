@@ -16,6 +16,8 @@ const config = {
   GOOGLE_CLIENT_SECRET: str(),
   FACEBOOK_APP_ID: str(),
   FACEBOOK_APP_SECRET: str(),
+  MICROSOFT_CLIENT_ID: str(),
+  MICROSOFT_CLIENT_SECRET: str(),
   JWT_SECRET: str(),
   JWT_EXPIRES_IN: str(),
   CLOUDINARY_CLOUD_NAME: str(),
