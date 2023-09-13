@@ -24,8 +24,11 @@ export class MailProcessor {
   ): Promise<void> {
     await this.mailerService.sendMail({
       to: job.data.email,
-      subject: 'Reset Password',
-      html: `<a href='${job.data.redirectUrl}'>Reset password</a>`
+      subject: 'Reset your password',
+      template: 'reset-password',
+      context: {
+        resetLink: job.data.redirectUrl
+      }
     })
   }
 }

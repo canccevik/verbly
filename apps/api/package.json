@@ -53,6 +53,7 @@
     "passport-microsoft": "^1.0.0",
     "pino-http": "^8.4.0",
     "pino-pretty": "^10.2.0",
+    "pug": "^3.0.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },
