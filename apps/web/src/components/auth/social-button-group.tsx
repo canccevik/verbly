@@ -15,7 +15,7 @@ export default function SocialButtonGroup() {
       />
       <CircleSocialButton
         text="Facebook"
-        href="/"
+        href={process.env.FACEBOOK_LOGIN_URL!}
         alt="Facebook logo"
         img={{
           width: 40,
@@ -24,13 +24,13 @@ export default function SocialButtonGroup() {
         }}
       />
       <CircleSocialButton
-        text="X"
-        href="/"
-        alt="X logo"
+        text="Microsoft"
+        href={process.env.MICROSOFT_LOGIN_URL!}
+        alt="Microsoft logo"
         img={{
           width: 20,
           height: 20,
-          src: 'images/auth/social/x-logo.svg'
+          src: 'images/auth/social/microsoft-logo.svg'
         }}
       />
     </div>
