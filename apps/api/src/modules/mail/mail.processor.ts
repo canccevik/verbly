@@ -14,7 +14,10 @@ export class MailProcessor {
     await this.mailerService.sendMail({
       to: job.data.email,
       subject: 'Welcome to Verbly! Verify your account',
-      text: `The OTP code is: ${job.data.otpCode}`
+      template: 'verification',
+      context: {
+        otpCode: job.data.otpCode
+      }
     })
   }
 
