@@ -24,9 +24,11 @@ import {
 import { useUser } from '@/hooks/use-user'
 import { Skeleton } from './ui/skeleton'
 import { fetchApi } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
 
 export default function Sidebar() {
   const { user } = useUser()
+  const router = useRouter()
 
   async function logout() {
     await fetchApi('/auth/logout', 'POST')
