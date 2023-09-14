@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const publicRoutes = [
+export const publicRoutes = [
   '/sign-in',
   '/sign-up',
   '/sign-up/otp',
