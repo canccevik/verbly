@@ -72,13 +72,16 @@ export class AuthController {
   @UseGuards(AuthenticatedGuard)
   public logout(@Req() req: Request, @Res() res: Response): void {
     return req.logout((err) => {
-      if (err) {
-        throw err
-      }
-      res.json({
-        message: 'Logged out successfully.',
-        statusCode: HttpStatus.CREATED
-      } as Payload)
+      if (err) throw err
+
+      req.session.destroy((err) => {
+        if (err) throw err
+
+        res.clearCookie('sessionId').json({
+          message: 'Logged out successfully.',
+          statusCode: HttpStatus.CREATED
+        } as Payload)
+      })
     })
   }
 }

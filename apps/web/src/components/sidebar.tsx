@@ -23,9 +23,15 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useUser } from '@/hooks/use-user'
 import { Skeleton } from './ui/skeleton'
+import { fetchApi } from '@/lib/utils'
 
 export default function Sidebar() {
   const { user } = useUser()
+
+  async function logout() {
+    await fetchApi('/auth/logout', 'POST')
+    router.push('/sign-in')
+  }
 
   return (
     <div className="w-2/12 h-screen border-r-2 border-gray-100 flex flex-col justify-between items-center pt-10 px-8">
@@ -103,7 +109,7 @@ export default function Sidebar() {
               <span className="ml-3 font-medium">Settings</span>
             </DropdownMenuItem>
 
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => logout()}>
               <LogOut size={18} />
               <span className="ml-3 font-medium">Logout</span>
             </DropdownMenuItem>
