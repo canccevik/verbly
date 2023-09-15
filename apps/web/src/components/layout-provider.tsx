@@ -15,7 +15,9 @@ export default function LayoutProvider({ children }: LayoutProviderProps) {
   return (
     <main className="flex">
       {!publicRoutes.includes(pathname) && <Sidebar />}
-      {children}
+
+      <section className="w-full py-10">{children}</section>
+
       <Toaster />
     </main>
   )

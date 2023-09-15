@@ -25,3 +25,8 @@ export type User = {
   isEmailConfirmed: boolean
   registeredAt: string
 }
+
+export type NavbarItem = {
+  title: string
+  path: string
+}

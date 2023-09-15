@@ -36,7 +36,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="w-2/12 h-screen border-r-2 border-gray-100 flex flex-col justify-between items-center pt-10 px-8">
+    <div className="w-1/5 h-screen border-r-2 border-gray-100 flex flex-col justify-between items-center pt-10 px-8">
       <div className="flex items-center gap-x-5 self-start ml-5">
         <Globe2 size={35} />
         <h1 className="font-semibold text-2xl text-zinc-900">Verbly</h1>
@@ -97,7 +97,7 @@ export default function Sidebar() {
             <ChevronsUpDown className="text-zinc-600" size={20} />
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent className="w-[250px]">
+          <DropdownMenuContent className="w-[260px]">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
 
@@ -106,7 +106,7 @@ export default function Sidebar() {
               <span className="ml-3 font-medium">Profile</span>
             </DropdownMenuItem>
 
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push('/settings')}>
               <Settings size={18} />
               <span className="ml-3 font-medium">Settings</span>
             </DropdownMenuItem>
