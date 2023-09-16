@@ -11,12 +11,15 @@ interface LayoutProviderProps {
 
 export default function LayoutProvider({ children }: LayoutProviderProps) {
   const pathname = usePathname()
+  const isPublicRoute = publicRoutes.includes(pathname)
 
   return (
     <main className="flex">
-      {!publicRoutes.includes(pathname) && <Sidebar />}
+      {!isPublicRoute && <Sidebar />}
 
-      <section className="w-full py-10">{children}</section>
+      <section className={isPublicRoute ? 'w-full' : 'w-10/12 ml-auto'}>
+        {children}
+      </section>
 
       <Toaster />
     </main>

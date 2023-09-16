@@ -9,12 +9,14 @@ import {
   CommandInput,
   CommandItem
 } from './ui/command'
+import { cn } from '@/lib/utils'
 
 interface LanguageDropdownProps {
   open: boolean
   setOpen: (open: boolean) => void
   language: string
   setLanguage: (language: string) => void
+  contentClassName: string
 }
 
 const languageNames = ISO6391.getAllNames()
@@ -23,7 +25,8 @@ export default function LanguageDropdown({
   open,
   setOpen,
   language,
-  setLanguage
+  setLanguage,
+  contentClassName
 }: LanguageDropdownProps) {
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -31,7 +34,7 @@ export default function LanguageDropdown({
         <Button
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between bg-main-grey px-6 text-muted-foreground hover:bg-main-grey"
+          className="w-full justify-between bg-main-grey px-6 text-muted-foreground hover:bg-main-grey border-2"
         >
           {language
             ? languageNames.find((name) => name.toLowerCase() === language)
@@ -40,7 +43,7 @@ export default function LanguageDropdown({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[400px] h-60 p-0 mt-2">
+      <PopoverContent className={cn('h-60 p-0', contentClassName)}>
         <Command>
           <CommandInput placeholder="Search language..." />
           <CommandEmpty>No language found.</CommandEmpty>

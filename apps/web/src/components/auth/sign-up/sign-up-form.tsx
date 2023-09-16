@@ -103,6 +103,7 @@ export default function SignUpForm() {
                   setLanguage={setNativeLanguage}
                   open={isDropdownOpen}
                   setOpen={setIsDropdownOpen}
+                  contentClassName="w-[425px]"
                 />
               </FormControl>
             </FormItem>

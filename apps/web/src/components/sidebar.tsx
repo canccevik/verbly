@@ -36,7 +36,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="w-1/5 h-screen border-r-2 border-gray-100 flex flex-col justify-between items-center pt-10 px-8">
+    <div className="w-2/12 h-screen border-r-2 border-gray-100 fixed top-0 left-0 overflow-y-auto flex flex-col justify-between items-center pt-10 px-8">
       <div className="flex items-center gap-x-5 self-start ml-5">
         <Globe2 size={35} />
         <h1 className="font-semibold text-2xl text-zinc-900">Verbly</h1>

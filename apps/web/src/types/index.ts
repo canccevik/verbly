@@ -8,11 +8,11 @@ export type ApiResponse<T> = {
   statusCode: number
 }
 
-enum Gender {
-  NotKnown,
-  Male,
-  Female,
-  NonBinary
+export enum Gender {
+  NotKnown = '0',
+  Male = '1',
+  Female = '2',
+  NonBinary = '3'
 }
 
 export type User = {

@@ -11,7 +11,7 @@ interface SettingsLayoutProps {
 
 export default function SettingsLayout({ children }: SettingsLayoutProps) {
   return (
-    <div className="flex flex-col gap-y-5">
+    <div className="flex flex-col gap-y-5 py-10">
       <div className="px-20">
         <h1 className="text-3xl font-semibold">Settings</h1>
         <p className="mt-2">Manage your account and preferences.</p>
@@ -19,7 +19,9 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
 
       <Navbar />
 
-      <div className="px-20 w-full">{children}</div>
+      <div className="w-full flex justify-start px-20">
+        <div className="w-5/12">{children}</div>
+      </div>
     </div>
   )
 }
