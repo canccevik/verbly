@@ -11,7 +11,6 @@ import { Form, FormControl, FormField, FormItem } from '../../ui/form'
 import { useRouter } from 'next/navigation'
 import { signUpSchema } from '@/lib/validations/auth'
 import LanguageDropdown from '../../language-dropdown'
-import ISO6391 from 'iso-639-1'
 import { fetchApi } from '@/lib/utils'
 import SocialButtonGroup from '../social-button-group'
 import PasswordInput from '@/components/password-input'
@@ -28,13 +27,6 @@ export default function SignUpForm() {
   const form = useForm<FormData>({
     resolver: zodResolver(signUpSchema)
   })
-
-  function setNativeLanguage(language: string) {
-    setLanguage(language)
-    const languageCode = ISO6391.getCode(language)
-    form.setValue('nativeLanguage', languageCode)
-    form.clearErrors('nativeLanguage')
-  }
 
   async function onSubmit(values: FormData) {
     setIsLoading(true)
@@ -99,8 +91,12 @@ export default function SignUpForm() {
               <FormControl>
                 <LanguageDropdown
                   language={language}
-                  setLanguage={setNativeLanguage}
+                  setLanguage={setLanguage}
                   contentClassName="w-[425px]"
+                  onChange={(language) => {
+                    form.setValue('nativeLanguage', language)
+                    form.clearErrors('nativeLanguage')
+                  }}
                 />
               </FormControl>
             </FormItem>

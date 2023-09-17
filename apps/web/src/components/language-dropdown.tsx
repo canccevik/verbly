@@ -15,6 +15,7 @@ import { useState } from 'react'
 interface LanguageDropdownProps {
   language: string
   setLanguage: (language: string) => void
+  onChange: (language: string) => void
   contentClassName: string
 }
 
@@ -23,9 +24,16 @@ const languageNames = ISO6391.getAllNames()
 export default function LanguageDropdown({
   language,
   setLanguage,
+  onChange,
   contentClassName
 }: LanguageDropdownProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+
+  function setNativeLanguage(language: string) {
+    const languageCode = ISO6391.getCode(language)
+    setLanguage(languageCode)
+    onChange(languageCode)
+  }
 
   return (
     <Popover open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
@@ -35,9 +43,7 @@ export default function LanguageDropdown({
           aria-expanded={isDropdownOpen}
           className="w-full justify-between bg-main-grey px-6 text-muted-foreground hover:bg-main-grey border-2"
         >
-          {language
-            ? languageNames.find((name) => name.toLowerCase() === language)
-            : 'Native language'}
+          {language ? ISO6391.getName(language) : 'Native language'}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -52,7 +58,7 @@ export default function LanguageDropdown({
               <CommandItem
                 key={name}
                 onSelect={(currentValue) => {
-                  setLanguage(currentValue === language ? '' : currentValue)
+                  setNativeLanguage(currentValue)
                   setIsDropdownOpen(false)
                 }}
               >

@@ -1,3 +1,4 @@
+import { ApiResponse } from '@/types'
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -5,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export async function fetchApi(
+export async function fetchApi<T = any>(
   url: RequestInfo | URL,
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET',
   body?: Record<string, unknown>
@@ -18,5 +19,6 @@ export async function fetchApi(
     },
     body: JSON.stringify(body)
   })
-  return response.json()
+  const data = await response.json()
+  return data as ApiResponse<T>
 }

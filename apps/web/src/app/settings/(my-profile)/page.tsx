@@ -23,15 +23,18 @@ import {
 } from '@/components/ui/select'
 import LanguageDropdown from '@/components/language-dropdown'
 import { useState } from 'react'
-import ISO6391 from 'iso-639-1'
 import FormAlert from '@/components/form-alert'
 import { useUserStore } from '@/store/user'
 import MyProfileSkeleton from './skeleton'
+import { Gender } from '@/types'
+import { fetchApi } from '@/lib/utils'
+import { toast } from '@/hooks/use-toast'
 
 type FormData = z.infer<typeof myProfileSchema>
 
 export default function MyProfile() {
   const { user } = useUserStore()
+  const setUser = useUserStore((state) => state.set)
   const [isLoading, setIsLoading] = useState(false)
   const [language, setLanguage] = useState('')
 
@@ -39,15 +42,22 @@ export default function MyProfile() {
     resolver: zodResolver(myProfileSchema)
   })
 
-  function setNativeLanguage(language: string) {
-    setLanguage(language)
-    const languageCode = ISO6391.getCode(language)
-    form.setValue('nativeLanguage', languageCode)
-    form.clearErrors('nativeLanguage')
-  }
+  async function onSubmit(values: FormData) {
+    values.gender = Number(values.gender) as unknown as Gender
 
-  function onSubmit(values: FormData) {
-    console.log(values)
+    setIsLoading(true)
+    const response = await fetchApi('/users/me', 'PUT', values)
+    setIsLoading(false)
+
+    if (response.statusCode !== 200) {
+      return form.setError('root', { message: response.message })
+    }
+
+    setUser(response.data)
+    toast({
+      title: 'Changes saved!',
+      description: 'Your profile updated successfully.'
+    })
   }
 
   return user ? (
@@ -56,6 +66,7 @@ export default function MyProfile() {
         <FormField
           control={form.control}
           name="username"
+          defaultValue={user.username}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
@@ -72,13 +83,14 @@ export default function MyProfile() {
         <FormItem>
           <FormLabel>Email</FormLabel>
           <FormControl>
-            <Input type="email" value={user?.email} disabled />
+            <Input type="email" defaultValue={user.email} disabled />
           </FormControl>
         </FormItem>
 
         <FormField
           control={form.control}
           name="gender"
+          defaultValue={user.gender.toString() as Gender}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Gender</FormLabel>
@@ -105,14 +117,19 @@ export default function MyProfile() {
         <FormField
           control={form.control}
           name="nativeLanguage"
-          render={() => (
+          defaultValue={user.nativeLanguage}
+          render={({ field }) => (
             <FormItem>
               <FormLabel>Native language</FormLabel>
               <FormControl>
                 <LanguageDropdown
-                  language={language}
-                  setLanguage={setNativeLanguage}
+                  language={language || field.value}
+                  setLanguage={setLanguage}
                   contentClassName="w-[600px] mb-2"
+                  onChange={(language) => {
+                    form.setValue('nativeLanguage', language)
+                    form.clearErrors('nativeLanguage')
+                  }}
                 />
               </FormControl>
               <FormDescription>This is your native language.</FormDescription>
