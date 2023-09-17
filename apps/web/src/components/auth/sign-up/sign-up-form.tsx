@@ -22,7 +22,6 @@ type FormData = z.infer<typeof signUpSchema>
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [language, setLanguage] = useState('')
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   const router = useRouter()
 
@@ -101,8 +100,6 @@ export default function SignUpForm() {
                 <LanguageDropdown
                   language={language}
                   setLanguage={setNativeLanguage}
-                  open={isDropdownOpen}
-                  setOpen={setIsDropdownOpen}
                   contentClassName="w-[425px]"
                 />
               </FormControl>

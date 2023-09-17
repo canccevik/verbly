@@ -88,8 +88,8 @@ export default function Sidebar() {
                 </>
               ) : (
                 <>
-                  <Skeleton className="w-10 h-10 rounded-full bg-zinc-300" />
-                  <Skeleton className="w-24 h-4 bg-zinc-300 ml-3" />
+                  <Skeleton className="w-10 h-10 rounded-full" />
+                  <Skeleton className="w-24 h-4 ml-3" />
                 </>
               )}
             </div>

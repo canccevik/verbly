@@ -10,10 +10,9 @@ import {
   CommandItem
 } from './ui/command'
 import { cn } from '@/lib/utils'
+import { useState } from 'react'
 
 interface LanguageDropdownProps {
-  open: boolean
-  setOpen: (open: boolean) => void
   language: string
   setLanguage: (language: string) => void
   contentClassName: string
@@ -22,18 +21,18 @@ interface LanguageDropdownProps {
 const languageNames = ISO6391.getAllNames()
 
 export default function LanguageDropdown({
-  open,
-  setOpen,
   language,
   setLanguage,
   contentClassName
 }: LanguageDropdownProps) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
       <PopoverTrigger asChild className="focus-visible:ring-0">
         <Button
           role="combobox"
-          aria-expanded={open}
+          aria-expanded={isDropdownOpen}
           className="w-full justify-between bg-main-grey px-6 text-muted-foreground hover:bg-main-grey border-2"
         >
           {language
@@ -54,7 +53,7 @@ export default function LanguageDropdown({
                 key={name}
                 onSelect={(currentValue) => {
                   setLanguage(currentValue === language ? '' : currentValue)
-                  setOpen(false)
+                  setIsDropdownOpen(false)
                 }}
               >
                 {name}
