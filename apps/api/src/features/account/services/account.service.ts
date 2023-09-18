@@ -40,13 +40,17 @@ export class AccountService {
   }
 
   public async updatePassword(dto: UpdatePasswordDto, user: UserDocument): Promise<void> {
-    const isOldPasswordCorrect = await this.userRepository.comparePasswords(
-      user.username,
-      dto.oldPassword
-    )
+    if (user.hasPassword) {
+      const isOldPasswordCorrect = await this.userRepository.comparePasswords(
+        user.username,
+        dto.oldPassword
+      )
 
-    if (!isOldPasswordCorrect) {
-      throw new BadRequestException('Old password is wrong.')
+      if (!isOldPasswordCorrect) {
+        throw new BadRequestException('Old password is wrong.')
+      }
+    } else {
+      await this.userRepository.findByIdAndUpdate(user.id, { $set: { hasPassword: true } })
     }
     await this.userRepository.updatePassword({ _id: user.id }, dto.newPassword)
   }

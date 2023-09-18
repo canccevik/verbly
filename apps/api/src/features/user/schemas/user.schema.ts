@@ -79,10 +79,19 @@ export class User {
     type: Boolean,
     required: true,
     default: function () {
-      return this.googleId !== undefined
+      return !!this.googleId || !!this.facebookId || !!this.microsoftId
     }
   })
   public isEmailConfirmed: boolean
+
+  @Prop({
+    type: Boolean,
+    required: true,
+    default: function () {
+      return this.password !== undefined
+    }
+  })
+  public hasPassword: boolean
 
   @Prop({
     type: String,

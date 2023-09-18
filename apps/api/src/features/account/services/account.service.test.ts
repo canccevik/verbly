@@ -152,10 +152,10 @@ describe('AccountService', () => {
   })
 
   describe('updatePassword', () => {
-    it('should update password of user', async () => {
+    it('should update password of user when user has password', async () => {
       // ARRANGE
       const updatePasswordDto: UpdatePasswordDto = { oldPassword: 'old', newPassword: 'new' }
-      const userMock = { id: 'id', username: 'john' } as UserDocument
+      const userMock = { id: 'id', username: 'john', hasPassword: true } as UserDocument
 
       // ACT
       await accountService.updatePassword(updatePasswordDto, userMock)
@@ -174,13 +174,31 @@ describe('AccountService', () => {
     it('should throw bad request error when old password is wrong', async () => {
       // ARRANGE
       const updatePasswordDto: UpdatePasswordDto = { oldPassword: 'old', newPassword: 'new' }
-      const userMock = { id: 'id', username: 'john' } as UserDocument
+      const userMock = { id: 'id', hasPassword: true } as UserDocument
 
       jest.spyOn(userRepository, 'comparePasswords').mockResolvedValue(null)
 
       // ACT & ASSERT
       expect(accountService.updatePassword(updatePasswordDto, userMock)).rejects.toThrowError(
         new BadRequestException('Old password is wrong.')
+      )
+    })
+
+    it('should update password of user when user does not have password', async () => {
+      // ARRANGE
+      const updatePasswordDto: UpdatePasswordDto = { oldPassword: 'old', newPassword: 'new' }
+      const userMock = { id: 'id', hasPassword: false } as UserDocument
+
+      // ACT
+      await accountService.updatePassword(updatePasswordDto, userMock)
+
+      // ASSERT
+      expect(userRepository.findByIdAndUpdate).toHaveBeenCalledWith(userMock.id, {
+        $set: { hasPassword: true }
+      })
+      expect(userRepository.updatePassword).toHaveBeenCalledWith(
+        { _id: userMock.id },
+        updatePasswordDto.newPassword
       )
     })
   })
