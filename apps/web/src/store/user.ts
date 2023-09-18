@@ -7,9 +7,12 @@ interface State {
 
 interface Actions {
   set: (user: User) => void
+  setHasPassword: (value: boolean) => void
 }
 
 export const useUserStore = create<State & Actions>((set) => ({
   user: null,
-  set: (user) => set(() => ({ user: user }))
+  set: (user) => set(() => ({ user: user })),
+  setHasPassword: (value) =>
+    set((state) => ({ user: { ...state.user, hasPassword: value } as User }))
 }))

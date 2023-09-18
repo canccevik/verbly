@@ -23,6 +23,7 @@ export type User = {
   nativeLanguage: string
   profilePhoto: string
   isEmailConfirmed: boolean
+  hasPassword: boolean
   registeredAt: string
 }
 

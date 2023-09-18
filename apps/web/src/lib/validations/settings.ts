@@ -15,3 +15,19 @@ export const myProfileSchema = z.object({
     required_error: 'Language selection is required.'
   })
 })
+
+export const updatePasswordSchema = z
+  .object({
+    oldPassword: z.string().optional(),
+    newPassword: z
+      .string({ required_error: 'You must enter your new password.' })
+      .min(6, { message: 'New password must be at least 6 characters.' })
+      .max(60, { message: 'New password must be maximum 60 characters.' }),
+    newPassword2: z.string({
+      required_error: 'You must confirm your new password.'
+    })
+  })
+  .refine((data) => data.newPassword === data.newPassword2, {
+    message: 'New passwords do not match.',
+    path: ['newPassword2']
+  })

@@ -33,8 +33,7 @@ import { toast } from '@/hooks/use-toast'
 type FormData = z.infer<typeof myProfileSchema>
 
 export default function MyProfile() {
-  const { user } = useUserStore()
-  const setUser = useUserStore((state) => state.set)
+  const { user, set: setUser } = useUserStore()
   const [isLoading, setIsLoading] = useState(false)
   const [language, setLanguage] = useState('')
 
