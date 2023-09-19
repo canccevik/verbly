@@ -50,7 +50,7 @@ export default function LanguageDropdown({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className={cn('h-60 p-0', contentClassName)}>
+      <PopoverContent className={cn('h-52 p-0', contentClassName)}>
         <Command>
           <CommandInput placeholder="Search language..." />
           <CommandEmpty>No language found.</CommandEmpty>

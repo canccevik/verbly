@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 
-import Navbar from '@/components/settings/navbar'
+import Navbar from '@/app/(app)/settings/navbar'
 import Header from '@/components/header'
 
 export const metadata: Metadata = {

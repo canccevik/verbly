@@ -26,7 +26,7 @@ import {
 import { useUser } from '@/hooks/use-user'
 import { fetchApi } from '@/lib/utils'
 
-import { Skeleton } from './ui/skeleton'
+import { Skeleton } from '../../components/ui/skeleton'
 
 export default function Sidebar() {
   const { user } = useUser()

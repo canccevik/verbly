@@ -7,36 +7,45 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 
+import { signUpSchema } from '@/lib/validations/auth'
 import { fetchApi } from '@/lib/utils'
-import { signInSchema } from '@/lib/validations/auth'
 import PasswordInput from '@/components/password-input'
 import FormAlert from '@/components/form-alert'
 
-import SocialButtonGroup from '../social-button-group'
-import { Form, FormControl, FormField, FormItem } from '../../ui/form'
-import { Input } from '../../ui/input'
-import { Button } from '../../ui/button'
+import SocialButtonGroup from '../../../components/auth/social-button-group'
+import LanguageDropdown from '../../../components/language-dropdown'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem
+} from '../../../components/ui/form'
+import { Input } from '../../../components/ui/input'
+import { Button } from '../../../components/ui/button'
 
-type FormData = z.infer<typeof signInSchema>
+type FormData = z.infer<typeof signUpSchema>
 
-export default function SignInForm() {
+export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
+  const [language, setLanguage] = useState('')
 
   const router = useRouter()
 
   const form = useForm<FormData>({
-    resolver: zodResolver(signInSchema)
+    resolver: zodResolver(signUpSchema)
   })
 
   async function onSubmit(values: FormData) {
     setIsLoading(true)
-    const response = await fetchApi('/auth/login', 'POST', values)
+    const response = await fetchApi('/auth/register', 'POST', values)
     setIsLoading(false)
 
     if (response.statusCode !== 201) {
-      return form.setError('root', { message: 'Wrong username or password.' })
+      return form.setError('root', { message: response.message[0] })
     }
-    router.push('/')
+
+    const email = form.getValues('email')
+    router.push(`/sign-up/otp?email=${email}`)
   }
 
   return (
@@ -59,6 +68,18 @@ export default function SignInForm() {
 
         <FormField
           control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input type="email" placeholder="E-mail" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
@@ -69,32 +90,45 @@ export default function SignInForm() {
           )}
         />
 
+        <FormField
+          control={form.control}
+          name="nativeLanguage"
+          render={() => (
+            <FormItem>
+              <FormControl>
+                <LanguageDropdown
+                  language={language}
+                  setLanguage={setLanguage}
+                  contentClassName="w-[425px]"
+                  onChange={(language) => {
+                    form.setValue('nativeLanguage', language)
+                    form.clearErrors('nativeLanguage')
+                  }}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
         <FormAlert form={form} />
 
         <Link
-          href={'/forgot-password'}
+          href={'/sign-in'}
           className="text-right text-sm font-medium ml-auto inline text-zinc-700 hover:text-main-blue"
         >
-          Forgot password?
+          Have an account? Sign in
         </Link>
 
         <Button type="submit" loading={isLoading}>
-          Sign in
+          Sign up
         </Button>
-
-        <Link
-          href={'/sign-up'}
-          className="text-sm font-medium text-zinc-700 inline w-fit mx-auto hover:text-main-blue"
-        >
-          Don&apos;t have an account? Sign up
-        </Link>
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-sm text-zinc-700">
-            <span className="bg-background px-4">Or continue with</span>
+            <span className="bg-background px-4">Or join us with</span>
           </div>
         </div>
 

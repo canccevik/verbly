@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 
-import SignInForm from '@/components/auth/sign-in/sign-in-form'
+import SignInForm from '@/app/(auth)/sign-in/form'
 import AuthSidebar from '@/components/auth/auth-sidebar'
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default function SignIn() {
         src={'images/auth/sign-in-character.svg'}
         width={700}
         height={700}
-        className='right-44'
+        className="right-44"
       />
     </div>
   )

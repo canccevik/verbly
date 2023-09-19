@@ -1,4 +1,4 @@
-import CircleSocialButton from '../circle-social-button'
+import CircleSocialButton from './circle-social-button'
 
 export default function SocialButtonGroup() {
   return (

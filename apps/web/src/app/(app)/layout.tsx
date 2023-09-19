@@ -1,4 +1,4 @@
-import Sidebar from '@/components/sidebar'
+import Sidebar from '@/app/(app)/sidebar'
 
 interface AppLayout {
   children: React.ReactNode
