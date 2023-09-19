@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import AuthSidebar from '@/components/auth/auth-sidebar'
 
 interface SignUpLayoutProps {
   children: React.ReactNode
@@ -11,15 +11,12 @@ export default function SignUpLayout({ children }: SignUpLayoutProps) {
         <div className="w-4/12 text-center flex flex-col gap-6">{children}</div>
       </div>
 
-      <div className="w-4/12 bg-main-blue flex flex-col justify-center">
-        <Image
-          src={'images/auth/sign-up-character.svg'}
-          alt="Sign up character"
-          width={600}
-          height={600}
-          className="absolute right-64"
-        />
-      </div>
+      <AuthSidebar
+        src={'images/auth/sign-up-character.svg'}
+        width={600}
+        height={600}
+        className="right-64"
+      />
     </div>
   )
 }

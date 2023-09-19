@@ -1,9 +1,9 @@
-import { UseFormReturn } from 'react-hook-form'
+import { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { Alert, AlertDescription } from './ui/alert'
 
-interface FormAlertProps {
-  form: UseFormReturn<any>
+interface FormAlertProps<T extends FieldValues = any> {
+  form: UseFormReturn<T>
 }
 
 export default function FormAlert({ form }: FormAlertProps) {

@@ -16,7 +16,8 @@ export default function NotFound() {
 
       <h1 className="font-semibold text-4xl -mt-5">We have lost this page.</h1>
       <p className="text-lg">
-        Sorry, the page you’re looking for doesn’t exist or has been removed.
+        Sorry, the page you&apos;re looking for doesn&apos;t exist or has been
+        removed.
       </p>
 
       <Link href={'/'}>

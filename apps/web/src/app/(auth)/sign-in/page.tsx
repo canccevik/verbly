@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
-import Image from 'next/image'
 
 import SignInForm from '@/components/auth/sign-in/sign-in-form'
+import AuthSidebar from '@/components/auth/auth-sidebar'
 
 export const metadata: Metadata = {
   title: 'Sign In'
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function SignIn() {
   return (
-    <div className="w-screen h-screen flex">
+    <div className="w-full h-screen flex">
       <div className="w-8/12 flex justify-center items-center">
         <div className="w-4/12 text-center flex flex-col gap-6">
           <h1 className="font-medium text-4xl">Hello Again!</h1>
@@ -19,15 +19,12 @@ export default function SignIn() {
         </div>
       </div>
 
-      <div className="w-4/12 bg-main-blue flex flex-col justify-center">
-        <Image
-          src={'images/auth/sign-in-character.svg'}
-          alt="Sign in character"
-          width={700}
-          height={700}
-          className="absolute right-44"
-        />
-      </div>
+      <AuthSidebar
+        src={'images/auth/sign-in-character.svg'}
+        width={700}
+        height={700}
+        className='right-44'
+      />
     </div>
   )
 }

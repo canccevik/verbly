@@ -14,8 +14,6 @@ import {
   CommandItem
 } from './ui/command'
 
-
-
 interface LanguageDropdownProps {
   language: string
   setLanguage: (language: string) => void
@@ -33,7 +31,7 @@ export default function LanguageDropdown({
 }: LanguageDropdownProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
-  function setNativeLanguage(language: string) {
+  function setLanguageCode(language: string) {
     const languageCode = ISO6391.getCode(language)
     setLanguage(languageCode)
     onChange(languageCode)
@@ -62,7 +60,7 @@ export default function LanguageDropdown({
               <CommandItem
                 key={name}
                 onSelect={(currentValue) => {
-                  setNativeLanguage(currentValue)
+                  setLanguageCode(currentValue)
                   setIsDropdownOpen(false)
                 }}
               >
