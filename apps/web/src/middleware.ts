@@ -9,12 +9,7 @@ export const publicRoutes = [
 ]
 
 export function middleware(request: NextRequest) {
-  const isPublicFile = /\.(.*)$/.test(request.nextUrl.pathname)
-
-  if (isPublicFile) return
-
   const sessionId = request.cookies.get('sessionId')
-
   const isRequestedRoutePublic = publicRoutes.includes(request.nextUrl.pathname)
 
   if (!isRequestedRoutePublic && !sessionId) {
@@ -23,4 +18,8 @@ export function middleware(request: NextRequest) {
   if (isRequestedRoutePublic && sessionId) {
     return NextResponse.redirect(new URL('/', request.url))
   }
+}
+
+export const config = {
+  matcher: ['/((?!.*\\..*|_next).*)']
 }
