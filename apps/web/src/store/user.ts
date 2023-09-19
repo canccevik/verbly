@@ -14,5 +14,5 @@ export const useUserStore = create<State & Actions>((set) => ({
   user: null,
   set: (user) => set(() => ({ user: user })),
   setHasPassword: (value) =>
-    set((state) => ({ user: { ...state.user, hasPassword: value } as User }))
+    set(({ user }) => ({ user: { ...user, hasPassword: value } as User }))
 }))

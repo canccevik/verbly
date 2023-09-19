@@ -11,7 +11,7 @@ export async function fetchApi<T = any>(
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET',
   body?: Record<string, unknown>
 ) {
-  const response = await fetch(`${process.env.API_URL}${url}`, {
+  const response = await fetch(process.env.API_URL! + url, {
     method,
     credentials: 'include',
     headers: {
