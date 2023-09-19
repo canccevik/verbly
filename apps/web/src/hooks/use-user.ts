@@ -1,4 +1,5 @@
 import useSWR from 'swr'
+
 import { fetchApi } from '@/lib/utils'
 import { ApiResponse, User } from '@/types'
 import { useUserStore } from '@/store/user'

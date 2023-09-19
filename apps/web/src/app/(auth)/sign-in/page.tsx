@@ -1,6 +1,7 @@
-import SignInForm from '@/components/auth/sign-in/sign-in-form'
 import { Metadata } from 'next'
 import Image from 'next/image'
+
+import SignInForm from '@/components/auth/sign-in/sign-in-form'
 
 export const metadata: Metadata = {
   title: 'Sign In'

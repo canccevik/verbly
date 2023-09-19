@@ -1,6 +1,7 @@
-import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
+
+import '@/styles/globals.css'
 import { siteConfig } from '@/config/site'
 import { Toaster } from '@/components/ui/toaster'
 

@@ -1,5 +1,6 @@
-import { Gender } from '@/types'
 import { z } from 'zod'
+
+import { Gender } from '@/types'
 
 export const myProfileSchema = z.object({
   username: z

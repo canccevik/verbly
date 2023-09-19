@@ -1,6 +1,7 @@
 import { Eye, EyeOff } from 'lucide-react'
-import { Input, InputProps } from './ui/input'
 import { useState } from 'react'
+
+import { Input, InputProps } from './ui/input'
 
 interface PasswordInputProps extends InputProps {}
 

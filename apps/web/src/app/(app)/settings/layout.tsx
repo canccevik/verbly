@@ -1,5 +1,6 @@
-import Navbar from '@/components/settings/navbar'
 import { Metadata } from 'next'
+
+import Navbar from '@/components/settings/navbar'
 
 export const metadata: Metadata = {
   title: 'Settings'

@@ -1,9 +1,10 @@
 'use client'
 
-import { cn } from '@/lib/utils'
-import { NavbarItem } from '@/types'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+
+import { cn } from '@/lib/utils'
+import { NavbarItem } from '@/types'
 
 const navbarItems: NavbarItem[] = [
   { title: 'My profile', path: '/settings' },

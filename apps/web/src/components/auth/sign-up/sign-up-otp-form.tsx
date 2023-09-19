@@ -1,18 +1,20 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
-import { signUpOtpSchema } from '@/lib/validations/auth'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import Link from 'next/link'
+
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { signUpOtpSchema } from '@/lib/validations/auth'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { fetchApi } from '@/lib/utils'
 import { useToast } from '@/hooks/use-toast'
 import FormAlert from '@/components/form-alert'
-import Link from 'next/link'
+
 
 type FormData = z.infer<typeof signUpOtpSchema>
 

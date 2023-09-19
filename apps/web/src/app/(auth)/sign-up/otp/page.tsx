@@ -1,5 +1,6 @@
-import SignUpOtpForm from '@/components/auth/sign-up/sign-up-otp-form'
 import { Metadata } from 'next'
+
+import SignUpOtpForm from '@/components/auth/sign-up/sign-up-otp-form'
 
 export const metadata: Metadata = {
   title: 'Verify Account'

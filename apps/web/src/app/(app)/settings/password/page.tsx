@@ -1,16 +1,17 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
 import FormAlert from '@/components/form-alert'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/hooks/use-toast'
 import { fetchApi } from '@/lib/utils'
 import { updatePasswordSchema } from '@/lib/validations/settings'
 import { useUserStore } from '@/store/user'
-import { zodResolver } from '@hookform/resolvers/zod'
 import PasswordInput from '@/components/password-input'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import {
   Form,
   FormField,
@@ -18,6 +19,7 @@ import {
   FormLabel,
   FormControl
 } from '@/components/ui/form'
+
 import UpdatePasswordSkeleton from './skeleton'
 
 type FormData = z.infer<typeof updatePasswordSchema>

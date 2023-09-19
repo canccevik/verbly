@@ -1,5 +1,10 @@
 'use client'
 
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import { useState } from 'react'
+
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -10,9 +15,6 @@ import {
   FormLabel
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import { myProfileSchema } from '@/lib/validations/settings'
 import {
   Select,
@@ -22,13 +24,13 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import LanguageDropdown from '@/components/language-dropdown'
-import { useState } from 'react'
 import FormAlert from '@/components/form-alert'
 import { useUserStore } from '@/store/user'
-import MyProfileSkeleton from './skeleton'
 import { Gender } from '@/types'
 import { fetchApi } from '@/lib/utils'
 import { toast } from '@/hooks/use-toast'
+
+import MyProfileSkeleton from './skeleton'
 
 type FormData = z.infer<typeof myProfileSchema>
 

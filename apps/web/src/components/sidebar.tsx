@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import {
   ChevronsUpDown,
   Compass,
@@ -13,6 +12,9 @@ import {
   Settings,
   User2
 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+
+import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,9 +24,9 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { useUser } from '@/hooks/use-user'
-import { Skeleton } from './ui/skeleton'
 import { fetchApi } from '@/lib/utils'
-import { useRouter } from 'next/navigation'
+
+import { Skeleton } from './ui/skeleton'
 
 export default function Sidebar() {
   const { user } = useUser()

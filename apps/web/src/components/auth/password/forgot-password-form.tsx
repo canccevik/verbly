@@ -1,16 +1,17 @@
 'use client'
 
-import { Form, FormField, FormItem, FormControl } from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { forgotPasswordSchema } from '@/lib/validations/auth'
-import { fetchApi } from '@/lib/utils'
 import { z } from 'zod'
 import Link from 'next/link'
+
+import { forgotPasswordSchema } from '@/lib/validations/auth'
+import { fetchApi } from '@/lib/utils'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Form, FormField, FormItem, FormControl } from '@/components/ui/form'
 import { useToast } from '@/hooks/use-toast'
 import FormAlert from '@/components/form-alert'
 
