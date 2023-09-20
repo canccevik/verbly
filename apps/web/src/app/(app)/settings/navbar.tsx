@@ -4,15 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { cn } from '@/lib/utils'
-import { NavbarItem } from '@/types'
-
-const navbarItems: NavbarItem[] = [
-  { title: 'My profile', path: '/settings' },
-  { title: 'Password', path: '/settings/password' },
-  { title: 'Billing', path: '/settings/billing' },
-  { title: 'Notifications', path: '/settings/notifications' },
-  { title: 'Team', path: '/settings/team' }
-]
+import { navbarItems } from '@/config/settings'
 
 export default function Navbar() {
   const pathname = usePathname()

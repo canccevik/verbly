@@ -3,16 +3,13 @@
 import Link from 'next/link'
 import {
   ChevronsUpDown,
-  Compass,
   Globe2,
   HomeIcon,
-  LayoutGrid,
-  List,
   LogOut,
   Settings,
   User2
 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -24,13 +21,14 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { useUser } from '@/hooks/use-user'
-import { fetchApi } from '@/lib/utils'
-
-import { Skeleton } from '../../components/ui/skeleton'
+import { cn, fetchApi } from '@/lib/utils'
+import { sidebarNavItems } from '@/config/sidebar'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function Sidebar() {
   const { user } = useUser()
   const router = useRouter()
+  const pathname = usePathname()
 
   async function logout() {
     await fetchApi('/auth/logout', 'POST')
@@ -45,33 +43,19 @@ export default function Sidebar() {
       </div>
 
       <ul className="w-full flex flex-col gap-y-5">
-        <Link href={'/'}>
-          <li className="flex bg-zinc-100 px-8 py-5 rounded-2xl">
-            <HomeIcon className="text-zinc-800" />
-            <span className="ml-6 font-semibold">Home</span>
-          </li>
-        </Link>
-
-        <Link href={'/'}>
-          <li className="flex px-8 py-5 rounded-2xl hover:bg-zinc-100">
-            <List className="text-zinc-800" />
-            <span className="ml-6 font-semibold">My lists</span>
-          </li>
-        </Link>
-
-        <Link href={'/'}>
-          <li className="flex px-8 py-5 rounded-2xl hover:bg-zinc-100">
-            <LayoutGrid className="text-zinc-800" />
-            <span className="ml-6 font-semibold">Exercises</span>
-          </li>
-        </Link>
-
-        <Link href={'/'}>
-          <li className="flex px-8 py-5 rounded-2xl hover:bg-zinc-100">
-            <Compass className="text-zinc-800" />
-            <span className="ml-6 font-semibold">Translate</span>
-          </li>
-        </Link>
+        {sidebarNavItems.map((item, i) => (
+          <Link href={item.path} key={i}>
+            <li
+              className={cn(
+                'flex hover:bg-zinc-100 px-8 py-5 rounded-2xl text-zinc-800',
+                item.path === pathname && 'bg-zinc-100'
+              )}
+            >
+              {item.icon}
+              <span className="ml-6 font-semibold">{item.title}</span>
+            </li>
+          </Link>
+        ))}
       </ul>
 
       <div></div>
