@@ -1,45 +1,39 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
+import useSWRMutation from 'swr/mutation'
 
-import { fetchApi } from '@/lib/utils'
+import { HttpMethod, fetcher } from '@/lib/utils/fetcher'
 import { signInSchema } from '@/lib/validations/auth'
 import PasswordInput from '@/components/password-input'
 import FormAlert from '@/components/form-alert'
-
-import SocialButtonGroup from '../../../components/auth/social-button-group'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem
-} from '../../../components/ui/form'
-import { Input } from '../../../components/ui/input'
-import { Button } from '../../../components/ui/button'
+import SocialButtonGroup from '@/components/auth/social-button-group'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 type FormData = z.infer<typeof signInSchema>
 
 export default function SignInForm() {
-  const [isLoading, setIsLoading] = useState(false)
-
   const router = useRouter()
+  const { trigger, isMutating } = useSWRMutation(
+    '/auth/login',
+    fetcher(HttpMethod.POST)
+  )
 
   const form = useForm<FormData>({
     resolver: zodResolver(signInSchema)
   })
 
   async function onSubmit(values: FormData) {
-    setIsLoading(true)
-    const response = await fetchApi('/auth/login', 'POST', values)
-    setIsLoading(false)
+    const response = await trigger(values)
 
     if (response.statusCode !== 201) {
-      return form.setError('root', { message: 'Wrong username or password.' })
+      return form.setError('root', { message: response.message })
     }
     router.push('/')
   }
@@ -83,7 +77,7 @@ export default function SignInForm() {
           Forgot password?
         </Link>
 
-        <Button type="submit" loading={isLoading}>
+        <Button type="submit" loading={isMutating}>
           Sign in
         </Button>
 

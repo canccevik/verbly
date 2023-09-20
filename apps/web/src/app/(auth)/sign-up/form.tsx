@@ -6,44 +6,38 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
+import useSWRMutation from 'swr/mutation'
 
 import { signUpSchema } from '@/lib/validations/auth'
-import { fetchApi } from '@/lib/utils'
+import { HttpMethod, fetcher } from '@/lib/utils/fetcher'
 import PasswordInput from '@/components/password-input'
 import FormAlert from '@/components/form-alert'
-
-import SocialButtonGroup from '../../../components/auth/social-button-group'
-import LanguageDropdown from '../../../components/language-dropdown'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem
-} from '../../../components/ui/form'
-import { Input } from '../../../components/ui/input'
-import { Button } from '../../../components/ui/button'
+import SocialButtonGroup from '@/components/auth/social-button-group'
+import LanguageDropdown from '@/components/language-dropdown'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 type FormData = z.infer<typeof signUpSchema>
 
 export default function SignUpForm() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [language, setLanguage] = useState('')
-
   const router = useRouter()
+  const [language, setLanguage] = useState('')
+  const { trigger, isMutating } = useSWRMutation(
+    '/auth/register',
+    fetcher(HttpMethod.POST)
+  )
 
   const form = useForm<FormData>({
     resolver: zodResolver(signUpSchema)
   })
 
   async function onSubmit(values: FormData) {
-    setIsLoading(true)
-    const response = await fetchApi('/auth/register', 'POST', values)
-    setIsLoading(false)
+    const response = await trigger(values)
 
     if (response.statusCode !== 201) {
       return form.setError('root', { message: response.message[0] })
     }
-
     const email = form.getValues('email')
     router.push(`/sign-up/otp?email=${email}`)
   }
@@ -119,7 +113,7 @@ export default function SignUpForm() {
           Have an account? Sign in
         </Link>
 
-        <Button type="submit" loading={isLoading}>
+        <Button type="submit" loading={isMutating}>
           Sign up
         </Button>
 

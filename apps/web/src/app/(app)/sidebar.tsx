@@ -1,15 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import {
-  ChevronsUpDown,
-  Globe2,
-  HomeIcon,
-  LogOut,
-  Settings,
-  User2
-} from 'lucide-react'
+import { ChevronsUpDown, Globe2, LogOut, Settings, User2 } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
+import useSWRMutation from 'swr/mutation'
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -21,7 +15,8 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { useUser } from '@/hooks/use-user'
-import { cn, fetchApi } from '@/lib/utils'
+import { HttpMethod, fetcher } from '@/lib/utils/fetcher'
+import { cn } from '@/lib/utils'
 import { sidebarNavItems } from '@/config/sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -29,9 +24,10 @@ export default function Sidebar() {
   const { user } = useUser()
   const router = useRouter()
   const pathname = usePathname()
+  const { trigger } = useSWRMutation('/auth/logout', fetcher(HttpMethod.POST))
 
   async function logout() {
-    await fetchApi('/auth/logout', 'POST')
+    await trigger({})
     router.push('/sign-in')
   }
 

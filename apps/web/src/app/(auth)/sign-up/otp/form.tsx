@@ -4,25 +4,27 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
 import Link from 'next/link'
+import useSWRMutation from 'swr/mutation'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { signUpOtpSchema } from '@/lib/validations/auth'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
-import { fetchApi } from '@/lib/utils'
+import { HttpMethod, fetcher } from '@/lib/utils/fetcher'
 import { useToast } from '@/hooks/use-toast'
 import FormAlert from '@/components/form-alert'
-
 
 type FormData = z.infer<typeof signUpOtpSchema>
 
 export default function SignUpOtpForm() {
-  const [isLoading, setIsLoading] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
   const { toast } = useToast()
+  const { trigger, isMutating } = useSWRMutation(
+    '/account/verification',
+    fetcher(HttpMethod.POST)
+  )
 
   const email = searchParams.get('email')
 
@@ -32,13 +34,12 @@ export default function SignUpOtpForm() {
   })
 
   async function onSubmit(values: FormData) {
-    setIsLoading(true)
-    const response = await fetchApi('/account/verification', 'POST', values)
-    setIsLoading(false)
+    const response = await trigger(values)
 
     if (response.statusCode !== 201) {
       return form.setError('root', { message: 'Invalid otp code.' })
     }
+
     toast({
       title: 'Registration successful',
       description: "We're glad you joined us!"
@@ -63,7 +64,7 @@ export default function SignUpOtpForm() {
 
         <FormAlert form={form} />
 
-        <Button type="submit" loading={isLoading} className="w-full">
+        <Button type="submit" loading={isMutating} className="w-full">
           Verify
         </Button>
 

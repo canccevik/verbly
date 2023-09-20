@@ -1,14 +1,14 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import useSWRMutation from 'swr/mutation'
 
 import FormAlert from '@/components/form-alert'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/hooks/use-toast'
-import { fetchApi } from '@/lib/utils'
+import { HttpMethod, fetcher } from '@/lib/utils/fetcher'
 import { updatePasswordSchema } from '@/lib/validations/settings'
 import { useUserStore } from '@/store/user'
 import PasswordInput from '@/components/password-input'
@@ -26,16 +26,17 @@ type FormData = z.infer<typeof updatePasswordSchema>
 
 export default function UpdatePassword() {
   const { user, setHasPassword } = useUserStore()
-  const [isLoading, setIsLoading] = useState(false)
+  const { trigger, isMutating } = useSWRMutation(
+    '/account/password',
+    fetcher(HttpMethod.PUT)
+  )
 
   const form = useForm<FormData>({
     resolver: zodResolver(updatePasswordSchema)
   })
 
   async function onSubmit(values: FormData) {
-    setIsLoading(true)
-    const response = await fetchApi('/account/password', 'PUT', values)
-    setIsLoading(false)
+    const response = await trigger(values)
 
     if (response.statusCode !== 200) {
       return form.setError('root', { message: response.message })
@@ -95,7 +96,7 @@ export default function UpdatePassword() {
 
         <FormAlert form={form} />
 
-        <Button type="submit" className="w-full" loading={isLoading}>
+        <Button type="submit" className="w-full" loading={isMutating}>
           {user.hasPassword ? 'Update' : 'Create'} password
         </Button>
       </form>

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useState } from 'react'
+import useSWRMutation from 'swr/mutation'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -27,7 +28,7 @@ import LanguageDropdown from '@/components/language-dropdown'
 import FormAlert from '@/components/form-alert'
 import { useUserStore } from '@/store/user'
 import { Gender } from '@/types'
-import { fetchApi } from '@/lib/utils'
+import { HttpMethod, fetcher } from '@/lib/utils/fetcher'
 import { toast } from '@/hooks/use-toast'
 
 import MyProfileSkeleton from './skeleton'
@@ -36,8 +37,11 @@ type FormData = z.infer<typeof myProfileSchema>
 
 export default function MyProfile() {
   const { user, set: setUser } = useUserStore()
-  const [isLoading, setIsLoading] = useState(false)
   const [language, setLanguage] = useState('')
+  const { trigger, isMutating } = useSWRMutation(
+    '/account/password',
+    fetcher(HttpMethod.PUT)
+  )
 
   const form = useForm<FormData>({
     resolver: zodResolver(myProfileSchema)
@@ -46,9 +50,7 @@ export default function MyProfile() {
   async function onSubmit(values: FormData) {
     values.gender = Number(values.gender) as unknown as Gender
 
-    setIsLoading(true)
-    const response = await fetchApi('/users/me', 'PUT', values)
-    setIsLoading(false)
+    const response = await trigger(values)
 
     if (response.statusCode !== 200) {
       return form.setError('root', { message: response.message })
@@ -140,7 +142,7 @@ export default function MyProfile() {
 
         <FormAlert form={form} />
 
-        <Button type="submit" className="w-full" loading={isLoading}>
+        <Button type="submit" className="w-full" loading={isMutating}>
           Save changes
         </Button>
       </form>

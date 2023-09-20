@@ -2,13 +2,13 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import Link from 'next/link'
+import useSWRMutation from 'swr/mutation'
 
 import { resetPasswordSchema } from '@/lib/validations/auth'
-import { fetchApi } from '@/lib/utils'
+import { HttpMethod, fetcher } from '@/lib/utils/fetcher'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { useToast } from '@/hooks/use-toast'
@@ -18,11 +18,13 @@ import FormAlert from '@/components/form-alert'
 type FormData = z.infer<typeof resetPasswordSchema>
 
 export default function ResetPasswordForm() {
-  const [isLoading, setIsLoading] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
   const { toast } = useToast()
-
+  const { trigger, isMutating } = useSWRMutation(
+    '/account/password',
+    fetcher(HttpMethod.POST)
+  )
   const form = useForm<FormData>({
     resolver: zodResolver(resetPasswordSchema)
   })
@@ -30,16 +32,15 @@ export default function ResetPasswordForm() {
   const token = searchParams.get('token')
 
   async function onSubmit(values: FormData) {
-    setIsLoading(true)
-    const response = await fetchApi('/account/password', 'POST', {
+    const response = await trigger({
       token,
       password: values.firstPassword
     })
-    setIsLoading(false)
 
     if (response.statusCode !== 201) {
       return form.setError('root', { message: response.message })
     }
+
     toast({
       title: 'Password reset successful',
       description:
@@ -80,7 +81,7 @@ export default function ResetPasswordForm() {
 
         <FormAlert form={form} />
 
-        <Button type="submit" loading={isLoading}>
+        <Button type="submit" loading={isMutating}>
           Reset password
         </Button>
 
