@@ -1,5 +1,13 @@
+import dynamicIconImports from 'lucide-react/dynamicIconImports'
+
 export type SiteConfig = {
   name: string
+}
+
+export type NavbarItem = {
+  title: string
+  path: string
+  icon?: React.ReactNode
 }
 
 export type ApiResponse<T> = {
@@ -27,8 +35,30 @@ export type User = {
   registeredAt: string
 }
 
-export type NavbarItem = {
-  title: string
-  path: string
-  icon?: React.ReactNode
+export enum WordStatus {
+  ToBeLearned,
+  BeingLearned,
+  Learned
+}
+
+export type Word = {
+  _id: string
+  listId: string
+  word: string
+  meaning: string
+  pronunciation?: string
+  status: WordStatus
+  order: number
+}
+
+export type List = {
+  _id: string
+  ownerId: string
+  name: string
+  wordLanguage: string
+  meaningLanguage: string
+  words: Word[]
+  icon: keyof typeof dynamicIconImports
+  color: string
+  isFavorite: boolean
 }

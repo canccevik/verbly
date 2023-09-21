@@ -83,3 +83,22 @@
 img {
   user-select: none;
 }
+
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #b5b5b5 #e8e8e8;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--main-grey-hover);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--main-grey);
+  border-radius: 5px;
+  border: 2px solid #e6e6e6;
+}

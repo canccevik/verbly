@@ -39,7 +39,7 @@ export default function MyProfile() {
   const { user, set: setUser } = useUserStore()
   const [language, setLanguage] = useState('')
   const { trigger, isMutating } = useSWRMutation(
-    '/account/password',
+    '/users/me',
     fetcher(HttpMethod.PUT)
   )
 
