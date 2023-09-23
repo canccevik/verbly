@@ -1,6 +1,5 @@
 'use client'
 
-import { Metadata } from 'next'
 import useSWR from 'swr'
 import Link from 'next/link'
 
@@ -11,10 +10,6 @@ import ListCard from '@/components/list-card'
 import { ApiResponse, List } from '@/types'
 
 import MyListsSkeleton from './skeleton'
-
-export const metadata: Metadata = {
-  title: 'My lists'
-}
 
 export default function MyLists() {
   const { user } = useUserStore()
