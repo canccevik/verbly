@@ -10,6 +10,7 @@ import ListCard from '@/components/list-card'
 import { ApiResponse, List } from '@/types'
 
 import MyListsSkeleton from './skeleton'
+import NewListDialog from './_dialog'
 
 export default function MyLists() {
   const { user } = useUserStore()
@@ -24,7 +25,9 @@ export default function MyLists() {
         title="My lists"
         description="Create or navigate to your lists in here."
         className="pb-5 border-b-2 border-gray-100"
-      />
+      >
+        <NewListDialog />
+      </Header>
 
       <div className="flex justify-between px-20 gap-y-10 gap-x-2 flex-wrap">
         {data && data.data ? (
