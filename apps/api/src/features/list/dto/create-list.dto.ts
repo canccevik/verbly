@@ -1,6 +1,6 @@
 import { IsISO } from '@common/validators/is-iso.validator'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsHexColor, IsNotEmpty, IsString, Length } from 'class-validator'
+import { IsNotEmpty, IsString, Length } from 'class-validator'
 
 export class CreateListDto {
   @ApiProperty()
@@ -26,10 +26,4 @@ export class CreateListDto {
   @IsString()
   @Length(1, 25)
   public icon: string
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  @IsHexColor()
-  public color: string
 }

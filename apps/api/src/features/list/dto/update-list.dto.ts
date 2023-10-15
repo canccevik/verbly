@@ -1,6 +1,6 @@
 import { IsISO } from '@common/validators/is-iso.validator'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsHexColor, IsOptional, IsString, Length } from 'class-validator'
+import { IsOptional, IsString, Length } from 'class-validator'
 
 export class UpdateListDto {
   @ApiProperty()
@@ -26,10 +26,4 @@ export class UpdateListDto {
   @IsString()
   @Length(1, 25)
   public icon?: string
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  @IsHexColor()
-  public color?: string
 }

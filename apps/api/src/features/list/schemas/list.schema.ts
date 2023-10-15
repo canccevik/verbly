@@ -63,19 +63,6 @@ export class List {
   public icon: string
 
   @Prop({
-    type: String,
-    required: true,
-    trim: true,
-    validate: {
-      validator: function (value) {
-        return /^#([0-9a-f]{3}){1,2}$/i.test(value)
-      },
-      message: 'color is not valid'
-    }
-  })
-  public color: string
-
-  @Prop({
     type: Boolean,
     default: false
   })
