@@ -7,19 +7,21 @@ interface FormAlertProps<T extends FieldValues = any> {
 }
 
 export default function FormAlert({ form }: FormAlertProps) {
+  if (Object.keys(form.formState.errors).length === 0) {
+    return
+  }
+
   return (
-    Object.keys(form.formState.errors).length > 0 && (
-      <Alert variant={'destructive'}>
-        <AlertDescription>
-          <ul>
-            {Object.values(form.formState.errors).map((error, i) => (
-              <li className="text-left ml-3" key={i}>
-                {error?.message?.toString()}
-              </li>
-            ))}
-          </ul>
-        </AlertDescription>
-      </Alert>
-    )
+    <Alert variant={'destructive'}>
+      <AlertDescription>
+        <ul>
+          {Object.values(form.formState.errors).map((error, i) => (
+            <li className="text-left ml-3" key={i}>
+              {error?.message?.toString()}
+            </li>
+          ))}
+        </ul>
+      </AlertDescription>
+    </Alert>
   )
 }

@@ -20,7 +20,7 @@ export class ValidationPipe<T> implements PipeTransform<T> {
       return value
     }
 
-    const errorMessages = errors.map((err) => Object.values(err.constraints)).flat()
+    const errorMessages = errors.flatMap((err) => Object.values(err.constraints))
     throw new BadRequestException(errorMessages)
   }
 
