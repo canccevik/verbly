@@ -10,7 +10,7 @@ export default function Navbar() {
   const pathname = usePathname()
 
   return (
-    <div className="px-20 border-t-2 border-b-2 border-gray-100">
+    <div className="bg-white px-20 border-t-2 border-b-2 border-gray-100">
       <ul className="flex gap-x-10 pt-4 font-medium">
         {navbarItems.map((item, i) => (
           <li

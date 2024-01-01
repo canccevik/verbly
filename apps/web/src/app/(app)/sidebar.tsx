@@ -23,7 +23,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="w-2/12 h-screen border-r-2 border-gray-100 fixed top-0 left-0 overflow-y-auto flex flex-col justify-between items-center pt-10 px-8">
+    <div className="w-2/12 h-screen border-r-2 bg-white border-gray-100 fixed top-0 left-0 overflow-y-auto flex flex-col justify-between items-center pt-10 px-8">
       <h1 className="font-semibold text-center text-3xl text-zinc-900">
         Verbly
       </h1>
@@ -37,8 +37,17 @@ export default function Sidebar() {
                 item.path === pathname && 'bg-zinc-100'
               )}
             >
-              <span>{item.icon}</span>
-              <span className="ml-6 font-medium">{item.title}</span>
+              <span className={cn(item.path === pathname && 'text-main-blue')}>
+                {item.icon}
+              </span>
+              <span
+                className={cn(
+                  'ml-6 font-medium',
+                  item.path === pathname && 'text-main-blue'
+                )}
+              >
+                {item.title}
+              </span>
             </li>
           </Link>
         ))}
@@ -47,8 +56,8 @@ export default function Sidebar() {
       <div></div>
 
       <Button
-        className="w-full mb-5 p-5 relative bg-zinc-100 rounded-xl hover:no-underline"
-        variant={'link'}
+        className="w-full mb-5 py-8 rounded-xl hover:no-underline"
+        variant={'secondary'}
         onClick={() => logout()}
       >
         <LogOut size={18} />

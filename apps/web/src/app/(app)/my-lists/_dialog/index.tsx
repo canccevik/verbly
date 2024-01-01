@@ -18,12 +18,12 @@ export default function NewListDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button variant={'default'}>New list</Button>
+        <Button size={'lg'}>New list</Button>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New List</DialogTitle>
+          <DialogTitle className="text-2xl">New List</DialogTitle>
 
           <DialogDescription>
             <NewListForm closeDialog={() => setOpen(false)} />

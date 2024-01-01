@@ -45,7 +45,7 @@ export default function LanguageDropdown({
         <Button
           role="combobox"
           aria-expanded={isDropdownOpen}
-          className="w-full justify-between bg-main-grey px-6 text-muted-foreground hover:bg-main-grey border-2"
+          className="w-full justify-between border-input bg-white px-6 text-muted-foreground hover:bg-main-grey border-1"
         >
           {language ? ISO6391.getName(language) : placeholder}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

@@ -17,7 +17,10 @@ export default function Header({
 }: HeaderProps) {
   return (
     <div
-      className={cn('px-20 py-8 flex justify-between items-center ', className)}
+      className={cn(
+        'bg-white px-20 py-8 flex justify-between items-center ',
+        className
+      )}
     >
       <div>
         <h1 className="text-3xl font-semibold">{title}</h1>

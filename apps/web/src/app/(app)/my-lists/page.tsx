@@ -20,7 +20,7 @@ export default function MyLists() {
   )
 
   return (
-    <div className="flex flex-col gap-y-5 py-10">
+    <div className="flex flex-col gap-y-5">
       <Header
         title="My lists"
         description="Create or navigate to your lists in here."
@@ -29,10 +29,10 @@ export default function MyLists() {
         <NewListDialog />
       </Header>
 
-      <div className="flex justify-between px-20 gap-y-10 gap-x-2 flex-wrap">
+      <div className="flex justify-between px-20 gap-y-10 gap-x-2 flex-wrap mb-10">
         {data && data.data ? (
           data.data.map((list, i) => (
-            <Link href={'/'} key={i} className="w-[330px]">
+            <Link href={`/my-lists/${list._id}`} key={i} className="w-[330px]">
               <ListCard list={list} />
             </Link>
           ))

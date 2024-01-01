@@ -4,6 +4,7 @@ import { Montserrat } from 'next/font/google'
 import '@/styles/globals.css'
 import { siteConfig } from '@/config/site'
 import { Toaster } from '@/components/ui/toaster'
+import { cn } from '@/lib/utils'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -21,7 +22,7 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>
+      <body className={cn(montserrat.className, 'bg-gray-50')}>
         {children}
         <Toaster />
       </body>

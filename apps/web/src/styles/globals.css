@@ -35,7 +35,7 @@
     --radius: 0.5rem;
 
     --main-blue: #4381ff;
-    --main-blue-hover: #256eff;
+    --main-blue-hover: rgb(105, 155, 255);
     --main-grey: #f3f3f3;
     --main-grey-hover: #e9e9e9;
   }
@@ -94,11 +94,11 @@ img {
 }
 
 *::-webkit-scrollbar-track {
-  background: var(--main-grey-hover);
+  background: rgb(232, 232, 232);
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: var(--main-grey);
+  background-color: rgb(207, 207, 207);
   border-radius: 5px;
   border: 2px solid #e6e6e6;
 }
